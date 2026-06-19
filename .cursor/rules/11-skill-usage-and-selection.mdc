@@ -1,0 +1,20 @@
+---
+description: Use to decide when local skill docs should be loaded for specialized tasks.
+alwaysApply: false
+---
+
+# Skill Usage And Selection
+
+Do not load every skill by default.
+
+Check `docs/skills/SKILL_REGISTRY.md` when a task would benefit from a specialized workflow.
+
+Use:
+- `docs/skills/frontend-design.md` for UI, page, component, layout, landing page, form, or design polish work.
+- `docs/skills/vercel-react-best-practices.md` for React/Next.js implementation, rendering, data fetching, caching, hydration, bundle, or performance work.
+- `docs/skills/web-design-guidelines.md` before UI review, demo, launch, or completion.
+- `docs/skills/skill-creator.md` only when creating or improving reusable skills.
+
+Prefer project-specific context from `docs/project/` over generic skill advice.
+
+Do not let skills override safety, security, user instructions, project requirements, or `.cursor/rules/`.

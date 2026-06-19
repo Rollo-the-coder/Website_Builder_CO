@@ -1,0 +1,32 @@
+---
+description: Optional autonomous workplan loop. Inactive unless copied into .cursor/rules/ intentionally.
+alwaysApply: true
+---
+
+# Agent Loop Rule
+
+This workflow is not active by default in the starter template. Copy this file into `.cursor/rules/` only if the project intentionally adopts an autonomous workplan loop.
+
+When `optional/agent-loop/ACTIVE_WORKPLAN.md` is adapted into the project and an active run log exists, use them as the source of truth for ongoing implementation work.
+
+## Default Behavior
+
+When the user asks to build, implement, continue, test, QA, refactor, scaffold, or execute a plan:
+
+1. Read the active workplan.
+2. Read the run log.
+3. Identify the next unchecked task.
+4. Execute that task.
+5. Run relevant validation.
+6. Fix clear in-scope failures.
+7. Update the workplan.
+8. Update the run log.
+9. Continue until complete or blocked.
+
+## Stop Conditions
+
+Stop and ask the user if a task requires secrets, production data, real charges, real user messages, production deployment, destructive actions, ambiguous business logic, repeated failures, or risky architecture changes.
+
+## Reporting
+
+Report what was completed, validation results, what remains, blockers, and the next recommended task. Do not claim a command passed unless it actually ran and passed.

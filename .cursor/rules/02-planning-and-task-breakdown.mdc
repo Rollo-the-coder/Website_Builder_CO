@@ -1,0 +1,45 @@
+---
+description: Use after a spec exists to break work into small, verifiable tasks with acceptance criteria.
+alwaysApply: false
+---
+
+# Planning And Task Breakdown
+
+Break work into small, ordered tasks that can each be implemented and verified safely.
+
+## When To Use
+
+- A spec exists and needs execution steps.
+- Work spans multiple files or phases.
+- The implementation order is not obvious.
+- Multiple agents or sessions may share work.
+
+## Planning Rules
+
+- Read the relevant project docs and source files first.
+- Identify dependencies and risks before tasking.
+- Prefer vertical slices that deliver a complete user-visible path.
+- Put high-risk or unknown work early.
+- Keep each task small enough for one focused session.
+- Add verification to every task.
+
+## Task Template
+
+```markdown
+## Task [N]: [Short title]
+
+**Description:** [What this task accomplishes.]
+
+**Acceptance criteria:**
+- [ ] [Specific condition]
+
+**Verification:**
+- [ ] [Command or manual check]
+
+**Dependencies:** [Task numbers or none]
+**Likely files:** [Paths if known]
+```
+
+## Verification
+
+Before implementation begins, confirm every task has acceptance criteria, a verification step, dependency order, and no unnecessary scope.

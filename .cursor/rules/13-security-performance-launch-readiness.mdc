@@ -1,0 +1,55 @@
+---
+description: Use for auth, payments, AI endpoints, contact forms, public APIs, database access, file uploads, production deploys, or launch readiness.
+alwaysApply: false
+---
+
+# Security, Performance, And Launch Readiness
+
+Before implementing or claiming done on security-sensitive or launch-critical work, check the relevant docs in `docs/patterns/` and fill in the matching project docs in `docs/project/`.
+
+## Use This Rule For
+
+- Auth, sessions, roles, or permissions
+- Payments, webhooks, or billing flows
+- AI endpoints, chatbots, or model integrations
+- Contact forms and public form submissions
+- Public APIs and server routes
+- Database access, migrations, or Supabase RLS
+- File uploads and user-generated content
+- Production deploys, staging hardening, or launch readiness
+
+## Required Pattern Docs
+
+| Topic | Pattern doc |
+|---|---|
+| Security baseline | `docs/patterns/SECURITY_AND_PRIVACY_BASELINE.md` |
+| Rate limiting | `docs/patterns/RATE_LIMITING_AND_ABUSE_PREVENTION.md` |
+| Input validation / AI safety | `docs/patterns/INPUT_VALIDATION_AND_PROMPT_INJECTION.md` |
+| Caching / scaling | `docs/patterns/CACHING_AND_SCALING.md` |
+| Observability | `docs/patterns/OBSERVABILITY_AND_ERROR_TRACKING.md` |
+| Load / security testing | `docs/patterns/LOAD_AND_SECURITY_TESTING.md` |
+| GitHub security automation | `docs/patterns/GITHUB_SECURITY_AUTOMATION.md` |
+| Contact form strategy | `docs/patterns/CONTACT_FORM_CONVERSION_QUESTIONS.md` |
+
+## Project Checklists
+
+Fill these for each client/project before launch:
+
+- `docs/project/SECURITY_REVIEW.md`
+- `docs/project/PERFORMANCE_AND_CACHING_PLAN.md`
+- `docs/project/OBSERVABILITY_PLAN.md`
+- `docs/project/CONTACT_FORM_STRATEGY.md`
+
+## Rules
+
+- Do not overbuild infrastructure before evidence, but do not skip launch-critical safety.
+- For security-sensitive changes, prefer audit → report → small safe fix → test → review.
+- Never hardcode secrets, service-role keys, AI provider keys, or real account-specific IDs.
+- For Supabase projects, verify RLS and policies before launch.
+- For AI endpoints: rate limit, validate inputs, use clear prompt delimiters, least privilege, usage caps or kill switch where appropriate, and never expose provider keys to the client.
+- For caching: cache only safe non-user-specific data unless explicitly designed otherwise.
+- For load and security testing: add smoke tests and staging scans before launch. Do not run heavy or destructive tests against production.
+
+## Verification
+
+Before launch or claiming readiness, run `scripts/security-readiness-check.sh` and confirm relevant project checklists are filled.

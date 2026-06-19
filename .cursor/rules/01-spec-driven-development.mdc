@@ -1,0 +1,56 @@
+---
+description: Use when defining a new feature, project, workflow, or significant change before implementation.
+alwaysApply: false
+---
+
+# Spec-Driven Development
+
+Write a short specification before building anything non-trivial. The spec is the shared source of truth for what is being built, why, and how completion will be judged.
+
+## When To Use
+
+- Starting a new client website or major feature.
+- Requirements are ambiguous or incomplete.
+- The change touches multiple files, services, or user flows.
+- A framework, integration, or architecture decision is needed.
+
+Skip a full spec for typo fixes, single-line corrections, or unambiguous documentation edits.
+
+## Process
+
+1. State assumptions and ask for correction before proceeding.
+2. Define the objective, audience, and desired outcome.
+3. Document the chosen stack and commands only after they are known.
+4. Define project structure, code style, testing strategy, and boundaries.
+5. Convert vague requests into concrete success criteria.
+6. Save durable project assumptions in `docs/project/`.
+
+## Spec Template
+
+```markdown
+# Spec: [Project/Feature]
+
+## Objective
+[What we are building and why.]
+
+## Users And Success Criteria
+[Audience, use cases, measurable definition of done.]
+
+## Stack And Commands
+[Framework, package manager, build/test/lint/dev commands if known.]
+
+## Structure
+[Where code, tests, content, and docs should live.]
+
+## Boundaries
+- Always: [...]
+- Ask first: [...]
+- Never: [...]
+
+## Open Questions
+[Anything unresolved.]
+```
+
+## Verification
+
+Before implementation, confirm the spec has concrete success criteria, clear boundaries, known open questions, and enough project context to avoid guessing.

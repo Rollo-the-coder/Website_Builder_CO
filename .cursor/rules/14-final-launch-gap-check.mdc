@@ -1,0 +1,55 @@
+---
+description: Use before launch, demo, client handoff, or production flows involving payments or user data.
+alwaysApply: false
+---
+
+# Final Launch Gap Check
+
+Before marking a real project ready for launch, demo, client handoff, or production payment/user-data flows, review commonly missed gaps.
+
+## Check These Areas
+
+- Authorization negative tests and IDOR risks
+- Backup, restore, migration rollback, and deploy rollback plan
+- Email deliverability and failed-email visibility
+- Admin audit logging for sensitive actions
+- Privacy, child/minor data, data retention, and deletion policy
+- Timezone, date, and money correctness
+- Accessibility, keyboard use, and reduced-motion support
+- Mobile and browser test matrix
+- Environment separation: dev/staging/prod, test/live payments, webhook secrets
+- Legal/policy placeholders: privacy, cookie, terms, refund where relevant
+
+## Pattern Docs
+
+| Topic | Doc |
+|---|---|
+| Master checklist | `docs/patterns/FINAL_LAUNCH_GAP_CHECKLIST.md` |
+| Authorization negative tests | `docs/patterns/AUTHORIZATION_NEGATIVE_TESTING.md` |
+| Backup / rollback | `docs/patterns/BACKUP_RESTORE_ROLLBACK.md` |
+| Email deliverability | `docs/patterns/EMAIL_DELIVERABILITY.md` |
+| Admin audit logging | `docs/patterns/ADMIN_AUDIT_LOGGING.md` |
+| Privacy / minor data | `docs/patterns/PRIVACY_AND_MINOR_DATA.md` |
+| Timezone / date / money | `docs/patterns/TIMEZONE_DATE_MONEY_CORRECTNESS.md` |
+| Accessibility / motion | `docs/patterns/ACCESSIBILITY_AND_REDUCED_MOTION.md` |
+| Browser / device matrix | `docs/patterns/BROWSER_DEVICE_TEST_MATRIX.md` |
+| Environment separation | `docs/patterns/ENVIRONMENT_SEPARATION.md` |
+
+## Project Docs
+
+Fill and review before claiming launch-ready:
+
+- `docs/project/FINAL_LAUNCH_REVIEW.md`
+- `docs/project/AUTHORIZATION_TEST_PLAN.md`
+- `docs/project/BACKUP_AND_ROLLBACK_PLAN.md`
+- `docs/project/EMAIL_DELIVERABILITY_PLAN.md`
+- `docs/project/PRIVACY_AND_DATA_RETENTION.md`
+- `docs/project/BROWSER_DEVICE_TEST_MATRIX.md`
+
+## Agent Instructions
+
+- Add or update docs and checklists if missing.
+- Prefer documentation and test plans over overbuilding infrastructure.
+- Implement only low-risk obvious fixes unless the project clearly needs more.
+- Never claim launch-ready without reviewing `docs/project/FINAL_LAUNCH_REVIEW.md`.
+- Scale rigor to project scope — a simple brochure site needs fewer checks than an app with accounts, payments, or private data.

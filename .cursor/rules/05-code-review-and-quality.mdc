@@ -1,0 +1,29 @@
+---
+description: Use before finishing or merging any non-trivial code change.
+alwaysApply: false
+---
+
+# Code Review And Quality
+
+Review every non-trivial change across correctness, readability, architecture, security, performance, and verification.
+
+## Review Axes
+
+- Correctness: matches requirements, handles edge/error cases, and passes meaningful tests.
+- Readability: clear names, simple control flow, no cleverness, useful comments only.
+- Architecture: fits existing boundaries and does not add unjustified abstractions.
+- Security: validates inputs, protects secrets, checks auth/permissions where needed.
+- Performance: avoids unbounded work, N+1 data access, oversized payloads, and UI regressions.
+- Verification: commands or manual checks prove the claim.
+
+## Change Sizing
+
+Prefer focused changes. Split work that mixes feature work, refactoring, dependency changes, and configuration changes unless the spec requires them together.
+
+## Findings Format
+
+For review output, lead with findings ordered by severity. Include file references when known, then open questions and a brief summary.
+
+## Verification
+
+Before finishing, confirm critical issues are resolved, tests/checks passed, and any remaining risks are explicit.

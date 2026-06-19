@@ -1,0 +1,31 @@
+---
+description: Use before deployment, release, production migration, go-live, or major client demo.
+alwaysApply: false
+---
+
+# Shipping And Launch
+
+Ship client work with a checklist, rollback thinking, and evidence. Launch should be observable, reversible, and approved.
+
+## Pre-Launch Checks
+
+- Build, typecheck, lint, tests, and manual checks are complete for the chosen stack.
+- Mobile and desktop layouts are reviewed.
+- Forms, links, redirects, analytics, and 404 behavior are tested.
+- No secrets, `.env` files, or account-specific config are committed.
+- Accessibility and SEO basics are checked.
+- Performance is acceptable for the project scope.
+- Deployment, DNS, SSL, and rollback steps are known.
+- Client approval is documented.
+
+## Project Docs
+
+Use `docs/project/LAUNCH_CHECKLIST.md` before launch and `docs/project/HANDOFF_CHECKLIST.md` before client handoff.
+
+## Risk Rules
+
+Ask before production data changes, deployments, billing changes, DNS changes, destructive actions, or anything that could affect real users.
+
+## Verification
+
+Before saying launch-ready, list checks run, results, unresolved risks, and the rollback or recovery path.

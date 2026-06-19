@@ -1,0 +1,35 @@
+---
+description: Use when changing behavior, fixing bugs, adding business logic, or modifying important flows.
+alwaysApply: false
+---
+
+# Test-Driven Development
+
+Tests are proof. For new behavior, write or update tests close to the change. For bugs, reproduce the bug with a failing test before fixing it when practical.
+
+## When To Use
+
+- New behavior or business logic.
+- Bug fixes.
+- Important user flows.
+- Data transforms, validation, permissions, or integration boundaries.
+
+Documentation-only and static template changes may use review/check scripts instead of product tests.
+
+## Test Priorities
+
+- Unit tests for pure logic.
+- Integration tests for boundaries, database, APIs, and service adapters.
+- End-to-end tests for critical user journeys.
+- Browser/runtime checks for UI behavior.
+
+## Test Quality
+
+- Test behavior, not implementation details.
+- Prefer real implementations or fakes over brittle mocks.
+- Keep tests readable and descriptive.
+- Avoid skipped tests unless clearly documented.
+
+## Verification
+
+Before claiming completion, report which tests/checks ran, their result, and any coverage gaps.

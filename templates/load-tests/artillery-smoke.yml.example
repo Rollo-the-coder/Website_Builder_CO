@@ -1,0 +1,30 @@
+# Example only — adapt before use.
+# Artillery smoke test placeholders for homepage, contact page, and one API route.
+# Run against staging, not production:
+#   artillery run templates/load-tests/artillery-smoke.yml.example
+
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 30
+      arrivalRate: 2
+      name: smoke
+  defaults:
+    headers:
+      User-Agent: artillery-smoke-example
+
+scenarios:
+  - name: Public pages smoke
+    flow:
+      - get:
+          url: "/"
+          expect:
+            - statusCode: 200
+      - get:
+          url: "/contact"
+          expect:
+            - statusCode: 200
+      - get:
+          url: "/api/health"
+          expect:
+            - statusCode: 200

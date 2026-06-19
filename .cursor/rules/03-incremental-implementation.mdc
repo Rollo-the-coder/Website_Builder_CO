@@ -1,0 +1,30 @@
+---
+description: Use when implementing changes that touch more than one file or require multiple steps.
+alwaysApply: false
+---
+
+# Incremental Implementation
+
+Build in small increments. Implement one piece, verify it, then expand. Each increment should leave the project in a working state.
+
+## Increment Cycle
+
+1. Implement the smallest complete piece.
+2. Run the smallest relevant verification.
+3. Fix failures that are clearly within scope.
+4. Record what changed and what was verified.
+5. Continue to the next slice.
+
+## Scope Discipline
+
+Do not clean up unrelated code, refactor adjacent areas, add features outside the spec, or introduce abstractions for hypothetical future use. Note unrelated issues separately.
+
+## Slicing Strategies
+
+- Vertical slice: one complete user path.
+- Contract-first: shared API/types first when frontend and backend depend on each other.
+- Risk-first: prove uncertain integrations, performance paths, or data flows early.
+
+## Verification
+
+After each meaningful increment, run the relevant test, typecheck, lint, build, or manual check. Do not repeat the same command on unchanged code just for reassurance.

@@ -1,0 +1,40 @@
+---
+description: Use when building or modifying user-facing UI, layouts, forms, dashboards, portals, or responsive components.
+alwaysApply: false
+---
+
+# Frontend UI Engineering
+
+Build accessible, responsive, production-quality interfaces that fit the client and do not look generic.
+
+## Use This Rule For
+
+- Pages, sections, components, forms, dashboards, portals, and navigation.
+- Visual polish, responsive layouts, and interaction states.
+- Client-facing demos and launch readiness.
+
+## Principles
+
+- Start from project context in `docs/project/`.
+- Choose a clear aesthetic direction that fits the client/business.
+- Use realistic content, not placeholder copy, whenever possible.
+- Respect a consistent spacing, type, color, and component system.
+- Design mobile-first and verify key breakpoints.
+- Avoid generic AI-looking defaults: random purple gradients, oversized cards, stock layouts, and meaningless decorative noise.
+
+## Accessibility
+
+- Use semantic HTML.
+- Ensure keyboard navigation.
+- Provide labels and accessible names for controls.
+- Maintain heading hierarchy.
+- Meet color contrast requirements.
+- Include loading, empty, error, and success states.
+
+## Skill Link
+
+Use `docs/skills/frontend-design.md` for deeper UI direction and `docs/skills/web-design-guidelines.md` before demo, review, or launch.
+
+## Verification
+
+Check mobile and desktop layouts, keyboard navigation, console cleanliness, form states, responsive behavior, and accessibility basics before claiming UI work is done.

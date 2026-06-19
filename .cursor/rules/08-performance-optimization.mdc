@@ -1,0 +1,39 @@
+---
+description: Use when improving or reviewing frontend/backend performance, bundle size, Core Web Vitals, or runtime speed.
+alwaysApply: false
+---
+
+# Performance Optimization
+
+Measure before optimizing. Fix the bottleneck that evidence points to, then measure again.
+
+## When To Use
+
+- Performance requirements are in the spec.
+- A page, route, API, query, or interaction is slow.
+- Bundle size, hydration, caching, rendering, or Core Web Vitals matter.
+- A change may affect runtime speed or load behavior.
+
+## Workflow
+
+1. Establish a baseline with numbers.
+2. Identify the bottleneck.
+3. Make the smallest targeted fix.
+4. Measure again.
+5. Add a guard if regression risk is meaningful.
+
+## Common Checks
+
+- Images have dimensions, proper formats, and appropriate loading behavior.
+- Lists and queries are bounded and paginated where needed.
+- Data fetching avoids waterfalls and N+1 patterns.
+- Client bundles avoid unnecessary heavy dependencies.
+- React/Next.js rendering and caching choices match the project architecture.
+
+## Skill Link
+
+Use `docs/skills/vercel-react-best-practices.md` for React/Next.js implementation and performance guidance when the project uses those tools.
+
+## Verification
+
+Report before/after measurements, commands used, and remaining performance risks.

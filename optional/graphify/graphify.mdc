@@ -1,0 +1,12 @@
+---
+description: Optional Graphify knowledge graph workflow. Inactive unless copied into .cursor/rules/ intentionally.
+alwaysApply: true
+---
+
+# Graphify Rule
+
+This workflow is not active by default in the starter template. Copy this file into `.cursor/rules/` only if the project intentionally adopts Graphify and has completed setup.
+
+When Graphify is configured for a project, use graph queries to orient before broad code exploration, architecture review, or dependency tracing.
+
+Do not assume Graphify exists for every project. If graph output is missing, unavailable, stale, or intentionally excluded, use normal code exploration and document that Graphify was not used.
