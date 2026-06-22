@@ -1,6 +1,8 @@
 _reference/
 node_modules/
 .next/
+next-env.d.ts
+*.tsbuildinfo
 dist/
 build/
 coverage/

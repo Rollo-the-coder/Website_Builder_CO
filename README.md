@@ -4,6 +4,55 @@ A reusable GitHub template for client website projects that start with clear AI 
 
 This repo is for builders who use Cursor to plan, design, implement, test, review, and ship small business or client websites with consistent engineering rails. It provides the template layer only: rules, docs, project intake forms, local skill references, optional workflows, and safety scripts.
 
+## Running The Website (v1 App)
+
+This repo now includes a Next.js (App Router) + TypeScript + Tailwind site for the website/digital-systems business. Project context lives in `docs/project/`.
+
+### Prerequisites
+
+- Node.js 20+ and npm 10+
+
+### Local development
+
+```bash
+npm install
+cp .env.example .env.local   # then fill values as needed (optional for local dev)
+npm run dev                  # http://localhost:3000
+```
+
+### Useful scripts
+
+```bash
+npm run dev        # start dev server
+npm run build      # production build
+npm run start      # run the production build
+npm run lint       # eslint
+npm run typecheck  # tsc --noEmit
+```
+
+### Environment variables
+
+See `.env.example`. All are optional for local UI work:
+
+- `NEXT_PUBLIC_SITE_URL` — canonical site URL for SEO metadata, sitemap, and robots.
+- `NEXT_PUBLIC_ANALYTICS_ID` — set to enable analytics; leave blank to disable.
+- `CONTACT_FORM_MODE` — `demo` (capture-only, no email) or `live` (real email delivery). If unset, production defaults to `live` and preview/dev defaults to `demo`.
+- `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` — required when `CONTACT_FORM_MODE=live`.
+
+Before calling the contact flow launch-ready, verify at least one real submission lands in the destination inbox.
+
+### Pages
+
+- `/` home (hero, problem, Clarify/Build/Manage, Boost preview, services, process, packages, FAQ, CTA)
+- `/services` service categories and process
+- `/work/boost-baseball` flagship case study
+- `/contact` audit-request funnel (`POST /api/contact`)
+- `/privacy`, `/terms`, `/cookies` legal policy pages for launch-stage operations
+
+### Deploy
+
+Target is Vercel. Import the repo, set the environment variables above in the Vercel project, and deploy. Hosting choice is not final (TBD).
+
 ## Use This Template
 
 1. In GitHub, click **Use this template** on this repository.

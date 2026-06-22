@@ -10,7 +10,9 @@
 ## Functionality
 
 - [ ] Forms tested
+- [ ] `CONTACT_FORM_MODE=live` set in production
 - [ ] Form notifications confirmed
+- [ ] Real contact submission received in destination inbox
 - [ ] Links tested
 - [ ] Navigation tested
 - [ ] 404 page checked
