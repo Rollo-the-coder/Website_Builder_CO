@@ -2,9 +2,8 @@
 // Business/brand identifiers are intentionally TBD until confirmed.
 
 export const site = {
-  // Final brand name is still being confirmed. This placeholder is launch-safe.
-  name: "Website Systems Studio",
-  shortName: "WSS",
+  name: "Gotta Build",
+  shortName: "GB",
   tagline: "Your website should run the business, not just describe it.",
   description:
     "I build small-business websites with the systems behind them — bookings, payments, portals, and automations — then keep everything running.",
