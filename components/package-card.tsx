@@ -17,8 +17,10 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
         </span>
       ) : null}
       <h3 className="text-lg font-semibold text-ink">{pkg.name}</h3>
-      <p className="mt-2 text-sm text-ink-soft">{pkg.blurb}</p>
+      <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-ink-muted">Best for</p>
+      <p className="mt-1 text-sm leading-relaxed text-ink-soft">{pkg.blurb}</p>
       <div className="mt-5">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-muted">Starting at</p>
         <p className="text-2xl font-semibold text-ink">{pkg.setup}</p>
         <p className="text-sm text-ink-muted">setup &middot; {pkg.monthly}</p>
       </div>
@@ -35,7 +37,7 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
         variant={pkg.featured ? "primary" : "secondary"}
         className="mt-6 w-full"
       >
-        Request scope & quote
+        Request scope
       </ButtonLink>
     </article>
   );

@@ -1,39 +1,49 @@
-const pains = [
-  "Visitors don't know what to do next",
-  "Signups are manual and slow",
-  "Payments are messy or offline",
-  "Forms are scattered across tools",
-  "Admin work lives in spreadsheets",
-  "The website doesn't clearly explain the business",
-  "No one knows what's actually working",
+import { InboxIcon, MessageIcon, RouteIcon } from "@/components/icons";
+import { Reveal } from "@/components/reveal";
+
+const problems = [
+  {
+    title: "The message is unclear",
+    text: "Visitors can't tell what you offer or what to do next.",
+    icon: MessageIcon,
+  },
+  {
+    title: "The next step is messy",
+    text: "Signups, bookings, and payments are scattered or manual.",
+    icon: RouteIcon,
+  },
+  {
+    title: "The business has no system",
+    text: "Follow-up lives in inboxes and spreadsheets.",
+    icon: InboxIcon,
+  },
 ];
 
 export function Problem() {
   return (
-    <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+    <Reveal>
       <div>
         <span className="eyebrow">The problem</span>
         <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Your website should do more than exist.
+          Most small-business sites stall in the same three places.
         </h2>
-        <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-          Most small business websites look fine but quietly leak leads. The fix isn&apos;t just a
-          prettier page — it&apos;s a clearer system that guides people to act.
-        </p>
       </div>
-      <ul className="grid gap-3 sm:grid-cols-2">
-        {pains.map((pain) => (
-          <li
-            key={pain}
-            className="flex items-start gap-3 rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink-soft"
-          >
-            <span className="mt-0.5 grid h-5 w-5 flex-none place-items-center rounded-full bg-canvas-deep text-xs font-bold text-ink-muted">
-              !
-            </span>
-            {pain}
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div className="mt-10 grid gap-5 md:grid-cols-3">
+        {problems.map((problem, index) => {
+          const Icon = problem.icon;
+          return (
+            <Reveal key={problem.title} delay={index * 70}>
+              <article className="card card-hover h-full">
+                <span className="grid h-9 w-9 place-items-center rounded-full bg-canvas-deep text-accent">
+                  <Icon className="h-4 w-4" />
+                </span>
+                <h3 className="mt-4 text-lg font-semibold text-ink">{problem.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{problem.text}</p>
+              </article>
+            </Reveal>
+          );
+        })}
+      </div>
+    </Reveal>
   );
 }

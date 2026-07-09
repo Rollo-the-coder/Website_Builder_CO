@@ -20,3 +20,4 @@ graph-output/
 .cache/
 tmp/
 temp/
+.vercel

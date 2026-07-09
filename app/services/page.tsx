@@ -32,8 +32,8 @@ export default function ServicesPage() {
           </p>
           <div className="mt-8">
             <ButtonLink href="/contact">
-              Request a Website/System Audit
-              <ArrowRightIcon className="h-4 w-4" />
+              Get a free website audit
+              <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </ButtonLink>
           </div>
         </div>

@@ -5,10 +5,10 @@ import { cn } from "@/lib/cn";
 type Variant = "primary" | "secondary" | "ghost";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition duration-200 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60";
+  "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition duration-200 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-primary-foreground hover:bg-primary-hover shadow-soft",
+  primary: "bg-primary text-primary-foreground shadow-soft hover:-translate-y-0.5 hover:bg-primary-hover",
   secondary: "border border-line bg-surface text-ink hover:border-ink/30 hover:-translate-y-0.5",
   ghost: "text-ink hover:text-accent",
 };

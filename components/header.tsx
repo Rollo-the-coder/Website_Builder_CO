@@ -24,7 +24,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-ink-soft transition hover:text-ink"
+              className="nav-link text-sm font-medium text-ink-soft transition hover:text-ink"
             >
               {item.label}
             </Link>
@@ -33,7 +33,7 @@ export function Header() {
 
         <div className="hidden md:block">
           <ButtonLink href="/contact" className="px-4 py-2">
-            Request a Website/System Audit
+            Get a free website audit
           </ButtonLink>
         </div>
 
@@ -75,7 +75,7 @@ export function Header() {
             </Link>
           ))}
           <ButtonLink href="/contact" className="mt-2" onClick={() => setOpen(false)}>
-            Request a Website/System Audit
+            Get a free website audit
           </ButtonLink>
         </nav>
       </div>

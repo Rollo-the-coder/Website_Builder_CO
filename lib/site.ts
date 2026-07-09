@@ -5,9 +5,9 @@ export const site = {
   // Final brand name is still being confirmed. This placeholder is launch-safe.
   name: "Website Systems Studio",
   shortName: "WSS",
-  tagline: "Websites that explain, sell, and run better.",
+  tagline: "Your website should run the business, not just describe it.",
   description:
-    "I build modern websites and digital systems for small businesses — with clearer messaging, smoother signups, payments, automations, and ongoing support.",
+    "I build small-business websites with the systems behind them — bookings, payments, portals, and automations — then keep everything running.",
   // Replace with the production domain before public launch.
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
   // Keep null until a real public inbox is approved.
@@ -19,7 +19,7 @@ export const site = {
 export const nav = [
   { label: "Services", href: "/services" },
   { label: "Case Study", href: "/work/boost-baseball" },
-  { label: "Process", href: "/#process" },
+  { label: "How it works", href: "/#what-i-do" },
   { label: "Packages", href: "/#packages" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -87,14 +87,14 @@ export const serviceBuckets: ServiceBucket[] = [
     id: "clarify",
     title: "Clarify",
     description:
-      "Define the narrative, offer structure, and CTA flow so visitors understand what you do and what to do next.",
+      "Make the offer, audience, and next step obvious.",
     serviceTitles: ["Website Narrative & Offer Strategy"],
   },
   {
     id: "build",
     title: "Build",
     description:
-      "Implement the pages, forms, payments, and operations tooling that turn marketing into a working system.",
+      "Create the pages, forms, payments, portals, and automations that support the business.",
     serviceTitles: [
       "Website Builds & Rebuilds",
       "Forms, Booking & Payments",
@@ -107,7 +107,7 @@ export const serviceBuckets: ServiceBucket[] = [
     id: "manage",
     title: "Manage",
     description:
-      "Keep the system healthy after launch with updates, analytics, hardening, and ongoing optimization.",
+      "Keep the site updated, measured, secure, and improving after launch.",
     serviceTitles: ["Ongoing Website Management"],
   },
 ];
@@ -126,14 +126,14 @@ export const packages: Pkg[] = [
     name: "Launch Site",
     setup: "$750–$1,500",
     monthly: "$100–$250/mo optional",
-    blurb: "A clean, credible site to get online and start converting.",
+    blurb: "Getting online with a credible, conversion-ready site.",
     features: ["Up to ~5 pages", "Mobile-first design", "Contact form", "Basic SEO setup"],
   },
   {
     name: "Business Website + Forms/Booking",
     setup: "$1,500–$3,000",
     monthly: "$200–$400/mo",
-    blurb: "A growth-ready site with lead capture and scheduling built in.",
+    blurb: "A growth-ready site with lead capture and scheduling.",
     features: ["Everything in Launch", "Booking integration", "Lead workflows", "Local SEO structure"],
     featured: true,
   },
@@ -141,7 +141,7 @@ export const packages: Pkg[] = [
     name: "Website + Payments/Portal/Admin",
     setup: "$3,000–$8,000+",
     monthly: "$300–$750/mo",
-    blurb: "A digital system with payments, portals, and admin tooling.",
+    blurb: "A working system for payments, portals, and admin visibility.",
     features: ["Payments & deposits", "Client/parent portal", "Admin dashboard", "Automations"],
   },
 ];
@@ -153,33 +153,9 @@ export type ProcessStep = {
 };
 
 export const processSteps: ProcessStep[] = [
-  { step: "01", title: "Audit", description: "Review your site, offer, and workflows to find what's costing you leads." },
-  { step: "02", title: "Scope", description: "Define a focused plan with clear deliverables and realistic pricing." },
-  { step: "03", title: "Build", description: "Design and develop a mobile-first site and the systems behind it." },
-  { step: "04", title: "Launch", description: "Test, harden, and ship with SEO and analytics in place." },
-  { step: "05", title: "Manage", description: "Maintain, measure, and improve with ongoing support." },
-];
-
-export type Framework = {
-  title: string;
-  description: string;
-  items: string[];
-};
-
-export const framework: Framework[] = [
-  {
-    title: "Clarify",
-    description: "Messaging, offer structure, website narrative, and conversion flow.",
-    items: ["Positioning & narrative", "Offer packaging", "CTA & service pages"],
-  },
-  {
-    title: "Build",
-    description: "Mobile-first websites and the systems that run behind them.",
-    items: ["Websites & landing pages", "Forms, booking, payments", "Portals & dashboards"],
-  },
-  {
-    title: "Manage",
-    description: "Ongoing updates, analytics, security checks, and automation.",
-    items: ["Updates & monitoring", "Analytics & conversion", "AI support & automations"],
-  },
+  { step: "01", title: "Audit", description: "Find the clearest first fixes." },
+  { step: "02", title: "Scope", description: "Choose the smallest useful build." },
+  { step: "03", title: "Build", description: "Create the pages and systems." },
+  { step: "04", title: "Launch", description: "Test, harden, and publish." },
+  { step: "05", title: "Manage", description: "Measure, update, and improve." },
 ];

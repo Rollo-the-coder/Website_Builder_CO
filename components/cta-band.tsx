@@ -1,5 +1,6 @@
 import { ButtonLink } from "@/components/button";
 import { ArrowRightIcon } from "@/components/icons";
+import { TopoLines } from "@/components/topo-lines";
 
 type CtaBandProps = {
   title?: string;
@@ -7,8 +8,8 @@ type CtaBandProps = {
 };
 
 export function CtaBand({
-  title = "Want to know what your current website is costing you?",
-  description = "Request a free Website/System Audit. You'll get a clear, practical read on what to fix first.",
+  title = "Find out what your website could be doing.",
+  description = "A free audit tells you what to fix first — before you spend anything.",
 }: CtaBandProps) {
   return (
     <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-12 text-center shadow-lift sm:px-12 sm:py-16">
@@ -20,18 +21,16 @@ export function CtaBand({
         }}
         aria-hidden="true"
       />
+      <TopoLines className="text-primary-foreground" />
       <div className="relative mx-auto max-w-2xl">
         <h2 className="text-balance text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
           {title}
         </h2>
         <p className="mt-4 text-lg text-primary-foreground/80">{description}</p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-8 flex justify-center">
           <ButtonLink href="/contact" variant="secondary" className="bg-canvas">
-            Request a Website/System Audit
-            <ArrowRightIcon className="h-4 w-4" />
-          </ButtonLink>
-          <ButtonLink href="/work/boost-baseball" variant="ghost" className="text-primary-foreground hover:text-accent-soft">
-            View Boost Case Study
+            Get a free website audit
+            <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>
         </div>
       </div>

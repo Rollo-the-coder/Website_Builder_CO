@@ -17,6 +17,9 @@ const config: Config = {
         mist: "#E8EEF0",
         sage: "#E6EEE4",
         lavender: "#EEF0E8",
+        evergreen: "#1F4D43",
+        water: "#DDE8EC",
+        cloud: "#FAF7F0",
         ink: {
           DEFAULT: "#16243B",
           soft: "#3C4A63",
