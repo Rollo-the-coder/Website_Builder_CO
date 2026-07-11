@@ -5,7 +5,7 @@ import { LocalBusinessJsonLd } from "@/components/json-ld";
 export const metadata: Metadata = {
   title: "Seattle Small Business Websites & Systems",
   description:
-    "I build small-business websites with the systems behind them — bookings, payments, portals, and automations — then keep everything running. Seattle, Bellevue, and Eastside first.",
+    "Marketing narrative plus the systems behind the site — bookings, payments, portals, and automations — then ongoing management. Seattle, Bellevue, and Eastside first.",
   alternates: { canonical: "/" },
 };
 

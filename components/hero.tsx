@@ -44,7 +44,7 @@ export function Hero() {
           <RevealImmediate delay={0.24}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/contact">
-                Get a free website audit
+                {site.primaryCta}
                 <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </ButtonLink>
               <ButtonLink href="/work/boost-baseball" variant="secondary">

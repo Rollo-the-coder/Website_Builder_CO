@@ -5,30 +5,30 @@ import { motion, useReducedMotion } from "framer-motion";
 const problems = [
   {
     title: "The message is unclear",
-    text: "Visitors can't tell what you offer or what to do next.",
+    text: "The offer and marketing narrative don't land — visitors can't tell what you do or why it matters.",
   },
   {
     title: "The next step is messy",
-    text: "Signups, bookings, and payments are scattered or manual.",
+    text: "Signups, bookings, and payments are scattered, manual, or missing — so interest dies in the gap.",
   },
   {
     title: "The business has no system",
-    text: "Follow-up lives in inboxes and spreadsheets.",
+    text: "Follow-up, rosters, and operations live in inboxes and spreadsheets instead of one working flow.",
   },
 ] as const;
 
 const pillars = [
   {
     title: "Clarify",
-    text: "Message, offer, and page structure — so visitors instantly get it.",
+    text: "Marketing narrative, offer packaging, and page structure — so visitors instantly get it.",
   },
   {
     title: "Build",
-    text: "The site plus the working parts behind it.",
+    text: "The site plus forms, payments, portals, and automations.",
   },
   {
     title: "Manage",
-    text: "Launch it, secure it, keep improving it.",
+    text: "Launch securely, measure conversion, keep systems healthy.",
   },
 ] as const;
 

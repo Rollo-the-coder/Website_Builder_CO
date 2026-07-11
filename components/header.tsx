@@ -33,7 +33,7 @@ export function Header() {
 
         <div className="hidden md:block">
           <ButtonLink href="/contact" className="px-4 py-2">
-            Get a free website audit
+            {site.primaryCta}
           </ButtonLink>
         </div>
 
@@ -83,7 +83,7 @@ export function Header() {
                 </Link>
               ))}
               <ButtonLink href="/contact" className="mt-2" onClick={() => setOpen(false)}>
-                Get a free website audit
+                {site.primaryCta}
               </ButtonLink>
             </nav>
           </motion.div>

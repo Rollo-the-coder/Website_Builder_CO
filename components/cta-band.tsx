@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ButtonLink } from "@/components/button";
 import { ArrowRightIcon } from "@/components/icons";
 import { TopoLines } from "@/components/topo-lines";
+import { site } from "@/lib/site";
 
 type CtaBandProps = {
   title?: string;
@@ -12,7 +13,7 @@ type CtaBandProps = {
 
 export function CtaBand({
   title = "Find out what your website could be doing.",
-  description = "A free audit tells you what to fix first — before you spend anything.",
+  description = "A free systems audit reviews your site, offer, and workflows — before you spend anything.",
 }: CtaBandProps) {
   const reduce = useReducedMotion();
 
@@ -53,7 +54,7 @@ export function CtaBand({
         <p className="mt-4 text-lg text-primary-foreground/80">{description}</p>
         <div className="mt-8 flex justify-center">
           <ButtonLink href="/contact" variant="secondary" className="bg-canvas">
-            Get a free website audit
+            {site.primaryCta}
             <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>
         </div>

@@ -6,9 +6,9 @@ import { site } from "@/lib/site";
 import { Reveal, RevealImmediate, RevealItem, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = {
-  title: "Request a Website/System Audit",
+  title: "Request a Systems Audit",
   description:
-    "Request a website and systems audit for your Seattle or Bellevue small business. Get a clear, practical action plan for messaging, lead flow, forms, and operations.",
+    "Request a systems audit for your Seattle or Bellevue small business. Get a clear, practical action plan for messaging, lead flow, payments, portals, and operations.",
   alternates: { canonical: "/contact" },
 };
 
@@ -24,17 +24,18 @@ export default function ContactPage() {
       <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
         <div>
           <RevealImmediate>
-            <span className="eyebrow">Free audit</span>
+            <span className="eyebrow">Free systems audit</span>
           </RevealImmediate>
           <RevealImmediate delay={0.08}>
             <h1 className="mt-5 text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
-              Request a Website/System Audit
+              Request a Systems Audit
             </h1>
           </RevealImmediate>
           <RevealImmediate delay={0.16}>
             <p className="mt-6 text-lg leading-relaxed text-ink-soft">
               Tell me a bit about your business and what&apos;s not working. I&apos;ll review your site,
-              offer, and workflows and send back a clear, practical read on what to improve first.
+              marketing narrative, and workflows — including payments and portals if they&apos;re in
+              play — and send back a clear read on what to improve first.
             </p>
           </RevealImmediate>
           <RevealStagger tight className="mt-8 space-y-3">

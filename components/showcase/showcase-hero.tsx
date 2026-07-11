@@ -123,7 +123,8 @@ export function ShowcaseHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: reduce ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
         >
-          Bookings, payments, portals, and automations — built to run the business, then kept running.
+          Marketing narrative plus bookings, payments, portals, and automations — built to run the
+          business, then kept running.
         </motion.p>
         <motion.div
           className="mt-8 flex flex-col gap-3 sm:flex-row"
@@ -132,7 +133,7 @@ export function ShowcaseHero() {
           transition={{ duration: 0.5, delay: reduce ? 0 : 0.26, ease: [0.22, 1, 0.36, 1] }}
         >
           <ButtonLink href="/contact" className="px-6 py-3.5 text-base">
-            Get a free website audit
+            {site.primaryCta}
             <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>
           <ButtonLink href="/work/boost-baseball" variant="secondary" className="px-6 py-3.5 text-base">

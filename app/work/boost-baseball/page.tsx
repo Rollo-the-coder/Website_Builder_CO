@@ -53,8 +53,8 @@ export default function BoostCaseStudyPage() {
             </RevealImmediate>
             <RevealImmediate delay={0.16}>
               <p className="mt-6 text-lg leading-relaxed text-ink-soft">
-                Parents enroll and pay online; admins run rosters, budgets, and follow-up from one
-                place — a youth baseball operations platform, not just a brochure site.
+                A youth baseball operations platform — marketing narrative, enrollment, payment
+                options, parent confirmations, and an admin dashboard — not just a brochure site.
               </p>
             </RevealImmediate>
             <RevealImmediate delay={0.24}>
@@ -96,9 +96,9 @@ export default function BoostCaseStudyPage() {
             <article className="card card-hover">
               <h2 className="text-xl font-semibold text-ink">The solution</h2>
               <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                A single platform where parents enroll and pay online, admins manage rosters and
-                budgets in a dashboard, and confirmations and updates are automated — turning manual
-                operations into a clear, repeatable system.
+                One system: clear program offer on the site, enrollment and payment plans for
+                families, admin tools for rosters and budgets, and automated confirmations — turning
+                manual ops into a repeatable flow.
               </p>
             </article>
           </RevealItem>
@@ -196,7 +196,7 @@ export default function BoostCaseStudyPage() {
         <Reveal>
           <CtaBand
             title="Want a system like this for your business?"
-            description="If you run signups, payments, or operations manually, an audit will show what to automate first."
+            description="If you run signups, payments, or operations manually, a free systems audit shows what to build first."
           />
         </Reveal>
       </Section>

@@ -4,9 +4,10 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ButtonLink } from "@/components/button";
 import { ArrowRightIcon, CheckIcon } from "@/components/icons";
 import { easeOut, stagger } from "@/lib/motion";
+import { site } from "@/lib/site";
 
 const deliverables = [
-  "A written review of your site and lead flow",
+  "A written review of your site, offer, and workflows",
   "A scorecard across 7 areas",
   "Your top 3 fixes, in order",
   "No obligation, no hard sell",
@@ -29,9 +30,11 @@ export function ShowcaseAudit() {
     <section className="px-5 py-24 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-end lg:gap-16">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Free audit</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+            Free systems audit
+          </p>
           <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
-            Get a straight answer about your website.
+            Get a straight answer about your site and systems.
           </h2>
           <ul className="mt-8 space-y-3">
             {deliverables.map((item) => (
@@ -42,7 +45,7 @@ export function ShowcaseAudit() {
             ))}
           </ul>
           <ButtonLink href="/contact" className="mt-10 px-6 py-3.5 text-base">
-            Get a free website audit
+            {site.primaryCta}
             <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>
         </div>

@@ -7,17 +7,20 @@ import { Reveal, RevealItem, RevealStagger } from "@/components/reveal";
 const pillars = [
   {
     title: "Clarify",
-    description: "Message, offer, and page structure — so visitors instantly get it.",
+    description:
+      "Marketing narrative, offer packaging, and page structure — so visitors instantly get it.",
     href: "/services#clarify",
   },
   {
     title: "Build",
-    description: "The site plus the working parts behind it — forms, payments, portals.",
+    description:
+      "The site plus the working parts behind it — forms, payments, portals, and automations.",
     href: "/services#build",
   },
   {
     title: "Manage",
-    description: "Launch it, secure it, and keep improving after go-live.",
+    description:
+      "Launch securely, then measure conversion and keep the systems healthy after go-live.",
     href: "/services#manage",
   },
 ] as const;
@@ -39,7 +42,7 @@ export function Pillars() {
             Clarify. Build. Manage.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-            One person for the site, the systems behind it, and the upkeep after launch.
+            One person for the narrative, the systems behind the site, and the upkeep after launch.
           </p>
         </div>
       </Reveal>

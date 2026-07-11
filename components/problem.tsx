@@ -6,17 +6,17 @@ import { Reveal, RevealItem, RevealStagger } from "@/components/reveal";
 const problems = [
   {
     title: "The message is unclear",
-    text: "Visitors can't tell what you offer or what to do next.",
+    text: "The offer and marketing narrative don't land — visitors can't tell what you do or why it matters.",
     icon: MessageIcon,
   },
   {
     title: "The next step is messy",
-    text: "Signups, bookings, and payments are scattered or manual.",
+    text: "Signups, bookings, and payments are scattered, manual, or missing — so interest dies in the gap.",
     icon: RouteIcon,
   },
   {
     title: "The business has no system",
-    text: "Follow-up lives in inboxes and spreadsheets.",
+    text: "Follow-up, rosters, and operations live in inboxes and spreadsheets instead of one working flow.",
     icon: InboxIcon,
   },
 ];

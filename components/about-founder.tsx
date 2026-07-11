@@ -10,8 +10,8 @@ import { cn } from "@/lib/cn";
 export const FOUNDER_PHOTO_SRC: string | null = "/founder.png";
 
 const points = [
-  "Specialty in shaping and presenting the business story so visitors know what you do and why it matters",
-  "Careful, custom UI/UX built for impact — unique to each client, not template-swapped",
+  "Specialty in shaping the business story so visitors know what you do, why it matters, and what to do next",
+  "Custom UI/UX plus the systems behind it — payments, portals, and workflows owned end to end",
   "Raised grant funding and led global web teams on real shipped projects",
 ] as const;
 
@@ -36,11 +36,11 @@ export function AboutFounder({ className }: AboutFounderProps) {
         <div>
           <span className="eyebrow">About</span>
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Websites with a story behind them
+            Narrative that converts. Systems that run.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">
             Seven years in web development, focused on startups and businesses that need a clear
-            narrative — not just a pretty page.
+            story and the operational pieces behind the site — not just a pretty page.
           </p>
 
           <RevealStagger tight className="mt-6 grid gap-3">

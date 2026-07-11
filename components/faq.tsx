@@ -9,7 +9,12 @@ const faqs: FaqItem[] = [
   {
     question: "Is this just web design?",
     answer:
-      "No. The goal is a working system: clear messaging plus the forms, bookings, payments, portals, and automations that turn visitors into customers and reduce manual work.",
+      "No. The goal is a working system: clear marketing narrative plus the forms, bookings, payments, portals, and automations that turn visitors into customers and reduce manual work.",
+  },
+  {
+    question: "What's included beyond the website itself?",
+    answer:
+      "Depending on scope: offer and messaging strategy, signup and payment flows, client or admin portals, follow-up automations, launch hardening, and ongoing management after go-live. We pick the smallest useful build first.",
   },
   {
     question: "How does pricing work?",

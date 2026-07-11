@@ -92,11 +92,12 @@ export const metadata: Metadata = {
   keywords: [
     "Seattle small business websites",
     "Bellevue website systems",
-    "Eastside website designer",
+    "Eastside digital systems",
     "website with booking and payments",
+    "business portals and dashboards",
     "website automation for small businesses",
     "youth sports website systems",
-    "baseball training website",
+    "marketing narrative for websites",
   ],
   openGraph: {
     type: "website",

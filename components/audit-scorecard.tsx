@@ -5,9 +5,10 @@ import { ButtonLink } from "@/components/button";
 import { ArrowRightIcon, CheckIcon } from "@/components/icons";
 import { Reveal } from "@/components/reveal";
 import { easeOut, stagger } from "@/lib/motion";
+import { site } from "@/lib/site";
 
 const deliverables = [
-  "A written review of your site and lead flow",
+  "A written review of your site, offer, and workflows",
   "A scorecard across 7 areas — messaging, CTAs, mobile, signup friction, trust, local SEO, automation",
   "Your top 3 fixes, in order",
   "No obligation, no hard sell",
@@ -30,9 +31,9 @@ export function AuditScorecard() {
     <Reveal loose>
       <div className="grid gap-8 rounded-3xl border border-line bg-surface p-6 shadow-soft lg:grid-cols-[0.9fr_1.1fr] lg:p-8">
         <div>
-          <span className="eyebrow">Free audit</span>
+          <span className="eyebrow">Free systems audit</span>
           <h2 className="mt-4 font-display text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Get a straight answer about your website.
+            Get a straight answer about your site and systems.
           </h2>
           <ul className="mt-6 space-y-3">
             {deliverables.map((item) => (
@@ -46,7 +47,7 @@ export function AuditScorecard() {
           <p className="mt-6 text-sm text-ink-muted">The audit is free — and it&apos;s the first step.</p>
 
           <ButtonLink href="/contact" className="mt-8">
-            Get a free website audit
+            {site.primaryCta}
             <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>
         </div>

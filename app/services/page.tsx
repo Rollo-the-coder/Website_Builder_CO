@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { services, processSteps, serviceBuckets } from "@/lib/site";
+import { services, processSteps, serviceBuckets, site } from "@/lib/site";
 import { Section, SectionHeading } from "@/components/section";
 import { ServiceCard } from "@/components/service-card";
 import { ProcessSteps } from "@/components/process-steps";
@@ -11,7 +11,7 @@ import { Reveal, RevealImmediate, RevealItem, RevealStagger } from "@/components
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Clarify, Build, and Manage services for Seattle and Bellevue small businesses: website strategy, rebuilds, forms, bookings, payments, dashboards, automations, and ongoing support.",
+    "Clarify, Build, and Manage for Seattle and Bellevue small businesses: marketing narrative, rebuilds, forms, bookings, payments, portals, automations, and ongoing support.",
   alternates: { canonical: "/services" },
 };
 
@@ -32,14 +32,14 @@ export default function ServicesPage() {
           </RevealImmediate>
           <RevealImmediate delay={0.16}>
             <p className="mt-6 text-lg leading-relaxed text-ink-soft">
-              Start with what you need now — clearer messaging, a rebuild, or the systems behind the
-              site — and grow from there.
+              Start with what you need now — marketing narrative and offer clarity, a rebuild, or
+              the systems behind the site (payments, portals, automations) — and grow from there.
             </p>
           </RevealImmediate>
           <RevealImmediate delay={0.24}>
             <div className="mt-8">
               <ButtonLink href="/contact">
-                Get a free website audit
+                {site.primaryCta}
                 <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </ButtonLink>
             </div>
@@ -108,7 +108,7 @@ export default function ServicesPage() {
         <Reveal>
           <CtaBand
             title="Not sure where to start?"
-            description="A free audit gives you a prioritized list of what to fix first — no commitment required."
+            description="A free systems audit gives you a prioritized list of what to fix first — no commitment required."
           />
         </Reveal>
       </Section>

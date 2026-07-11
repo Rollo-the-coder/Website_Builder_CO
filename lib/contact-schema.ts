@@ -3,11 +3,11 @@ import { z } from "zod";
 export const HELP_OPTIONS = [
   "New website build",
   "Website rebuild / redesign",
-  "Messaging & offer clarity",
+  "Marketing narrative & offer clarity",
   "Forms, booking & payments",
   "Portal or dashboard",
-  "AI automation / chatbot",
-  "Security audit",
+  "Automations & follow-up",
+  "Security / launch hardening",
   "Ongoing management",
   "Not sure yet",
 ] as const;

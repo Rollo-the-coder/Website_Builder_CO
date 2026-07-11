@@ -13,7 +13,7 @@ const highlights = [
   },
   {
     title: "Payments & installment plans",
-    text: "Checkout options built around how families enroll.",
+    text: "Checkout options built around how families enroll — not a single dead-end form.",
   },
   {
     title: "Admin operations dashboard",
@@ -31,8 +31,8 @@ export function CaseStudyPreview() {
             Boost Baseball
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-            Parents enroll and pay online; admins run rosters, budgets, and follow-up from one
-            dashboard.
+            A youth baseball operations platform — not a brochure site. Parents enroll and pay
+            online; admins run rosters, budgets, and follow-up from one dashboard.
           </p>
           <RevealStagger tight className="mt-6 grid gap-3">
             {highlights.map((item) => (

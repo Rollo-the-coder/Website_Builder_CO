@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ButtonLink } from "@/components/button";
 import { ArrowRightIcon } from "@/components/icons";
+import { site } from "@/lib/site";
 
 export function ShowcaseFinale() {
   const reduce = useReducedMotion();
@@ -29,11 +30,11 @@ export function ShowcaseFinale() {
           Find out what your website could be doing.
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-ink-soft">
-          A free audit tells you what to fix first — before you spend anything.
+          A free systems audit reviews your site, offer, and workflows — before you spend anything.
         </p>
         <div className="mt-10 flex justify-center">
           <ButtonLink href="/contact" className="px-8 py-4 text-base">
-            Get a free website audit
+            {site.primaryCta}
             <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>
         </div>
