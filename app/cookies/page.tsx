@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage, LegalHeading } from "@/components/legal-page";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Cookie Policy",
-  description: "How this site uses cookies and similar technologies.",
+  description: "How the Gotta Build website uses cookies and similar technologies.",
   alternates: { canonical: "/cookies" },
   robots: { index: true, follow: true },
 };
@@ -13,35 +14,60 @@ export default function CookiesPage() {
   return (
     <LegalPage title="Cookie Policy">
       <p>
-        This Cookie Policy explains how this site uses cookies and similar technologies. Cookie use is
-        kept minimal and aligned with the analytics tooling enabled for this project.
+        This Cookie Policy explains how {site.name} uses cookies and similar technologies on{" "}
+        {site.url.replace(/^https?:\/\//, "")}. It should be read with the{" "}
+        <Link href="/privacy" className="text-accent hover:underline">
+          Privacy Policy
+        </Link>
+        .
       </p>
 
       <LegalHeading>What cookies are</LegalHeading>
       <p>
-        Cookies are small files stored on your device that help websites function and understand
-        usage. Some are essential; others are used for analytics.
+        Cookies are small text files stored on your device. Similar technologies include local
+        storage and pixels used by hosting or analytics tools. Some are needed for the site to work;
+        others help understand usage.
       </p>
 
-      <LegalHeading>How we use them</LegalHeading>
+      <LegalHeading>How this site uses them</LegalHeading>
+      <ul className="list-disc space-y-2 pl-5">
+        <li>
+          <strong className="font-medium text-ink">Essential / functional</strong> — needed for
+          basic site operation, security, and remembering preferences such as a theme preview you
+          choose on the homepage.
+        </li>
+        <li>
+          <strong className="font-medium text-ink">Analytics (optional)</strong> — if an analytics
+          ID is configured, anonymized or aggregated usage data may be collected to understand
+          traffic and improve the site. Analytics are off unless explicitly enabled.
+        </li>
+      </ul>
       <p>
-        Currently this site uses minimal cookies. If analytics are enabled, anonymized analytics
-        cookies may be used to understand traffic and improve the site.
+        The contact form does not set advertising cookies. Form submissions are processed
+        server-side to deliver your request.
       </p>
 
       <LegalHeading>Managing cookies</LegalHeading>
       <p>
-        You can control or delete cookies through your browser settings. Disabling some cookies may
-        affect site functionality.
+        You can block or delete cookies in your browser settings. Blocking essential cookies may
+        affect site functionality. Browser &ldquo;Do Not Track&rdquo; signals are not consistently
+        standardized; I treat cookie and analytics choices through configuration and your browser
+        controls.
+      </p>
+
+      <LegalHeading>Updates</LegalHeading>
+      <p>
+        If cookie use changes meaningfully (for example when analytics are turned on), this policy
+        and the &ldquo;Last updated&rdquo; date will be revised.
       </p>
 
       <LegalHeading>Contact</LegalHeading>
       <p>
-        Questions about cookies can be sent to{" "}
-        <a href="mailto:erik@gotta.build" className="text-accent hover:underline">
-          erik@gotta.build
+        Questions:{" "}
+        <a href={`mailto:${site.publicContactEmail}`} className="text-accent hover:underline">
+          {site.publicContactEmail}
         </a>{" "}
-        or through the{" "}
+        or the{" "}
         <Link href="/contact" className="text-accent hover:underline">
           contact form
         </Link>

@@ -4,9 +4,11 @@ import { RevealImmediate } from "@/components/reveal";
 
 export function LegalPage({
   title,
+  effectiveDate = "July 11, 2026",
   children,
 }: {
   title: string;
+  effectiveDate?: string;
   children: ReactNode;
 }) {
   return (
@@ -21,10 +23,7 @@ export function LegalPage({
           </h1>
         </RevealImmediate>
         <RevealImmediate delay={0.14}>
-          <div className="mt-5 rounded-xl border border-dashed border-line bg-lavender/60 px-4 py-3 text-sm text-ink-soft">
-            Plain-language policy overview for this launch-stage site. Final legal review and
-            business-entity details will be applied before public outreach at scale.
-          </div>
+          <p className="mt-4 text-sm text-ink-muted">Last updated: {effectiveDate}</p>
         </RevealImmediate>
         <RevealImmediate delay={0.2}>
           <div className="prose-legal mt-8 space-y-6 text-sm leading-relaxed text-ink-soft">
