@@ -37,9 +37,10 @@ export default function CookiesPage() {
           choose on the homepage.
         </li>
         <li>
-          <strong className="font-medium text-ink">Analytics (optional)</strong> — if an analytics
-          ID is configured, anonymized or aggregated usage data may be collected to understand
-          traffic and improve the site. Analytics are off unless explicitly enabled.
+          <strong className="font-medium text-ink">Analytics (optional)</strong> — when PostHog
+          is enabled, product analytics cookies/local storage may be used to understand page views
+          and conversions (for example audit form submissions). Analytics are off unless a PostHog
+          project key is configured.
         </li>
       </ul>
       <p>

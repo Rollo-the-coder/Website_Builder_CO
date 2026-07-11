@@ -68,6 +68,15 @@ export function AuditRequestForm() {
           ? body.message
           : "Thanks — your audit request is in. You'll get a reply with next steps shortly.",
       );
+      try {
+        const { trackEvent } = await import("@/components/analytics");
+        trackEvent("audit_request_submitted", {
+          help_with: parsed.data.helpWith,
+          delivered: body.delivered !== false,
+        });
+      } catch {
+        // Analytics is optional — never block form success.
+      }
       form.reset();
     } catch {
       setStatus("error");

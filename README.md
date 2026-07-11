@@ -35,7 +35,8 @@ npm run typecheck  # tsc --noEmit
 See `.env.example`. All are optional for local UI work:
 
 - `NEXT_PUBLIC_SITE_URL` — canonical site URL for SEO metadata, sitemap, and robots.
-- `NEXT_PUBLIC_ANALYTICS_ID` — set to enable analytics; leave blank to disable.
+- `NEXT_PUBLIC_POSTHOG_KEY` — PostHog project API key; leave blank to disable analytics.
+- `NEXT_PUBLIC_POSTHOG_HOST` — optional; defaults to `https://us.i.posthog.com` (use `https://eu.i.posthog.com` for EU).
 - `CONTACT_FORM_MODE` — `demo` (capture-only, no email) or `live` (real email delivery). If unset, production defaults to `live` and preview/dev defaults to `demo`.
 - `POSTMARK_SERVER_TOKEN`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` — required when `CONTACT_FORM_MODE=live` (Postmark Gotta Build server).
 
