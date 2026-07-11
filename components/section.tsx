@@ -33,7 +33,7 @@ export function SectionHeading({ eyebrow, title, description, align = "left", cl
       )}
     >
       {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
-      <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+      <h2 className="mt-4 font-display text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
         {title}
       </h2>
       {description ? (

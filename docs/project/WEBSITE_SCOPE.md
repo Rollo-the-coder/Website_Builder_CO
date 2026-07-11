@@ -30,7 +30,7 @@ Explicitly out of scope for v1:
 ## Pages
 
 - [x] Home
-- [ ] About (TBD: standalone page vs section content)
+- [x] About (homepage founder section; no standalone page for v1)
 - [x] Services / Offer pages
 - [x] Contact (Audit Request)
 - [x] Privacy / legal

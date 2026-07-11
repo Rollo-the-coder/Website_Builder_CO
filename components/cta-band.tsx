@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { ButtonLink } from "@/components/button";
 import { ArrowRightIcon } from "@/components/icons";
 import { TopoLines } from "@/components/topo-lines";
@@ -11,19 +14,40 @@ export function CtaBand({
   title = "Find out what your website could be doing.",
   description = "A free audit tells you what to fix first — before you spend anything.",
 }: CtaBandProps) {
+  const reduce = useReducedMotion();
+
   return (
     <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-12 text-center shadow-lift sm:px-12 sm:py-16">
-      <div
+      <motion.div
         className="pointer-events-none absolute inset-0 opacity-50"
         style={{
           backgroundImage:
-            "radial-gradient(30rem 30rem at 80% -20%, rgba(95,127,106,0.45), transparent 60%), radial-gradient(30rem 30rem at 0% 120%, rgba(82,106,122,0.32), transparent 60%)",
+            "radial-gradient(30rem 30rem at 80% -20%, var(--cta-wash-1), transparent 60%), radial-gradient(30rem 30rem at 0% 120%, var(--cta-wash-2), transparent 60%)",
         }}
         aria-hidden="true"
+        animate={
+          reduce
+            ? undefined
+            : {
+                opacity: [0.42, 0.55, 0.42],
+              }
+        }
+        transition={
+          reduce ? undefined : { duration: 8, repeat: Infinity, ease: "easeInOut" }
+        }
       />
-      <TopoLines className="text-primary-foreground" />
+      <motion.div
+        className="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+        animate={reduce ? undefined : { opacity: [0.35, 0.5, 0.35] }}
+        transition={
+          reduce ? undefined : { duration: 10, repeat: Infinity, ease: "easeInOut" }
+        }
+      >
+        <TopoLines className="text-primary-foreground" />
+      </motion.div>
       <div className="relative mx-auto max-w-2xl">
-        <h2 className="text-balance text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
+        <h2 className="font-display text-balance text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
           {title}
         </h2>
         <p className="mt-4 text-lg text-primary-foreground/80">{description}</p>

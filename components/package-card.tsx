@@ -7,8 +7,10 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
   return (
     <article
       className={cn(
-        "relative flex h-full flex-col rounded-2xl border bg-surface p-6 shadow-soft",
-        pkg.featured ? "border-accent/40 ring-1 ring-accent/30" : "border-line",
+        "card-hover relative flex h-full flex-col rounded-2xl border bg-surface p-6 shadow-soft transition duration-300",
+        pkg.featured
+          ? "border-accent/40 ring-1 ring-accent/30 hover:ring-accent/45"
+          : "border-line hover:border-accent/25",
       )}
     >
       {pkg.featured ? (
@@ -16,7 +18,7 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
           Most popular
         </span>
       ) : null}
-      <h3 className="text-lg font-semibold text-ink">{pkg.name}</h3>
+      <h3 className="font-display text-lg font-semibold text-ink">{pkg.name}</h3>
       <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-ink-muted">Best for</p>
       <p className="mt-1 text-sm leading-relaxed text-ink-soft">{pkg.blurb}</p>
       <div className="mt-5">

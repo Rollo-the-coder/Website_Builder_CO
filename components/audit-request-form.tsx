@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/button";
 import { HELP_OPTIONS, CONTACT_METHODS, contactSchema } from "@/lib/contact-schema";
 import { cn } from "@/lib/cn";
+import { easeOut } from "@/lib/motion";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type FieldErrors = Record<string, string>;
@@ -12,6 +14,7 @@ const fieldBase =
   "w-full rounded-xl border border-line bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-muted/70 transition focus:border-accent focus:bg-surface focus:outline-none";
 
 export function AuditRequestForm() {
+  const reduce = useReducedMotion();
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [serverMessage, setServerMessage] = useState<string>("");
@@ -55,7 +58,7 @@ export function AuditRequestForm() {
 
       if (!res.ok) {
         setStatus("error");
-        setServerMessage(body.message || "Something went wrong. Please try again or email directly.");
+        setServerMessage(body.message || "Something went wrong. Please try again or email erik@gotta.build.");
         return;
       }
 
@@ -68,26 +71,45 @@ export function AuditRequestForm() {
       form.reset();
     } catch {
       setStatus("error");
-      setServerMessage("Network error. Please try again or email directly.");
+      setServerMessage("Network error. Please try again or email erik@gotta.build.");
     }
   }
 
   if (status === "success") {
     return (
-      <div className="card text-center" role="status" aria-live="polite">
-        <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-sage text-ink">
+      <motion.div
+        className="card text-center"
+        role="status"
+        aria-live="polite"
+        initial={reduce ? false : { opacity: 0, y: 12, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={reduce ? { duration: 0 } : { duration: 0.45, ease: easeOut }}
+      >
+        <motion.div
+          className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-sage text-ink"
+          initial={reduce ? false : { scale: 0.7, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={reduce ? { duration: 0 } : { duration: 0.4, ease: easeOut, delay: 0.08 }}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 12.5l4 4L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <motion.path
+              d="M5 12.5l4 4L19 7"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={reduce ? false : { pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.45, ease: easeOut, delay: 0.2 }}
+            />
           </svg>
-        </div>
+        </motion.div>
         <h2 className="mt-4 text-xl font-semibold text-ink">Request received</h2>
-        <p className="mt-2 text-sm text-ink-soft">
-          {successMessage}
-        </p>
+        <p className="mt-2 text-sm text-ink-soft">{successMessage}</p>
         <Button className="mt-6" variant="secondary" onClick={() => setStatus("idle")}>
           Submit another request
         </Button>
-      </div>
+      </motion.div>
     );
   }
 
@@ -113,38 +135,17 @@ export function AuditRequestForm() {
             aria-describedby={errors.name ? "name-error" : undefined}
           />
         </Field>
-        <Field label="Business name" name="businessName" error={errors.businessName}>
-          <input
-            id="businessName"
-            name="businessName"
-            type="text"
-            autoComplete="organization"
-            className={fieldBase}
-            aria-invalid={Boolean(errors.businessName)}
-            aria-describedby={errors.businessName ? "businessName-error" : undefined}
-          />
-        </Field>
         <Field label="Email" name="email" required error={errors.email}>
           <input
             id="email"
             name="email"
             type="email"
             autoComplete="email"
+            spellCheck={false}
             className={fieldBase}
             required
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "email-error" : undefined}
-          />
-        </Field>
-        <Field label="Phone (optional)" name="phone" error={errors.phone}>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            className={fieldBase}
-            aria-invalid={Boolean(errors.phone)}
-            aria-describedby={errors.phone ? "phone-error" : undefined}
           />
         </Field>
         <Field label="Current website URL" name="websiteUrl" error={errors.websiteUrl}>
@@ -153,44 +154,33 @@ export function AuditRequestForm() {
             name="websiteUrl"
             type="text"
             inputMode="url"
-            placeholder="https://"
+            placeholder="https://…"
             className={fieldBase}
             aria-invalid={Boolean(errors.websiteUrl)}
             aria-describedby={errors.websiteUrl ? "websiteUrl-error" : undefined}
           />
         </Field>
-        <Field label="Business type / niche" name="businessType" error={errors.businessType}>
-          <input
-            id="businessType"
-            name="businessType"
-            type="text"
+        <Field label="What do you need help with?" name="helpWith" required error={errors.helpWith}>
+          <select
+            id="helpWith"
+            name="helpWith"
             className={fieldBase}
-            aria-invalid={Boolean(errors.businessType)}
-            aria-describedby={errors.businessType ? "businessType-error" : undefined}
-          />
+            defaultValue=""
+            required
+            aria-invalid={Boolean(errors.helpWith)}
+            aria-describedby={errors.helpWith ? "helpWith-error" : undefined}
+          >
+            <option value="" disabled>
+              Choose one…
+            </option>
+            {HELP_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </Field>
       </div>
-
-      <Field label="What do you need help with?" name="helpWith" required error={errors.helpWith}>
-        <select
-          id="helpWith"
-          name="helpWith"
-          className={fieldBase}
-          defaultValue=""
-          required
-          aria-invalid={Boolean(errors.helpWith)}
-          aria-describedby={errors.helpWith ? "helpWith-error" : undefined}
-        >
-          <option value="" disabled>
-            Choose one…
-          </option>
-          {HELP_OPTIONS.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </Field>
 
       <Field
         label="Biggest website or business-system problem"
@@ -210,46 +200,83 @@ export function AuditRequestForm() {
         />
       </Field>
 
-      <div className="grid gap-5 sm:grid-cols-3">
-        <Field label="Timeline" name="timeline" error={errors.timeline}>
-          <input
-            id="timeline"
-            name="timeline"
-            type="text"
-            placeholder="e.g. 4–6 weeks"
-            className={fieldBase}
-            aria-invalid={Boolean(errors.timeline)}
-            aria-describedby={errors.timeline ? "timeline-error" : undefined}
-          />
-        </Field>
-        <Field label="Budget range (optional)" name="budget" error={errors.budget}>
-          <input
-            id="budget"
-            name="budget"
-            type="text"
-            placeholder="Optional"
-            className={fieldBase}
-            aria-invalid={Boolean(errors.budget)}
-            aria-describedby={errors.budget ? "budget-error" : undefined}
-          />
-        </Field>
-        <Field label="Preferred contact" name="preferredContact" error={errors.preferredContact}>
-          <select
-            id="preferredContact"
-            name="preferredContact"
-            className={fieldBase}
-            defaultValue="Email"
-            aria-invalid={Boolean(errors.preferredContact)}
-            aria-describedby={errors.preferredContact ? "preferredContact-error" : undefined}
-          >
-            {CONTACT_METHODS.map((method) => (
-              <option key={method} value={method}>
-                {method}
-              </option>
-            ))}
-          </select>
-        </Field>
-      </div>
+      <details className="rounded-xl border border-line bg-canvas/60 px-4 py-3">
+        <summary className="cursor-pointer text-sm font-medium text-ink">
+          Optional details
+        </summary>
+        <div className="mt-4 grid gap-5 sm:grid-cols-2">
+          <Field label="Business name" name="businessName" error={errors.businessName}>
+            <input
+              id="businessName"
+              name="businessName"
+              type="text"
+              autoComplete="organization"
+              className={fieldBase}
+              aria-invalid={Boolean(errors.businessName)}
+              aria-describedby={errors.businessName ? "businessName-error" : undefined}
+            />
+          </Field>
+          <Field label="Phone" name="phone" error={errors.phone}>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              className={fieldBase}
+              aria-invalid={Boolean(errors.phone)}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
+            />
+          </Field>
+          <Field label="Business type / niche" name="businessType" error={errors.businessType}>
+            <input
+              id="businessType"
+              name="businessType"
+              type="text"
+              className={fieldBase}
+              aria-invalid={Boolean(errors.businessType)}
+              aria-describedby={errors.businessType ? "businessType-error" : undefined}
+            />
+          </Field>
+          <Field label="Timeline" name="timeline" error={errors.timeline}>
+            <input
+              id="timeline"
+              name="timeline"
+              type="text"
+              placeholder="e.g. 4–6 weeks"
+              className={fieldBase}
+              aria-invalid={Boolean(errors.timeline)}
+              aria-describedby={errors.timeline ? "timeline-error" : undefined}
+            />
+          </Field>
+          <Field label="Budget range" name="budget" error={errors.budget}>
+            <input
+              id="budget"
+              name="budget"
+              type="text"
+              placeholder="Optional"
+              className={fieldBase}
+              aria-invalid={Boolean(errors.budget)}
+              aria-describedby={errors.budget ? "budget-error" : undefined}
+            />
+          </Field>
+          <Field label="Preferred contact" name="preferredContact" error={errors.preferredContact}>
+            <select
+              id="preferredContact"
+              name="preferredContact"
+              className={fieldBase}
+              defaultValue="Email"
+              aria-invalid={Boolean(errors.preferredContact)}
+              aria-describedby={errors.preferredContact ? "preferredContact-error" : undefined}
+            >
+              {CONTACT_METHODS.map((method) => (
+                <option key={method} value={method}>
+                  {method}
+                </option>
+              ))}
+            </select>
+          </Field>
+        </div>
+      </details>
 
       {status === "error" && serverMessage ? (
         <p id="form-status" role="alert" className="rounded-xl border border-accent-blue/30 bg-lavender px-4 py-3 text-sm text-ink">

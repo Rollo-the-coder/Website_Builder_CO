@@ -1,17 +1,31 @@
 import { NextResponse } from "next/server";
+import { ServerClient } from "postmark";
 import { contactSchema } from "@/lib/contact-schema";
 import { site } from "@/lib/site";
 
 export const runtime = "nodejs";
 
-// Best-effort, in-memory rate limiting. This resets on redeploy and is per-instance.
-// For production hardening, replace with a durable store (e.g. Upstash) and/or Turnstile.
-const WINDOW_MS = 60_000;
+// Best-effort, in-memory rate limiting. Resets on redeploy and is per-instance.
+// For heavier abuse, add Upstash Redis and/or Cloudflare Turnstile.
+const WINDOW_MS = 15 * 60_000;
 const MAX_PER_WINDOW = 5;
 const MIN_FILL_MS = 3_000;
+const MAX_BODY_BYTES = 32_768;
 const hits = new Map<string, number[]>();
 const CONTACT_FORM_MODES = ["demo", "live"] as const;
 type ContactFormMode = (typeof CONTACT_FORM_MODES)[number];
+
+const ALLOWED_ORIGINS = new Set(
+  [
+    site.url,
+    "https://gotta.build",
+    "https://www.gotta.build",
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+    process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : null,
+    process.env.NODE_ENV !== "production" ? "http://localhost:3000" : null,
+    process.env.NODE_ENV !== "production" ? "http://127.0.0.1:3000" : null,
+  ].filter((value): value is string => Boolean(value)),
+);
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -48,14 +62,73 @@ function resolveContactFormMode(): ContactFormMode {
   return "demo";
 }
 
+function isAllowedOrigin(req: Request): boolean {
+  const origin = req.headers.get("origin");
+  if (origin) {
+    if (ALLOWED_ORIGINS.has(origin)) return true;
+    try {
+      const host = new URL(origin).hostname;
+      if (host.endsWith(".vercel.app")) return true;
+      if (host === "gotta.build" || host === "www.gotta.build") return true;
+    } catch {
+      return false;
+    }
+    return false;
+  }
+
+  const referer = req.headers.get("referer");
+  if (!referer) return process.env.NODE_ENV !== "production";
+  try {
+    const host = new URL(referer).hostname;
+    return (
+      host === "gotta.build" ||
+      host === "www.gotta.build" ||
+      host.endsWith(".vercel.app") ||
+      host === "localhost" ||
+      host === "127.0.0.1"
+    );
+  } catch {
+    return false;
+  }
+}
+
+function resolveToEmail(): string | undefined {
+  return process.env.CONTACT_TO_EMAIL?.trim() || site.publicContactEmail || undefined;
+}
+
+function resolveFromEmail(): string | undefined {
+  return process.env.CONTACT_FROM_EMAIL?.trim() || site.publicContactEmail || undefined;
+}
+
+function resolvePostmarkToken(): string | undefined {
+  return process.env.POSTMARK_SERVER_TOKEN?.trim() || undefined;
+}
+
+function directEmailHint(): string {
+  const inbox = site.publicContactEmail || "erik@gotta.build";
+  return `Please email ${inbox} directly.`;
+}
+
 export async function POST(req: Request) {
+  if (!isAllowedOrigin(req)) {
+    return NextResponse.json({ ok: false, message: "Invalid request origin." }, { status: 403 });
+  }
+
   const ip = getIp(req);
 
   if (isRateLimited(ip)) {
     return NextResponse.json(
-      { ok: false, message: "Too many requests. Please wait a moment and try again." },
+      {
+        ok: false,
+        message: `Too many requests. Please wait a few minutes or ${directEmailHint().toLowerCase()}`,
+      },
       { status: 429 },
     );
+  }
+
+  const contentLength = Number(req.headers.get("content-length") || 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ ok: false, message: "Request too large." }, { status: 413 });
   }
 
   let json: unknown;
@@ -84,42 +157,45 @@ export async function POST(req: Request) {
   }
 
   const mode = resolveContactFormMode();
-  const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_TO_EMAIL;
-  const fromEmail = process.env.CONTACT_FROM_EMAIL;
+  const serverToken = resolvePostmarkToken();
+  const toEmail = resolveToEmail();
+  const fromEmail = resolveFromEmail();
 
-  if (mode === "live" && (!apiKey || !toEmail || !fromEmail)) {
-    console.error("[contact] CONTACT_FORM_MODE=live but delivery env is incomplete.");
+  if (mode === "live" && (!serverToken || !toEmail || !fromEmail)) {
+    console.error("[contact] Live mode missing delivery config.", {
+      hasToken: Boolean(serverToken),
+      hasTo: Boolean(toEmail),
+      hasFrom: Boolean(fromEmail),
+    });
     return NextResponse.json(
       {
         ok: false,
-        message:
-          "This form is temporarily unavailable. Please try again shortly while delivery is being configured.",
+        message: `This form is temporarily unavailable. ${directEmailHint()}`,
       },
       { status: 503 },
     );
   }
 
   // Demo mode intentionally captures requests without claiming inbox delivery.
-  if (!apiKey || !toEmail || !fromEmail) {
-    console.warn(
-      "[contact] Demo capture only: delivery env missing. Submission received but not emailed.",
-      { mode, name: data.name, email: data.email, helpWith: data.helpWith },
-    );
+  if (!serverToken || !toEmail || !fromEmail) {
+    console.warn("[contact] Demo capture only — delivery env incomplete.", {
+      mode,
+      helpWith: data.helpWith,
+      hasEmail: Boolean(data.email),
+    });
     return NextResponse.json(
       {
         ok: true,
         delivered: false,
         message:
-          "Request captured in demo mode. Enable CONTACT_FORM_MODE=live with email env vars before production launch.",
+          "Request captured in demo mode. Enable live delivery env vars before production launch.",
       },
       { status: 202 },
     );
   }
 
   try {
-    const { Resend } = await import("resend");
-    const resend = new Resend(apiKey);
+    const client = new ServerClient(serverToken);
 
     const lines = [
       `Name: ${data.name}`,
@@ -137,31 +213,29 @@ export async function POST(req: Request) {
       data.biggestProblem,
     ];
 
-    const { error } = await resend.emails.send({
-      from: `${site.name} <${fromEmail}>`,
-      to: [toEmail],
-      reply_to: data.email,
-      subject: `New audit request — ${data.name}${data.businessName ? ` (${data.businessName})` : ""}`,
-      text: lines.join("\n"),
-      html: `<pre style="font-family:ui-monospace,monospace;font-size:14px;white-space:pre-wrap">${escapeHtml(
+    await client.sendEmail({
+      From: `${site.name} <${fromEmail}>`,
+      To: toEmail,
+      ReplyTo: data.email,
+      Subject: `New audit request — ${data.name}${data.businessName ? ` (${data.businessName})` : ""}`,
+      TextBody: lines.join("\n"),
+      HtmlBody: `<pre style="font-family:ui-monospace,monospace;font-size:14px;white-space:pre-wrap">${escapeHtml(
         lines.join("\n"),
       )}</pre>`,
+      MessageStream: "outbound",
+      Tag: "audit-request",
     });
-
-    if (error) {
-      console.error("[contact] Resend error:", error);
-      return NextResponse.json(
-        { ok: false, message: "We couldn't send your request right now. Please email us directly." },
-        { status: 502 },
-      );
-    }
 
     return NextResponse.json({ ok: true, delivered: true });
   } catch (err) {
-    console.error("[contact] Unexpected error:", err);
+    const message = err instanceof Error ? err.message : "unknown";
+    console.error("[contact] Postmark error:", message);
     return NextResponse.json(
-      { ok: false, message: "Something went wrong. Please try again or email us directly." },
-      { status: 500 },
+      {
+        ok: false,
+        message: `We couldn't send your request right now. ${directEmailHint()}`,
+      },
+      { status: 502 },
     );
   }
 }

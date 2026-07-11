@@ -1,9 +1,83 @@
 import type { Metadata } from "next";
+import {
+  Syne,
+  DM_Sans,
+  Sora,
+  IBM_Plex_Sans,
+  Fraunces,
+  Figtree,
+  Outfit,
+  Manrope,
+} from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Analytics } from "@/components/analytics";
+import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme";
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+  display: "swap",
+});
+
+const ibmPlex = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex",
+  display: "swap",
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  variable: "--font-figtree",
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+
+const fontVariables = [
+  syne.variable,
+  dmSans.variable,
+  sora.variable,
+  ibmPlex.variable,
+  fraunces.variable,
+  figtree.variable,
+  outfit.variable,
+  manrope.variable,
+].join(" ");
+
+/** Runs before paint to restore the last preview theme and avoid a flash. */
+const themeInitScript = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var d=${JSON.stringify(DEFAULT_THEME)};var v=localStorage.getItem(k);var ok=v==="builder"||v==="pnw"||v==="editorial"||v==="showcase";document.documentElement.setAttribute("data-theme",ok?v:d);}catch(e){document.documentElement.setAttribute("data-theme",${JSON.stringify(DEFAULT_THEME)});}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -46,7 +120,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme={DEFAULT_THEME} className={fontVariables} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"

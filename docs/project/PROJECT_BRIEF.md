@@ -4,13 +4,14 @@
 
 Personal Website / Digital Systems Business Site
 
-Working brand name: TBD (placeholders include Erik Digital Systems, Erik Website Systems, Website Systems Studio)
+Working brand name: **Gotta Build**
 
 ## Client / Business
 
-Erik personal/business website for a website + digital systems business.
+Erik personal/business website for a website + digital systems business (Gotta Build).
 
-Client/business brand name is TBD and not finalized.
+Public contact: erik@gotta.build
+
 
 ## Niche
 

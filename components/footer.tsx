@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { nav, site } from "@/lib/site";
+import { footerNav, site } from "@/lib/site";
+import { BrandMark } from "@/components/brand-mark";
 
 const legalLinks = [
   { label: "Privacy", href: "/privacy" },
@@ -13,22 +14,30 @@ export function Footer() {
       <div className="container-page py-14">
         <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-2 font-semibold text-ink">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-xs font-bold text-primary-foreground">
-                {site.shortName}
-              </span>
+            <div className="flex items-center gap-2.5 font-display font-semibold text-ink">
+              <BrandMark />
               {site.name}
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-soft">
               {site.description}
             </p>
             <p className="mt-4 text-sm text-ink-muted">{site.location}</p>
+            {site.publicContactEmail ? (
+              <p className="mt-2">
+                <a
+                  href={`mailto:${site.publicContactEmail}`}
+                  className="text-sm font-medium text-ink transition hover:text-accent"
+                >
+                  {site.publicContactEmail}
+                </a>
+              </p>
+            ) : null}
           </div>
 
           <nav aria-label="Footer">
             <h3 className="text-sm font-semibold text-ink">Explore</h3>
             <ul className="mt-4 space-y-2">
-              {nav.map((item) => (
+              {footerNav.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="text-sm text-ink-soft transition hover:text-ink">
                     {item.label}

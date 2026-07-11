@@ -1,6 +1,10 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { ButtonLink } from "@/components/button";
 import { ArrowRightIcon, CheckIcon } from "@/components/icons";
 import { Reveal } from "@/components/reveal";
+import { easeOut, stagger } from "@/lib/motion";
 
 const deliverables = [
   "A written review of your site and lead flow",
@@ -9,25 +13,25 @@ const deliverables = [
   "No obligation, no hard sell",
 ];
 
-const processStrip = ["Audit", "Scope", "Build", "Launch", "Manage"] as const;
-
 const auditRows = [
-  { label: "Message clarity", status: "Needs focus" },
-  { label: "CTA path", status: "Improve" },
-  { label: "Mobile experience", status: "Review" },
-  { label: "Signup/payment friction", status: "High" },
-  { label: "Trust/proof gaps", status: "Map" },
-  { label: "SEO/local basics", status: "Check" },
-  { label: "Automation opportunities", status: "Find" },
+  { label: "Message clarity", status: "Needs focus", score: 42 },
+  { label: "CTA path", status: "Improve", score: 55 },
+  { label: "Mobile experience", status: "Review", score: 68 },
+  { label: "Signup/payment friction", status: "High", score: 35 },
+  { label: "Trust/proof gaps", status: "Map", score: 48 },
+  { label: "SEO/local basics", status: "Check", score: 60 },
+  { label: "Automation opportunities", status: "Find", score: 30 },
 ];
 
 export function AuditScorecard() {
+  const reduce = useReducedMotion();
+
   return (
-    <Reveal>
+    <Reveal loose>
       <div className="grid gap-8 rounded-3xl border border-line bg-surface p-6 shadow-soft lg:grid-cols-[0.9fr_1.1fr] lg:p-8">
         <div>
           <span className="eyebrow">Free audit</span>
-          <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-4 font-display text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Get a straight answer about your website.
           </h2>
           <ul className="mt-6 space-y-3">
@@ -39,29 +43,7 @@ export function AuditScorecard() {
             ))}
           </ul>
 
-          <div className="mt-6">
-            <ol className="flex flex-wrap items-center gap-x-1 gap-y-2 text-xs font-semibold uppercase tracking-[0.08em]">
-              {processStrip.map((step, index) => (
-                <li key={step} className="flex items-center gap-1">
-                  <span
-                    className={
-                      index === 0
-                        ? "rounded-full bg-accent px-2.5 py-1 text-primary-foreground"
-                        : "rounded-full bg-mist px-2.5 py-1 text-ink-muted"
-                    }
-                  >
-                    {step}
-                  </span>
-                  {index < processStrip.length - 1 ? (
-                    <span className="text-ink-muted" aria-hidden="true">
-                      →
-                    </span>
-                  ) : null}
-                </li>
-              ))}
-            </ol>
-            <p className="mt-2 text-sm text-ink-muted">The audit is step one — and it&apos;s free.</p>
-          </div>
+          <p className="mt-6 text-sm text-ink-muted">The audit is free — and it&apos;s the first step.</p>
 
           <ButtonLink href="/contact" className="mt-8">
             Get a free website audit
@@ -81,8 +63,19 @@ export function AuditScorecard() {
           </div>
           <ul className="mt-4 space-y-2">
             {auditRows.map((row, index) => (
-              <Reveal key={row.label} delay={index * 60}>
-                <li className="flex items-center justify-between gap-4 rounded-xl border border-line bg-surface px-4 py-3">
+              <motion.li
+                key={row.label}
+                className="rounded-xl border border-line bg-surface px-4 py-3"
+                initial={reduce ? false : { opacity: 0, y: 10 }}
+                whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={
+                  reduce
+                    ? { duration: 0 }
+                    : { duration: 0.4, ease: easeOut, delay: index * stagger.tight }
+                }
+              >
+                <div className="flex items-center justify-between gap-4">
                   <span className="flex items-center gap-2 text-sm font-medium text-ink-soft">
                     <CheckIcon className="h-4 w-4 flex-none text-accent" />
                     {row.label}
@@ -90,8 +83,21 @@ export function AuditScorecard() {
                   <span className="rounded-full bg-mist px-2.5 py-1 text-xs font-semibold text-ink-muted">
                     {row.status}
                   </span>
-                </li>
-              </Reveal>
+                </div>
+                <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-mist" role="presentation">
+                  <motion.div
+                    className="h-full rounded-full bg-accent/70"
+                    initial={{ width: reduce ? `${row.score}%` : "0%" }}
+                    whileInView={{ width: `${row.score}%` }}
+                    viewport={{ once: true, amount: 0.4 }}
+                    transition={
+                      reduce
+                        ? { duration: 0 }
+                        : { duration: 0.7, ease: easeOut, delay: 0.12 + index * stagger.tight }
+                    }
+                  />
+                </div>
+              </motion.li>
             ))}
           </ul>
         </div>

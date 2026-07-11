@@ -37,17 +37,19 @@ See `.env.example`. All are optional for local UI work:
 - `NEXT_PUBLIC_SITE_URL` — canonical site URL for SEO metadata, sitemap, and robots.
 - `NEXT_PUBLIC_ANALYTICS_ID` — set to enable analytics; leave blank to disable.
 - `CONTACT_FORM_MODE` — `demo` (capture-only, no email) or `live` (real email delivery). If unset, production defaults to `live` and preview/dev defaults to `demo`.
-- `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` — required when `CONTACT_FORM_MODE=live`.
+- `POSTMARK_SERVER_TOKEN`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` — required when `CONTACT_FORM_MODE=live` (Postmark Gotta Build server).
 
 Before calling the contact flow launch-ready, verify at least one real submission lands in the destination inbox.
 
 ### Pages
 
-- `/` home (hero, problem, Clarify/Build/Manage, Boost preview, services, process, packages, FAQ, CTA)
-- `/services` service categories and process
+- `/` home — Hero → Problem → Boost proof → Clarify/Build/Manage → Audit → Packages → About + FAQ → CTA
+- `/services` Clarify/Build/Manage offer structure and engagement process
 - `/work/boost-baseball` flagship case study
-- `/contact` audit-request funnel (`POST /api/contact`)
+- `/contact` audit-request funnel (`POST /api/contact`); public email `erik@gotta.build`
 - `/privacy`, `/terms`, `/cookies` legal policy pages for launch-stage operations
+
+Theme switcher (demo looks) is home-only and is not shown in the global header on other pages.
 
 ### Deploy
 

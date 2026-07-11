@@ -26,10 +26,10 @@ Fill this checklist for each client/project before launch.
 
 ## Inputs, Forms, And APIs
 
-- [ ] Server-side validation on all public routes
-- [ ] Contact form protected (validation, rate limit, spam controls)
+- [x] Server-side validation on all public routes
+- [x] Contact form protected (validation, rate limit 5/15min, honeypot, min fill-time, origin allowlist, body size cap)
 - [ ] File upload restrictions reviewed (if applicable)
-- [ ] Public API routes reviewed
+- [x] Public API routes reviewed (`POST /api/contact`)
 
 ## Webhooks And Payments
 

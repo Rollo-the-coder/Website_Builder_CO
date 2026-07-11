@@ -37,7 +37,11 @@ export default function CookiesPage() {
 
       <LegalHeading>Contact</LegalHeading>
       <p>
-        Questions about cookies can be sent through the{" "}
+        Questions about cookies can be sent to{" "}
+        <a href="mailto:erik@gotta.build" className="text-accent hover:underline">
+          erik@gotta.build
+        </a>{" "}
+        or through the{" "}
         <Link href="/contact" className="text-accent hover:underline">
           contact form
         </Link>

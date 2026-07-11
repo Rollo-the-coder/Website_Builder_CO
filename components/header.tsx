@@ -2,20 +2,20 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { nav, site } from "@/lib/site";
 import { ButtonLink } from "@/components/button";
-import { cn } from "@/lib/cn";
+import { BrandMark } from "@/components/brand-mark";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
 
   return (
     <header className="sticky top-0 z-40 border-b border-line/70 bg-canvas/80 backdrop-blur-md">
       <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight text-ink">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-xs font-bold text-primary-foreground">
-            {site.shortName}
-          </span>
+        <Link href="/" className="flex items-center gap-2.5 font-display font-semibold tracking-tight text-ink">
+          <BrandMark />
           <span className="hidden sm:inline">{site.name}</span>
         </Link>
 
@@ -39,7 +39,7 @@ export function Header() {
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-ink md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-ink transition hover:border-accent/30 md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label="Toggle navigation menu"
@@ -56,29 +56,39 @@ export function Header() {
         </button>
       </div>
 
-      <div
-        id="mobile-nav"
-        className={cn(
-          "border-t border-line bg-canvas md:hidden",
-          open ? "block" : "hidden",
-        )}
-      >
-        <nav className="container-page flex flex-col gap-1 py-4" aria-label="Mobile">
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition hover:bg-surface hover:text-ink"
-              onClick={() => setOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <ButtonLink href="/contact" className="mt-2" onClick={() => setOpen(false)}>
-            Get a free website audit
-          </ButtonLink>
-        </nav>
-      </div>
+      <AnimatePresence initial={false}>
+        {open ? (
+          <motion.div
+            id="mobile-nav"
+            key="mobile-nav"
+            className="overflow-hidden border-t border-line bg-canvas md:hidden"
+            initial={reduce ? false : { height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={reduce ? undefined : { height: 0, opacity: 0 }}
+            transition={
+              reduce
+                ? { duration: 0 }
+                : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+            }
+          >
+            <nav className="container-page flex flex-col gap-1 py-4" aria-label="Mobile">
+              {nav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition hover:bg-surface hover:text-ink"
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <ButtonLink href="/contact" className="mt-2" onClick={() => setOpen(false)}>
+                Get a free website audit
+              </ButtonLink>
+            </nav>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </header>
   );
 }

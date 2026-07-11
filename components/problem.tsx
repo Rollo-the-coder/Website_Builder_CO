@@ -1,5 +1,7 @@
+"use client";
+
 import { InboxIcon, MessageIcon, RouteIcon } from "@/components/icons";
-import { Reveal } from "@/components/reveal";
+import { Reveal, RevealItem, RevealStagger } from "@/components/reveal";
 
 const problems = [
   {
@@ -21,29 +23,31 @@ const problems = [
 
 export function Problem() {
   return (
-    <Reveal>
-      <div>
-        <span className="eyebrow">The problem</span>
-        <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Most small-business sites stall in the same three places.
-        </h2>
-      </div>
-      <div className="mt-10 grid gap-5 md:grid-cols-3">
-        {problems.map((problem, index) => {
+    <div>
+      <Reveal>
+        <div>
+          <span className="eyebrow">The problem</span>
+          <h2 className="mt-4 font-display text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            Most small-business sites stall in the same three places.
+          </h2>
+        </div>
+      </Reveal>
+      <RevealStagger className="mt-10 grid gap-5 md:grid-cols-3">
+        {problems.map((problem) => {
           const Icon = problem.icon;
           return (
-            <Reveal key={problem.title} delay={index * 70}>
-              <article className="card card-hover h-full">
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-canvas-deep text-accent">
+            <RevealItem key={problem.title}>
+              <article className="card card-hover group h-full">
+                <span className="grid h-9 w-9 place-items-center rounded-full bg-canvas-deep text-accent transition-transform duration-300 group-hover:scale-110">
                   <Icon className="h-4 w-4" />
                 </span>
                 <h3 className="mt-4 text-lg font-semibold text-ink">{problem.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">{problem.text}</p>
               </article>
-            </Reveal>
+            </RevealItem>
           );
         })}
-      </div>
-    </Reveal>
+      </RevealStagger>
+    </div>
   );
 }

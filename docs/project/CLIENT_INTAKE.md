@@ -2,7 +2,7 @@
 
 ## Business Info
 
-- Business name: TBD (working placeholders: Erik Digital Systems, Erik Website Systems, Website Systems Studio)
+- Business name: Gotta Build
 - Legal name if different: TBD
 - Industry: Website creation + digital systems for small businesses
 - Service area: Seattle / Bellevue / Eastside first; remote-capable nationally/online later
@@ -24,7 +24,7 @@
 ## Contact Info
 
 - Main contact: Erik
-- Email: TBD
+- Email: erik@gotta.build
 - Phone: TBD
 - Preferred communication channel: Contact form + email first; booking link later; phone optional/TBD
 - Business address, if public: TBD (hide for now unless confirmed)
@@ -53,8 +53,8 @@ Core offers:
 Packaging/pricing direction (subject to final confirmation):
 
 - Launch Site: $750-$1,500 setup + optional $100-$250/mo
-- Business Website + Forms/Booking: $1,500-$3,000 setup + $200-$400/mo
-- Website + Payments/Portal/Admin Tools: $3,000-$8,000+ setup + $300-$750/mo
+- Business Site: $1,500-$3,000 setup + $200-$400/mo
+- Operations System: $3,000-$8,000+ setup + $300-$750/mo
 - Ongoing Management: $100-$750/mo
 
 Differentiator:

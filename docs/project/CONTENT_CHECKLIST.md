@@ -2,42 +2,45 @@
 
 ## Brand Assets
 
-- [ ] Logo
-- [ ] Brand colors
-- [ ] Fonts
-- [ ] Icon set or illustration style
+- [x] Logo (BrandMark SVG in code)
+- [x] Brand colors (Builder theme tokens)
+- [x] Fonts (Syne + DM Sans; preview themes load alternates)
+- [x] Icon set or illustration style (inline icons + topo/system map)
 
 ## Images And Media
 
-- [ ] Hero photos
+- [ ] Hero photos (system map used instead — optional later)
 - [ ] Service photos
-- [ ] Team photos
+- [x] Team photos (`public/founder.png`)
 - [ ] Location photos
-- [ ] Before/after or portfolio images
+- [x] Before/after or portfolio images (`public/work/boost/`)
 - [ ] Video assets
 
 ## Copy
 
-- [ ] Home page copy
-- [ ] About copy
-- [ ] Services copy
-- [ ] Team bios
-- [ ] Testimonials
-- [ ] FAQs
-- [ ] Calls to action
+- [x] Home page copy
+- [x] About copy (home `#about`)
+- [x] Services copy
+- [x] Team bios (founder section)
+- [ ] Testimonials (deferred until real quotes exist)
+- [x] FAQs
+- [x] Calls to action
 
 ## Contact And Legal
 
 - [ ] Public phone
-- [ ] Public email
-- [ ] Address or service area
+- [x] Public email (`erik@gotta.build`)
+- [x] Address or service area (Seattle / Bellevue / Eastside)
 - [ ] Hours
-- [ ] Privacy policy needs
-- [ ] Terms needs
-- [ ] Cookie/consent needs
+- [x] Privacy policy needs (draft live)
+- [x] Terms needs (draft live)
+- [x] Cookie/consent needs (draft live)
 
 ## Missing Content Tracker
 
 | Item | Owner | Needed By | Status |
 |---|---|---|---|
-| [Item] | [Name] | [Date] | Missing |
+| Real testimonials | Erik | When available | Deferred |
+| Client-approved Boost metrics | Erik | When available | Deferred |
+| Legal entity name on policies | Erik | Pre-launch | Missing |
+| Production analytics ID | Erik | Pre-launch | Missing |

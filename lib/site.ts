@@ -1,5 +1,4 @@
 // Central site configuration and content.
-// Business/brand identifiers are intentionally TBD until confirmed.
 
 export const site = {
   name: "Gotta Build",
@@ -7,20 +6,26 @@ export const site = {
   tagline: "Your website should run the business, not just describe it.",
   description:
     "I build small-business websites with the systems behind them — bookings, payments, portals, and automations — then keep everything running.",
-  // Replace with the production domain before public launch.
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
-  // Keep null until a real public inbox is approved.
-  publicContactEmail: null as string | null,
+  // Production domain: gotta.build
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://gotta.build",
+  publicContactEmail: "erik@gotta.build",
   location: "Seattle / Bellevue / Eastside",
   serviceAreas: ["Seattle", "Bellevue", "Kirkland", "Redmond", "Eastside", "Greater Seattle"],
 } as const;
 
+/** Flagship case study — live Boost Baseball site */
+export const boostLiveUrl = "https://boost-orcin.vercel.app/" as const;
+
 export const nav = [
   { label: "Services", href: "/services" },
-  { label: "Case Study", href: "/work/boost-baseball" },
-  { label: "How it works", href: "/#what-i-do" },
+  { label: "Work", href: "/work/boost-baseball" },
   { label: "Packages", href: "/#packages" },
   { label: "Contact", href: "/contact" },
+] as const;
+
+export const footerNav = [
+  ...nav,
+  { label: "About", href: "/#about" },
 ] as const;
 
 export type Service = {
@@ -85,8 +90,7 @@ export const serviceBuckets: ServiceBucket[] = [
   {
     id: "clarify",
     title: "Clarify",
-    description:
-      "Make the offer, audience, and next step obvious.",
+    description: "Make the offer, audience, and next step obvious.",
     serviceTitles: ["Website Narrative & Offer Strategy"],
   },
   {
@@ -99,7 +103,6 @@ export const serviceBuckets: ServiceBucket[] = [
       "Forms, Booking & Payments",
       "Portals & Dashboards",
       "AI Automations & Chatbots",
-      "Security Audits & Launch Hardening",
     ],
   },
   {
@@ -107,7 +110,7 @@ export const serviceBuckets: ServiceBucket[] = [
     title: "Manage",
     description:
       "Keep the site updated, measured, secure, and improving after launch.",
-    serviceTitles: ["Ongoing Website Management"],
+    serviceTitles: ["Security Audits & Launch Hardening", "Ongoing Website Management"],
   },
 ];
 
@@ -129,15 +132,15 @@ export const packages: Pkg[] = [
     features: ["Up to ~5 pages", "Mobile-first design", "Contact form", "Basic SEO setup"],
   },
   {
-    name: "Business Website + Forms/Booking",
+    name: "Business Site",
     setup: "$1,500–$3,000",
     monthly: "$200–$400/mo",
-    blurb: "A growth-ready site with lead capture and scheduling.",
+    blurb: "A growth-ready site with lead capture, forms, and scheduling.",
     features: ["Everything in Launch", "Booking integration", "Lead workflows", "Local SEO structure"],
     featured: true,
   },
   {
-    name: "Website + Payments/Portal/Admin",
+    name: "Operations System",
     setup: "$3,000–$8,000+",
     monthly: "$300–$750/mo",
     blurb: "A working system for payments, portals, and admin visibility.",
