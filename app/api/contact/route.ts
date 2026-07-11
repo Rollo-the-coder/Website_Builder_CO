@@ -197,7 +197,7 @@ export async function POST(req: Request) {
   try {
     const client = new ServerClient(serverToken);
 
-    const lines = [
+    const summaryLines = [
       `Name: ${data.name}`,
       `Business: ${data.businessName || "-"}`,
       `Email: ${data.email}`,
@@ -212,19 +212,65 @@ export async function POST(req: Request) {
       "Biggest problem:",
       data.biggestProblem,
     ];
+    const summaryText = summaryLines.join("\n");
+    const summaryHtml = `<pre style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;line-height:1.5;white-space:pre-wrap;margin:0">${escapeHtml(
+      summaryText,
+    )}</pre>`;
 
     await client.sendEmail({
       From: `${site.name} <${fromEmail}>`,
       To: toEmail,
       ReplyTo: data.email,
       Subject: `New audit request — ${data.name}${data.businessName ? ` (${data.businessName})` : ""}`,
-      TextBody: lines.join("\n"),
-      HtmlBody: `<pre style="font-family:ui-monospace,monospace;font-size:14px;white-space:pre-wrap">${escapeHtml(
-        lines.join("\n"),
-      )}</pre>`,
+      TextBody: summaryText,
+      HtmlBody: summaryHtml,
       MessageStream: "outbound",
       Tag: "audit-request",
     });
+
+    // Confirmation to the submitter. Failure here should not fail the form —
+    // the internal notification above is the source of truth for the lead.
+    try {
+      const firstName = data.name.trim().split(/\s+/)[0] || data.name;
+      const confirmIntro = [
+        `Hi ${firstName},`,
+        "",
+        `Thanks for reaching out to ${site.name}. We received your audit request and will review it shortly.`,
+        "You'll hear back with next steps soon — usually within one business day.",
+        "",
+        "Here's a copy of what you submitted:",
+        "",
+      ].join("\n");
+      const confirmOutro = [
+        "",
+        "If anything looks off, just reply to this email.",
+        "",
+        `— ${site.name}`,
+        fromEmail,
+      ].join("\n");
+
+      await client.sendEmail({
+        From: `${site.name} <${fromEmail}>`,
+        To: data.email,
+        ReplyTo: fromEmail,
+        Subject: `We received your audit request — ${site.name}`,
+        TextBody: `${confirmIntro}${summaryText}${confirmOutro}`,
+        HtmlBody: [
+          `<p>Hi ${escapeHtml(firstName)},</p>`,
+          `<p>Thanks for reaching out to ${escapeHtml(site.name)}. We received your audit request and will review it shortly.</p>`,
+          `<p>You'll hear back with next steps soon — usually within one business day.</p>`,
+          `<p><strong>Here's a copy of what you submitted:</strong></p>`,
+          summaryHtml,
+          `<p>If anything looks off, just reply to this email.</p>`,
+          `<p>— ${escapeHtml(site.name)}<br>${escapeHtml(fromEmail)}</p>`,
+        ].join(""),
+        MessageStream: "outbound",
+        Tag: "audit-request-confirmation",
+      });
+    } catch (confirmErr) {
+      const message = confirmErr instanceof Error ? confirmErr.message : "unknown";
+      console.error("[contact] Confirmation auto-reply failed:", message);
+    }
 
     return NextResponse.json({ ok: true, delivered: true });
   } catch (err) {

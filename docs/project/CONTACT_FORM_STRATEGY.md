@@ -45,6 +45,7 @@ Note: in-memory rate limiting resets on redeploy and is per-instance. For produc
 | Destination | Behavior | Notes |
 |---|---|---|
 | Email notification | In `CONTACT_FORM_MODE=live`, Postmark sends to `CONTACT_TO_EMAIL` with Reply-To = submitter | `POSTMARK_SERVER_TOKEN`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` required |
+| Confirmation auto-reply | After a successful notification, Postmark emails the submitter a receipt + copy of their answers | Same env; failure is logged and does not fail the form |
 | Demo capture | In `CONTACT_FORM_MODE=demo`, API returns accepted + `delivered:false` and logs server-side | Safe for local/preview demos only |
 | CRM | Not in v1 | Future: route to CRM/Airtable/Sheets |
 | Database/storage | Not in v1 | Submissions not persisted; email is the system of record in live mode |
@@ -56,7 +57,7 @@ Note: in-memory rate limiting resets on redeploy and is per-instance. For produc
 - Demo-mode message: "Request captured in demo mode..."
 - Error message: "Something went wrong. Please try again."
 - Redirect after submit (if any): None; inline success state replaces the form.
-- Auto-reply to submitter: No (TBD — could add a confirmation auto-reply later).
+- Auto-reply to submitter: Yes — confirmation + submission summary; Reply-To = `CONTACT_FROM_EMAIL`.
 
 ## Follow-Up Workflow
 
