@@ -11,7 +11,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 type FieldErrors = Record<string, string>;
 
 const fieldBase =
-  "w-full rounded-xl border border-line bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-muted/70 transition focus:border-accent focus:bg-surface focus:outline-none";
+  "w-full rounded-lg border border-line bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-muted/70 transition focus:border-accent focus:bg-cloud focus:outline-none";
 
 export function AuditRequestForm() {
   const reduce = useReducedMotion();

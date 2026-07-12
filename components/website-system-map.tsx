@@ -15,29 +15,34 @@ import { easeOut, stagger } from "@/lib/motion";
 
 const stages = [
   {
-    title: "Visitor",
+    step: "01",
+    title: "Message",
     tone: "bg-accent-blue",
-    nodes: ["Finds you", "Gets it", "Takes action"],
+    nodes: ["Clear offer", "Why it matters", "Obvious next step"],
   },
   {
-    title: "Website",
+    step: "02",
+    title: "Conversion",
     tone: "bg-accent",
-    nodes: ["Form", "Booking", "Payment"],
+    nodes: ["Form or booking", "Payment", "Confirmation"],
   },
   {
-    title: "Your business",
-    tone: "bg-accent-soft",
-    nodes: ["Lead in one place", "Auto follow-up", "Clear next steps"],
+    step: "03",
+    title: "Operations",
+    tone: "bg-voltage",
+    nodes: ["Lead lands cleanly", "Follow-up runs", "You see what's next"],
   },
 ] as const;
 
 function ScrubbedStageColumn({
+  step,
   title,
   tone,
   nodes,
   columnIndex,
   progress,
 }: {
+  step: string;
   title: string;
   tone: string;
   nodes: readonly string[];
@@ -55,32 +60,19 @@ function ScrubbedStageColumn({
   const nodeOpacities = [node0, node1, node2];
 
   return (
-    <motion.div
-      className="relative z-10 flex flex-col rounded-2xl border border-line bg-surface/90 p-4 shadow-soft"
-      style={{ opacity, scale, y }}
-    >
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-muted">{title}</p>
-      <ul className="mt-3 space-y-2">
+    <motion.div className="relative z-10 flex flex-col" style={{ opacity, scale, y }}>
+      <div className="flex items-baseline gap-2">
+        <span className="text-xs font-semibold tabular-nums tracking-wide text-accent">{step}</span>
+        <p className="font-display text-lg font-semibold tracking-tight text-ink">{title}</p>
+      </div>
+      <ul className="mt-4 space-y-2.5 border-t border-line pt-4">
         {nodes.map((node, nodeIndex) => (
           <motion.li
             key={node}
-            className="flex items-start gap-2.5 rounded-xl border border-line bg-canvas/70 px-3 py-2.5 text-sm font-medium leading-snug text-ink-soft"
+            className="flex items-start gap-2.5 text-sm leading-snug text-ink-soft"
             style={{ opacity: nodeOpacities[nodeIndex] }}
           >
-            <motion.span
-              className={cn("mt-1.5 h-2 w-2 flex-none rounded-full", tone)}
-              aria-hidden="true"
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.8, 1, 0.8],
-              }}
-              transition={{
-                duration: 2.4,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: columnIndex * 0.35 + nodeIndex * 0.2,
-              }}
-            />
+            <span className={cn("mt-1.5 h-1.5 w-1.5 flex-none rounded-full", tone)} aria-hidden="true" />
             <span className="min-w-0 flex-1">{node}</span>
           </motion.li>
         ))}
@@ -90,12 +82,14 @@ function ScrubbedStageColumn({
 }
 
 function StageColumn({
+  step,
   title,
   tone,
   nodes,
   columnIndex,
   reduce,
 }: {
+  step: string;
   title: string;
   tone: string;
   nodes: readonly string[];
@@ -104,57 +98,37 @@ function StageColumn({
 }) {
   return (
     <motion.div
-      className="relative z-10 flex flex-col rounded-2xl border border-line bg-surface/90 p-4 shadow-soft"
-      initial={reduce ? false : { opacity: 0, y: 16 }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
+      className="relative z-10 flex flex-col rounded-lg border border-line/80 bg-cloud/70 p-4"
+      initial={reduce ? false : { opacity: 0, y: 18, scale: 0.97 }}
+      animate={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
       transition={
         reduce
           ? { duration: 0 }
-          : { duration: 0.5, ease: easeOut, delay: columnIndex * 0.18 }
+          : { duration: 0.55, ease: easeOut, delay: 0.2 + columnIndex * 0.16 }
       }
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-muted">{title}</p>
-      <ul className="mt-3 space-y-2">
+      <div className="flex items-baseline gap-2">
+        <span className="text-xs font-semibold tabular-nums tracking-wide text-accent">{step}</span>
+        <p className="font-display text-lg font-semibold tracking-tight text-ink">{title}</p>
+      </div>
+      <ul className="mt-4 space-y-2.5 border-t border-line pt-4">
         {nodes.map((node, nodeIndex) => (
           <motion.li
             key={node}
-            className="flex items-start gap-2.5 rounded-xl border border-line bg-canvas/70 px-3 py-2.5 text-sm font-medium leading-snug text-ink-soft"
+            className="flex items-start gap-2.5 text-sm leading-snug text-ink-soft"
             initial={reduce ? false : { opacity: 0, y: 8 }}
-            whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
+            animate={reduce ? undefined : { opacity: 1, y: 0 }}
             transition={
               reduce
                 ? { duration: 0 }
                 : {
                     duration: 0.4,
                     ease: easeOut,
-                    delay: columnIndex * 0.18 + 0.12 + nodeIndex * stagger.tight,
+                    delay: 0.35 + columnIndex * 0.16 + nodeIndex * stagger.tight,
                   }
             }
           >
-            <motion.span
-              className={cn("mt-1.5 h-2 w-2 flex-none rounded-full", tone)}
-              aria-hidden="true"
-              animate={
-                reduce
-                  ? undefined
-                  : {
-                      scale: [1, 1.25, 1],
-                      opacity: [0.85, 1, 0.85],
-                    }
-              }
-              transition={
-                reduce
-                  ? undefined
-                  : {
-                      duration: 2.8,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: columnIndex * 0.4 + nodeIndex * 0.25,
-                    }
-              }
-            />
+            <span className={cn("mt-1.5 h-1.5 w-1.5 flex-none rounded-full", tone)} aria-hidden="true" />
             <span className="min-w-0 flex-1">{node}</span>
           </motion.li>
         ))}
@@ -177,21 +151,23 @@ function MapHeader({
   return (
     <motion.div
       initial={reduce || cinematic ? false : { opacity: 0, y: 10 }}
-      whileInView={reduce || cinematic ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={reduce ? { duration: 0 } : { duration: 0.45, ease: easeOut }}
+      animate={reduce || cinematic ? undefined : { opacity: 1, y: 0 }}
+      transition={reduce ? { duration: 0 } : { duration: 0.45, ease: easeOut, delay: 0.05 }}
       style={cinematic && !reduce ? { opacity: headerOpacity } : undefined}
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
-        What a working site looks like
-      </p>
+      <div className="flex items-center gap-2">
+        <span className="h-2 w-2 rounded-sm bg-voltage" aria-hidden="true" />
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+          How it should work
+        </p>
+      </div>
       <h2
         className={cn(
           "mt-2 font-display font-semibold tracking-tight text-ink",
-          cinematic ? "text-2xl sm:text-3xl" : "text-2xl",
+          cinematic ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl",
         )}
       >
-        The system behind the site
+        Message → conversion → operations
       </h2>
     </motion.div>
   );
@@ -220,38 +196,48 @@ export function WebsiteSystemMap({
     <figure
       ref={ref}
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-line bg-canvas-deep p-5 shadow-lift sm:p-6",
-        cinematic && "p-6 sm:p-8 ring-1 ring-accent/20",
+        "relative overflow-hidden rounded-xl border-2 border-ink/15 bg-canvas-deep p-5 shadow-lift sm:p-6",
+        cinematic && "rounded-2xl p-6 sm:p-8 ring-1 ring-accent/20",
         className,
       )}
     >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-40"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgb(var(--color-ink) / 0.05) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--color-ink) / 0.05) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
       <TopoLines className="text-ink" />
-      {cinematic ? (
-        <div
-          className="pointer-events-none absolute -right-10 top-0 h-56 w-56 rounded-full bg-accent/20 blur-3xl"
-          aria-hidden="true"
-        />
-      ) : null}
+      <div
+        className="pointer-events-none absolute -right-10 top-0 h-56 w-56 rounded-full bg-accent/20 blur-3xl"
+        aria-hidden="true"
+      />
 
       <div className="relative">
         <MapHeader cinematic={cinematic} reduce={reduce} progress={scrollYProgress} />
 
-        <div className="relative mt-6">
+        <div className="relative mt-7">
           <SystemMapConnectors
             cinematic={Boolean(useScrub)}
             drawProgress={useScrub ? drawProgress : undefined}
           />
 
-          <div className="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-4">
+          <div className="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-5">
             {stages.map((stage, index) => (
               <Fragment key={stage.title}>
                 {index > 0 ? (
                   <div className="flex justify-center lg:hidden" aria-hidden="true">
-                    <span className="h-3 w-px bg-accent/40" />
+                    <span className="flex h-6 w-px items-center bg-accent/40">
+                      <span className="mx-auto h-1.5 w-1.5 rounded-full bg-voltage" />
+                    </span>
                   </div>
                 ) : null}
                 {useScrub ? (
                   <ScrubbedStageColumn
+                    step={stage.step}
                     title={stage.title}
                     tone={stage.tone}
                     nodes={stage.nodes}
@@ -260,6 +246,7 @@ export function WebsiteSystemMap({
                   />
                 ) : (
                   <StageColumn
+                    step={stage.step}
                     title={stage.title}
                     tone={stage.tone}
                     nodes={stage.nodes}
@@ -273,16 +260,16 @@ export function WebsiteSystemMap({
         </div>
 
         <motion.figcaption
-          className="mt-5 rounded-2xl border border-line bg-surface/80 px-4 py-3 text-sm font-medium text-ink-soft"
+          className="mt-6 border-t border-line pt-4 text-sm font-medium text-ink-soft"
           initial={reduce || cinematic ? false : { opacity: 0, y: 8 }}
-          whileInView={reduce || cinematic ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
+          animate={reduce || cinematic ? undefined : { opacity: 1, y: 0 }}
           transition={
-            reduce ? { duration: 0 } : { duration: 0.45, ease: easeOut, delay: 0.55 }
+            reduce ? { duration: 0 } : { duration: 0.45, ease: easeOut, delay: 0.7 }
           }
           style={useScrub ? { opacity: captionOpacity, y: captionY } : undefined}
         >
-          Most sites stop at stage one. I build all three.
+          Most sites stop at stage one — a page that describes the business. I
+          build all three.
         </motion.figcaption>
       </div>
     </figure>

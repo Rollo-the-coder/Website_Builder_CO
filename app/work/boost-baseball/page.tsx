@@ -47,7 +47,7 @@ export default function BoostCaseStudyPage() {
               <span className="eyebrow">Flagship build</span>
             </RevealImmediate>
             <RevealImmediate delay={0.08}>
-              <h1 className="mt-5 text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+              <h1 className="mt-5 font-display text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
                 Boost Baseball
               </h1>
             </RevealImmediate>

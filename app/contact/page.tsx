@@ -27,7 +27,7 @@ export default function ContactPage() {
             <span className="eyebrow">Free systems audit</span>
           </RevealImmediate>
           <RevealImmediate delay={0.08}>
-            <h1 className="mt-5 text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+            <h1 className="mt-5 font-display text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
               Request a Systems Audit
             </h1>
           </RevealImmediate>
@@ -49,7 +49,7 @@ export default function ContactPage() {
             ))}
           </RevealStagger>
           <Reveal delay={0.12} className="mt-8">
-            <div className="rounded-2xl border border-line bg-surface p-5 text-sm text-ink-soft">
+            <div className="rounded-xl border border-line bg-cloud p-5 text-sm text-ink-soft">
               <p className="font-medium text-ink">How to reach me</p>
               <p className="mt-1">
                 Prefer email? Write{" "}

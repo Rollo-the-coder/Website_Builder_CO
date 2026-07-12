@@ -8,22 +8,22 @@ import { boostLiveUrl } from "@/lib/site";
 
 const highlights = [
   {
-    title: "Parent signup flow",
-    text: "Program pages, registration, and confirmations in one path.",
+    title: "Parents & players",
+    text: "Sign up, manage calendars, enroll in programs, and stay in the loop from one place.",
   },
   {
     title: "Payments & installment plans",
     text: "Checkout options built around how families enroll — not a single dead-end form.",
   },
   {
-    title: "Admin operations dashboard",
-    text: "Rosters, budgets, registrations, and follow-up in one place.",
+    title: "Admin operations",
+    text: "Rosters, budgets, registrations, and follow-up — the other side of the same system.",
   },
 ];
 
 export function CaseStudyPreview() {
   return (
-    <div className="grid items-center gap-10 rounded-3xl border border-line bg-surface p-6 shadow-soft lg:grid-cols-2 lg:p-10">
+    <div className="grid items-center gap-10 rounded-xl border-2 border-ink/10 bg-cloud p-6 shadow-lift lg:grid-cols-2 lg:p-10">
       <Reveal>
         <div>
           <span className="eyebrow">Flagship build</span>
@@ -31,13 +31,14 @@ export function CaseStudyPreview() {
             Boost Baseball
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-            A youth baseball operations platform — not a brochure site. Parents enroll and pay
-            online; admins run rosters, budgets, and follow-up from one dashboard.
+            A full site for both sides — not a brochure. Parents and players manage calendars,
+            signups, and more; admins run rosters, budgets, and follow-up. Everyone interacts in
+            one system.
           </p>
           <RevealStagger tight className="mt-6 grid gap-3">
             {highlights.map((item) => (
               <RevealItem key={item.title}>
-                <article className="rounded-xl border border-line bg-canvas px-4 py-3 transition hover:border-accent/25">
+                <article className="rounded-lg border border-line bg-canvas px-4 py-3 transition hover:border-accent/40">
                   <h3 className="flex items-center gap-2 text-sm font-semibold text-ink">
                     <CheckIcon className="h-4 w-4 flex-none text-accent" />
                     {item.title}

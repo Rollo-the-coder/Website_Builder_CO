@@ -13,20 +13,20 @@ import { cn } from "@/lib/cn";
 /** Sticky scrub chapters for the system reel. */
 const chapters = [
   {
-    id: "visitor",
-    title: "Visitor",
-    line: "They find you, understand the offer, and know the next step.",
-    nodes: ["Finds you", "Gets it", "Takes action"],
+    id: "message",
+    title: "Message",
+    line: "The offer lands — visitors know what you do, why it matters, and what to do next.",
+    nodes: ["Clear offer", "Why it matters", "Obvious next step"],
   },
   {
-    id: "website",
-    title: "Website",
+    id: "conversion",
+    title: "Conversion",
     line: "Forms, booking, and payment live in one clear path — not three tools.",
-    nodes: ["Form", "Booking", "Payment"],
+    nodes: ["Form or booking", "Payment", "Confirmation"],
   },
   {
-    id: "business",
-    title: "Your business",
+    id: "operations",
+    title: "Operations",
     line: "The lead lands, follow-up fires, and you see what to do next.",
     nodes: ["Lead lands", "Automatic follow-up", "You see what's next"],
   },

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import {
-  Syne,
-  DM_Sans,
+  Bricolage_Grotesque,
+  Source_Sans_3,
   Sora,
   IBM_Plex_Sans,
   Fraunces,
@@ -16,15 +16,15 @@ import { Footer } from "@/components/footer";
 import { Analytics } from "@/components/analytics";
 import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme";
 
-const syne = Syne({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-syne",
+  variable: "--font-bricolage",
   display: "swap",
 });
 
-const dmSans = DM_Sans({
+const sourceSans = Source_Sans_3({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-source-sans",
   display: "swap",
 });
 
@@ -66,8 +66,8 @@ const manrope = Manrope({
 });
 
 const fontVariables = [
-  syne.variable,
-  dmSans.variable,
+  bricolage.variable,
+  sourceSans.variable,
   sora.variable,
   ibmPlex.variable,
   fraunces.variable,

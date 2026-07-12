@@ -1,7 +1,7 @@
 import type { SVGProps } from "react";
 import { cn } from "@/lib/cn";
 
-/** Code-lines brand mark for Gotta Build. */
+/** Blueprint code-lines brand mark for Gotta Build. */
 export function BrandMark({
   className,
   title = "Gotta Build",
@@ -18,23 +18,34 @@ export function BrandMark({
       {...props}
     >
       <title>{title}</title>
-      <rect width="32" height="32" rx="8" className="fill-primary" />
+      <rect width="32" height="32" rx="6" className="fill-primary" />
+      <rect
+        x="1.25"
+        y="1.25"
+        width="29.5"
+        height="29.5"
+        rx="5"
+        className="stroke-accent"
+        strokeWidth="1.5"
+        fill="none"
+        opacity="0.55"
+      />
 
       <g strokeLinecap="round">
-        <path d="M7 8h2" className="stroke-accent" strokeWidth="1.5" />
-        <path d="M11 8h12" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.45" />
+        <path d="M7 8h2" className="stroke-voltage" strokeWidth="1.6" />
+        <path d="M11 8h12" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.5" />
 
-        <path d="M7 12h2" className="stroke-accent" strokeWidth="1.5" />
-        <path d="M11 12h14" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.75" />
+        <path d="M7 12h2" className="stroke-accent" strokeWidth="1.6" />
+        <path d="M11 12h14" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.85" />
 
-        <path d="M7 16h2" className="stroke-accent" strokeWidth="1.5" opacity="0.8" />
-        <path d="M11 16h10" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.4" />
+        <path d="M7 16h2" className="stroke-accent" strokeWidth="1.6" opacity="0.9" />
+        <path d="M11 16h10" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.45" />
 
-        <path d="M7 20h2" className="stroke-accent" strokeWidth="1.5" opacity="0.6" />
-        <path d="M11 20h13" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.55" />
+        <path d="M7 20h2" className="stroke-voltage" strokeWidth="1.6" opacity="0.85" />
+        <path d="M11 20h13" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.65" />
 
-        <path d="M7 24h2" className="stroke-accent" strokeWidth="1.5" opacity="0.45" />
-        <path d="M11 24h9" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.3" />
+        <path d="M7 24h2" className="stroke-accent" strokeWidth="1.6" opacity="0.7" />
+        <path d="M11 24h9" className="stroke-primary-foreground" strokeWidth="1.45" opacity="0.35" />
       </g>
     </svg>
   );

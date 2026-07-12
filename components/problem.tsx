@@ -32,17 +32,26 @@ export function Problem() {
           </h2>
         </div>
       </Reveal>
-      <RevealStagger className="mt-10 grid gap-5 md:grid-cols-3">
-        {problems.map((problem) => {
+      <RevealStagger className="mt-10 divide-y divide-line border-y border-line">
+        {problems.map((problem, index) => {
           const Icon = problem.icon;
           return (
             <RevealItem key={problem.title}>
-              <article className="card card-hover group h-full">
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-canvas-deep text-accent transition-transform duration-300 group-hover:scale-110">
-                  <Icon className="h-4 w-4" />
-                </span>
-                <h3 className="mt-4 text-lg font-semibold text-ink">{problem.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{problem.text}</p>
+              <article className="group grid gap-4 py-6 sm:grid-cols-[auto_1fr] sm:items-start sm:gap-6 sm:py-7">
+                <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-2">
+                  <span className="font-display text-2xl font-semibold tabular-nums text-accent/80">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="grid h-10 w-10 place-items-center rounded-lg border border-line bg-cloud text-accent transition duration-300 group-hover:border-accent/50 group-hover:bg-accent group-hover:text-primary-foreground">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-ink sm:text-xl">{problem.title}</h3>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft sm:text-base">
+                    {problem.text}
+                  </p>
+                </div>
               </article>
             </RevealItem>
           );

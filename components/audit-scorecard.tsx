@@ -29,7 +29,7 @@ export function AuditScorecard() {
 
   return (
     <Reveal loose>
-      <div className="grid gap-8 rounded-3xl border border-line bg-surface p-6 shadow-soft lg:grid-cols-[0.9fr_1.1fr] lg:p-8">
+      <div className="grid gap-8 rounded-xl border-2 border-ink/10 bg-cloud p-6 shadow-lift lg:grid-cols-[0.9fr_1.1fr] lg:p-8">
         <div>
           <span className="eyebrow">Free systems audit</span>
           <h2 className="mt-4 font-display text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
@@ -52,13 +52,13 @@ export function AuditScorecard() {
           </ButtonLink>
         </div>
 
-        <div className="rounded-2xl border border-line bg-canvas/70 p-4">
+        <div className="rounded-lg border border-line bg-canvas p-4">
           <div className="flex items-center justify-between gap-4 border-b border-line pb-3">
             <div>
               <p className="text-sm font-semibold text-ink">Sample scorecard</p>
               <p className="text-xs text-ink-muted">What your report covers.</p>
             </div>
-            <span className="rounded-full bg-sage px-3 py-1 text-xs font-semibold text-ink">
+            <span className="rounded-md bg-mist px-3 py-1 text-xs font-semibold text-ink">
               Illustrative
             </span>
           </div>
@@ -66,7 +66,7 @@ export function AuditScorecard() {
             {auditRows.map((row, index) => (
               <motion.li
                 key={row.label}
-                className="rounded-xl border border-line bg-surface px-4 py-3"
+                className="rounded-lg border border-line bg-cloud px-4 py-3"
                 initial={reduce ? false : { opacity: 0, y: 10 }}
                 whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -81,13 +81,13 @@ export function AuditScorecard() {
                     <CheckIcon className="h-4 w-4 flex-none text-accent" />
                     {row.label}
                   </span>
-                  <span className="rounded-full bg-mist px-2.5 py-1 text-xs font-semibold text-ink-muted">
+                  <span className="rounded-md bg-mist px-2.5 py-1 text-xs font-semibold text-ink-muted">
                     {row.status}
                   </span>
                 </div>
                 <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-mist" role="presentation">
                   <motion.div
-                    className="h-full rounded-full bg-accent/70"
+                    className="h-full rounded-full bg-accent"
                     initial={{ width: reduce ? `${row.score}%` : "0%" }}
                     whileInView={{ width: `${row.score}%` }}
                     viewport={{ once: true, amount: 0.4 }}

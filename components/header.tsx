@@ -12,9 +12,9 @@ export function Header() {
   const reduce = useReducedMotion();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-canvas/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-line bg-canvas/90 backdrop-blur-md">
       <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2.5 font-display font-semibold tracking-tight text-ink">
+        <Link href="/" className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-ink">
           <BrandMark />
           <span className="hidden sm:inline">{site.name}</span>
         </Link>
@@ -39,7 +39,7 @@ export function Header() {
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-ink transition hover:border-accent/30 md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line bg-cloud text-ink transition hover:border-accent/50 md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label="Toggle navigation menu"

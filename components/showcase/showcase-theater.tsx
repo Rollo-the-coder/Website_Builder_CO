@@ -36,8 +36,8 @@ export function ShowcaseTheater() {
           A working system — not a brochure site.
         </h2>
         <p className="mt-4 max-w-2xl text-lg text-ink-soft">
-          Boost Baseball: parents enroll and pay online; admins run rosters, budgets, and follow-up
-          from one place.
+          Boost Baseball: a full site for parents, players, and admins — calendars, signups,
+          payments, and operations in one system.
         </p>
 
         <motion.div className="mt-12 origin-center" style={{ y, scale }}>

@@ -18,7 +18,7 @@ export function CtaBand({
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-12 text-center shadow-lift sm:px-12 sm:py-16">
+    <div className="relative overflow-hidden rounded-xl bg-primary px-6 py-12 text-center shadow-lift sm:px-12 sm:py-16">
       <motion.div
         className="pointer-events-none absolute inset-0 opacity-50"
         style={{
@@ -30,30 +30,39 @@ export function CtaBand({
           reduce
             ? undefined
             : {
-                opacity: [0.42, 0.55, 0.42],
+                opacity: [0.4, 0.62, 0.4],
               }
         }
         transition={
-          reduce ? undefined : { duration: 8, repeat: Infinity, ease: "easeInOut" }
+          reduce ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }
         }
       />
       <motion.div
         className="pointer-events-none absolute inset-0"
         aria-hidden="true"
-        animate={reduce ? undefined : { opacity: [0.35, 0.5, 0.35] }}
+        animate={reduce ? undefined : { opacity: [0.3, 0.5, 0.3] }}
         transition={
-          reduce ? undefined : { duration: 10, repeat: Infinity, ease: "easeInOut" }
+          reduce ? undefined : { duration: 9, repeat: Infinity, ease: "easeInOut" }
         }
       >
         <TopoLines className="text-primary-foreground" />
       </motion.div>
+      <div
+        className="pointer-events-none absolute inset-0 opacity-30"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.06) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+      />
       <div className="relative mx-auto max-w-2xl">
         <h2 className="font-display text-balance text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
           {title}
         </h2>
         <p className="mt-4 text-lg text-primary-foreground/80">{description}</p>
         <div className="mt-8 flex justify-center">
-          <ButtonLink href="/contact" variant="secondary" className="bg-canvas">
+          <ButtonLink href="/contact" variant="secondary" className="border-transparent bg-cloud">
             {site.primaryCta}
             <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>

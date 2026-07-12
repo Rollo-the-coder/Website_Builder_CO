@@ -7,14 +7,14 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
   return (
     <article
       className={cn(
-        "card-hover relative flex h-full flex-col rounded-2xl border bg-surface p-6 shadow-soft transition duration-300",
+        "card-hover relative flex h-full flex-col rounded-xl border bg-cloud p-6 shadow-soft transition duration-300",
         pkg.featured
-          ? "border-accent/40 ring-1 ring-accent/30 hover:ring-accent/45"
-          : "border-line hover:border-accent/25",
+          ? "border-accent/50 ring-1 ring-accent/35 hover:ring-accent/55"
+          : "border-line hover:border-accent/40",
       )}
     >
       {pkg.featured ? (
-        <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+        <span className="absolute -top-3 left-6 rounded-md bg-accent px-3 py-1 text-xs font-semibold text-primary-foreground">
           Most popular
         </span>
       ) : null}

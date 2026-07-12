@@ -13,9 +13,9 @@ import { site } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
 const stageNodes = [
-  { label: "Visitor", items: ["Finds you", "Gets it", "Takes action"], tone: "bg-accent-blue" },
-  { label: "Website", items: ["Form", "Booking", "Payment"], tone: "bg-accent" },
-  { label: "Business", items: ["Lead lands", "Follow-up", "Next action"], tone: "bg-accent-soft" },
+  { label: "Message", items: ["Clear offer", "Why it matters", "Obvious next step"], tone: "bg-accent-blue" },
+  { label: "Conversion", items: ["Form or booking", "Payment", "Confirmation"], tone: "bg-accent" },
+  { label: "Operations", items: ["Lead lands", "Follow-up", "You see what's next"], tone: "bg-accent-soft" },
 ] as const;
 
 function HeroStage({ reduce }: { reduce: boolean | null }) {
@@ -66,7 +66,7 @@ function HeroStage({ reduce }: { reduce: boolean | null }) {
         ))}
       </div>
       <p className="relative border-t border-line/70 px-5 py-3 text-sm text-ink-soft sm:px-6">
-        Most sites stop at stage one. This one runs all three.
+        Most sites stop at stage one — a page that describes the business. This one runs all three.
       </p>
     </div>
   );
@@ -137,7 +137,7 @@ export function ShowcaseHero() {
             <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>
           <ButtonLink href="/work/boost-baseball" variant="secondary" className="px-6 py-3.5 text-base">
-            See Boost
+            See Proof
           </ButtonLink>
         </motion.div>
 

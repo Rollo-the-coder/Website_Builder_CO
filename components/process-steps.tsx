@@ -44,7 +44,7 @@ export function ProcessSteps() {
             className="card card-hover relative flex h-full flex-col"
             variants={item}
           >
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+            <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
               {step.step}
             </span>
             <h3 className="mt-2 text-base font-semibold text-ink">{step.title}</h3>

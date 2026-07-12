@@ -20,7 +20,7 @@ export function SystemMapConnectors({
       setDrawn(true);
       return;
     }
-    const id = window.setTimeout(() => setDrawn(true), 280);
+    const id = window.setTimeout(() => setDrawn(true), 180);
     return () => window.clearTimeout(id);
   }, [reduceMotion, cinematic]);
 
@@ -28,7 +28,7 @@ export function SystemMapConnectors({
 
   return (
     <svg
-      className="pointer-events-none absolute inset-x-[14%] top-1/2 hidden h-8 -translate-y-1/2 lg:block"
+      className="pointer-events-none absolute inset-x-[10%] top-[42%] hidden h-10 -translate-y-1/2 lg:block"
       viewBox="0 0 400 32"
       fill="none"
       aria-hidden="true"
@@ -36,10 +36,10 @@ export function SystemMapConnectors({
     >
       {cinematic && drawProgress && !reduceMotion ? (
         <motion.path
-          className="text-accent/50"
+          className="text-accent/55"
           d={pathD}
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="2"
           fill="none"
           pathLength={1}
           style={{
@@ -49,7 +49,7 @@ export function SystemMapConnectors({
         />
       ) : (
         <path
-          className={`text-accent/40 ${drawn || reduceMotion ? "" : "system-map-connector"}`}
+          className={`text-accent/50 ${drawn || reduceMotion ? "" : "system-map-connector"}`}
           style={
             drawn || reduceMotion
               ? { strokeDasharray: 1, strokeDashoffset: 0 }
@@ -57,21 +57,21 @@ export function SystemMapConnectors({
           }
           d={pathD}
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth="2"
           fill="none"
           pathLength={1}
         />
       )}
       {!reduceMotion ? (
         <motion.circle
-          r={cinematic ? 4 : 3.5}
+          r={cinematic ? 4.5 : 4}
           fill="currentColor"
-          className="text-accent"
+          className="text-voltage"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: cinematic ? 0.2 : 0.9, duration: 0.3 }}
+          transition={{ delay: cinematic ? 0.2 : 0.75, duration: 0.3 }}
         >
-          <animateMotion dur={cinematic ? "4.5s" : "6s"} repeatCount="indefinite" path={pathD} />
+          <animateMotion dur={cinematic ? "4.5s" : "5s"} repeatCount="indefinite" path={pathD} />
         </motion.circle>
       ) : null}
     </svg>

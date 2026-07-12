@@ -14,7 +14,7 @@ export function Footer() {
       <div className="container-page py-14">
         <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-2.5 font-display font-semibold text-ink">
+            <div className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-ink">
               <BrandMark />
               {site.name}
             </div>

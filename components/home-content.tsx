@@ -5,7 +5,6 @@ import { Problem } from "@/components/problem";
 import { Section, SectionHeading } from "@/components/section";
 import { Pillars } from "@/components/pillars";
 import { BuildIncludes } from "@/components/build-includes";
-import { ProcessSteps } from "@/components/process-steps";
 import { AuditScorecard } from "@/components/audit-scorecard";
 import { CaseStudyPreview } from "@/components/case-study-preview";
 import { AboutFounder } from "@/components/about-founder";
@@ -45,25 +44,11 @@ function HomeBody() {
         <Pillars />
       </Section>
 
-      <Section id="process" className="section-mist">
-        <Reveal>
-          <SectionHeading
-            eyebrow="How engagements run"
-            title="Audit to manage — clear steps, no guessing."
-            description="Every project moves through the same path so scope, build, and upkeep stay intentional."
-            align="center"
-          />
-        </Reveal>
-        <div className="mt-12">
-          <ProcessSteps />
-        </div>
-      </Section>
-
-      <Section>
+      <Section className="section-mist">
         <AuditScorecard />
       </Section>
 
-      <Section id="packages" className="section-mist">
+      <Section id="packages" className="bg-canvas-deep/50">
         <Reveal>
           <SectionHeading
             eyebrow="Packages"
@@ -81,7 +66,7 @@ function HomeBody() {
         </RevealStagger>
       </Section>
 
-      <Section>
+      <Section className="section-mist">
         <AboutFounder />
         <div id="faq" className="mt-16">
           <Reveal>

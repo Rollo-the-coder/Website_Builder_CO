@@ -24,7 +24,7 @@ export function AboutFounder({ className }: AboutFounderProps) {
     <div
       id="about"
       className={cn(
-        "grid items-center gap-10 rounded-3xl border border-line bg-surface p-6 shadow-soft lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-12 lg:p-10",
+        "grid items-center gap-10 rounded-xl border-2 border-ink/10 bg-cloud p-6 shadow-lift lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-12 lg:p-10",
         className,
       )}
     >
@@ -62,7 +62,7 @@ export function AboutFounder({ className }: AboutFounderProps) {
 function FounderPhoto() {
   if (FOUNDER_PHOTO_SRC) {
     return (
-      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-line bg-mist sm:aspect-[5/6]">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-line bg-mist sm:aspect-[5/6]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={FOUNDER_PHOTO_SRC}

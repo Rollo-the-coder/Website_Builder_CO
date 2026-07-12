@@ -78,7 +78,7 @@ export default function ServicesPage() {
         );
       })}
 
-      <Section className="section-mist">
+      <Section id="process" className="section-mist">
         <Reveal>
           <SectionHeading
             eyebrow="Process"

@@ -9,15 +9,25 @@ export function ServicesHero() {
   return (
     <section className="relative overflow-hidden">
       <div
-        className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"
+        className="pointer-events-none absolute inset-0 opacity-40"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgb(var(--color-accent) / 0.05) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--color-accent) / 0.05) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage: "radial-gradient(ellipse 75% 65% at 50% 35%, black 15%, transparent 75%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute -right-20 top-8 h-80 w-80 rounded-full bg-accent/15 blur-3xl"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -bottom-32 -left-16 h-80 w-80 rounded-full bg-accent-blue/10 blur-3xl"
+        className="pointer-events-none absolute -bottom-28 -left-10 h-72 w-72 rounded-full bg-accent-blue/12 blur-3xl"
         aria-hidden="true"
       />
 
-      <div className="container-page grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-28">
+      <div className="container-page relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-28">
         <div>
           <RevealImmediate>
             <span className="eyebrow">Services</span>
@@ -56,7 +66,7 @@ export function ServicesHero() {
 
 function PhaseRail() {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-line bg-surface/90 p-6 shadow-soft sm:p-8">
+    <div className="relative overflow-hidden rounded-xl border-2 border-ink/10 bg-cloud p-6 shadow-lift sm:p-8">
       <div
         className="pointer-events-none absolute inset-0 opacity-80"
         style={{
@@ -66,19 +76,22 @@ function PhaseRail() {
         aria-hidden="true"
       />
       <div className="relative">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
-          How the offer is structured
-        </p>
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-sm bg-voltage" aria-hidden="true" />
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+            How the offer is structured
+          </p>
+        </div>
         <ol className="mt-6 space-y-0">
           {serviceBuckets.map((bucket, index) => (
             <li key={bucket.id} className="relative flex gap-4 pb-8 last:pb-0">
               {index < serviceBuckets.length - 1 ? (
                 <span
-                  className="absolute left-[17px] top-10 bottom-0 w-px bg-line"
+                  className="absolute left-[17px] top-10 bottom-0 w-px bg-accent/30"
                   aria-hidden="true"
                 />
               ) : null}
-              <span className="relative z-10 grid h-9 w-9 flex-none place-items-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+              <span className="relative z-10 grid h-9 w-9 flex-none place-items-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <div className="min-w-0 pt-0.5">

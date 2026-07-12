@@ -6,9 +6,9 @@ export const THEMES = [
   {
     id: "builder",
     label: "Builder",
-    blurb: "Workshop · copper",
+    blurb: "Blueprint · signal",
     role: "brand" as const,
-    chips: ["#C45E32", "#1A1612", "#F7F2EA"],
+    chips: ["#1A5CFF", "#0B1220", "#E8EDF2"],
   },
   {
     id: "pnw",
@@ -26,8 +26,8 @@ export const THEMES = [
   },
   {
     id: "showcase",
-    label: "Showcase",
-    blurb: "Cinematic demo",
+    label: "Cinematic",
+    blurb: "Dark theme",
     role: "demo" as const,
     chips: ["#F0A202", "#0E1114", "#F3F1EC"],
   },

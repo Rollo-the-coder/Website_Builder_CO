@@ -36,15 +36,16 @@ const config: Config = {
           soft: "rgb(var(--color-accent-soft) / <alpha-value>)",
           blue: "rgb(var(--color-accent-blue) / <alpha-value>)",
         },
+        voltage: "rgb(var(--color-voltage, 184 240 0) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "var(--font-sans)", "system-ui", "sans-serif"],
       },
       borderRadius: {
-        xl: "0.875rem",
-        "2xl": "1.25rem",
-        "3xl": "1.75rem",
+        xl: "0.75rem",
+        "2xl": "1rem",
+        "3xl": "1.25rem",
       },
       boxShadow: {
         soft: "var(--shadow-soft)",
