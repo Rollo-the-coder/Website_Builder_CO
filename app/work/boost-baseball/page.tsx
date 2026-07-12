@@ -147,17 +147,17 @@ export default function BoostCaseStudyPage() {
           <SectionHeading
             eyebrow="Screens"
             title="A look at the system"
-            description="Real captures from the live Boost site — marketing homepage and the Clubhouse registration flow."
+            description="Real captures from the live Boost site — the Select Teams offer page and the Clubhouse registration flow."
           />
         </Reveal>
         <RevealStagger className="mt-10 grid gap-6 lg:grid-cols-2">
           <RevealItem>
             <SiteScreenshot
-              src="/work/boost/home.png"
-              alt="Boost Baseball marketing homepage"
-              label="boost-orcin.vercel.app"
+              src="/work/boost/teams.png"
+              alt="Boost Baseball Select Teams page — age lanes, season plan, and clear next steps"
+              label="boost-orcin.vercel.app/teams"
               caption="Parent-facing marketing site with clear offer and booking path."
-              href={boostLiveUrl}
+              href={`${boostLiveUrl}teams`}
             />
           </RevealItem>
           <RevealItem>
