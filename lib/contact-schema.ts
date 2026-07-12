@@ -6,8 +6,11 @@ export const HELP_OPTIONS = [
   "Marketing narrative & offer clarity",
   "Forms, booking & payments",
   "Portal or dashboard",
-  "Automations & follow-up",
-  "Security / launch hardening",
+  "Workflow automations",
+  "AI chatbot",
+  "Social media automation",
+  "Security audit",
+  "Launch hardening",
   "Ongoing management",
   "Not sure yet",
 ] as const;

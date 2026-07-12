@@ -19,7 +19,7 @@ export const boostLiveUrl = "https://boost-orcin.vercel.app/" as const;
 
 export const nav = [
   { label: "Services", href: "/services" },
-  { label: "Work", href: "/work/boost-baseball" },
+  { label: "Proof", href: "/work/boost-baseball" },
   { label: "Packages", href: "/#packages" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -61,16 +61,34 @@ export const services: Service[] = [
     points: ["Client/parent portals", "Admin dashboards", "Operational tooling"],
   },
   {
-    title: "AI Automations & Chatbots",
+    title: "Workflow Automations",
     summary:
-      "Automate communication and support with practical tools that fit real workflows — intake, follow-up, and answers on demand.",
-    points: ["Chatbots & agents", "Email automations", "Intake automation"],
+      "Connect the tools you already use so leads, confirmations, and follow-up move without manual busywork.",
+    points: ["Email & SMS follow-up", "Intake routing", "Tool-to-tool workflows"],
   },
   {
-    title: "Security Audits & Launch Hardening",
+    title: "AI Chatbots",
     summary:
-      "Ship with confidence using sensible security, privacy, and launch checks before go-live.",
-    points: ["Security review", "Launch hardening", "Privacy basics"],
+      "Practical chat agents that answer common questions, capture leads, and hand off cleanly when a person should step in.",
+    points: ["Site chat agents", "FAQ & intake", "Human handoff"],
+  },
+  {
+    title: "Social Media Automation",
+    summary:
+      "Scheduled posting, cross-channel publishing, and light content workflows so social stays consistent without living in the apps.",
+    points: ["Scheduled publishing", "Cross-channel posts", "Content workflow setup"],
+  },
+  {
+    title: "Security Audits",
+    summary:
+      "A practical security and privacy review of your site and launch surface — before or after go-live.",
+    points: ["Security review", "Privacy basics", "Risk prioritization"],
+  },
+  {
+    title: "Launch Hardening",
+    summary:
+      "Ship with confidence using sensible launch checks, hardening, and go-live readiness.",
+    points: ["Launch checklist", "Hardening passes", "Go-live support"],
   },
   {
     title: "Ongoing Website Management",
@@ -99,12 +117,14 @@ export const serviceBuckets: ServiceBucket[] = [
     id: "build",
     title: "Build",
     description:
-      "Create the site plus the working parts behind it — forms, payments, portals, and automations.",
+      "Create the site plus the working parts behind it — forms, payments, portals, automations, and chat.",
     serviceTitles: [
       "Website Builds & Rebuilds",
       "Forms, Booking & Payments",
       "Portals & Dashboards",
-      "AI Automations & Chatbots",
+      "Workflow Automations",
+      "AI Chatbots",
+      "Social Media Automation",
     ],
   },
   {
@@ -112,7 +132,7 @@ export const serviceBuckets: ServiceBucket[] = [
     title: "Manage",
     description:
       "Launch securely, then measure, update, and improve the site and systems after go-live.",
-    serviceTitles: ["Security Audits & Launch Hardening", "Ongoing Website Management"],
+    serviceTitles: ["Security Audits", "Launch Hardening", "Ongoing Website Management"],
   },
 ];
 
@@ -140,12 +160,12 @@ export const buildIncludes: BuildInclude[] = [
     description: "Tools for clients and admins to run day-to-day operations.",
   },
   {
-    title: "Automations & follow-up",
-    description: "Confirmations, reminders, and workflows that cut manual work.",
+    title: "Automations, chat & social",
+    description: "Follow-up, AI chat, and social publishing that cut manual work.",
   },
   {
     title: "Launch & ongoing management",
-    description: "Hardened go-live, then updates, measurement, and improvement.",
+    description: "Security checks, hardened go-live, then updates and improvement.",
   },
 ];
 

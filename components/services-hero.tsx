@@ -1,0 +1,100 @@
+"use client";
+
+import { ButtonLink } from "@/components/button";
+import { ArrowRightIcon } from "@/components/icons";
+import { RevealImmediate } from "@/components/reveal";
+import { serviceBuckets, site } from "@/lib/site";
+
+export function ServicesHero() {
+  return (
+    <section className="relative overflow-hidden">
+      <div
+        className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute -bottom-32 -left-16 h-80 w-80 rounded-full bg-accent-blue/10 blur-3xl"
+        aria-hidden="true"
+      />
+
+      <div className="container-page grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-28">
+        <div>
+          <RevealImmediate>
+            <span className="eyebrow">Services</span>
+          </RevealImmediate>
+          <RevealImmediate delay={0.08}>
+            <h1 className="mt-5 font-display text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+              More than a website — a working digital system.
+            </h1>
+          </RevealImmediate>
+          <RevealImmediate delay={0.16}>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+              Start with what you need now — marketing narrative, a rebuild, or the systems behind
+              the site (payments, portals, automations, chat) — and grow from there.
+            </p>
+          </RevealImmediate>
+          <RevealImmediate delay={0.24}>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <ButtonLink href="/contact">
+                {site.primaryCta}
+                <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </ButtonLink>
+              <ButtonLink href="#clarify" variant="secondary">
+                See the offer
+              </ButtonLink>
+            </div>
+          </RevealImmediate>
+        </div>
+
+        <RevealImmediate delay={0.14} className="lg:pl-2">
+          <PhaseRail />
+        </RevealImmediate>
+      </div>
+    </section>
+  );
+}
+
+function PhaseRail() {
+  return (
+    <div className="relative overflow-hidden rounded-3xl border border-line bg-surface/90 p-6 shadow-soft sm:p-8">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-80"
+        style={{
+          backgroundImage:
+            "radial-gradient(28rem 18rem at 100% 0%, var(--mock-wash-2), transparent 60%), radial-gradient(24rem 16rem at 0% 100%, var(--mock-wash-1), transparent 55%)",
+        }}
+        aria-hidden="true"
+      />
+      <div className="relative">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">
+          How the offer is structured
+        </p>
+        <ol className="mt-6 space-y-0">
+          {serviceBuckets.map((bucket, index) => (
+            <li key={bucket.id} className="relative flex gap-4 pb-8 last:pb-0">
+              {index < serviceBuckets.length - 1 ? (
+                <span
+                  className="absolute left-[17px] top-10 bottom-0 w-px bg-line"
+                  aria-hidden="true"
+                />
+              ) : null}
+              <span className="relative z-10 grid h-9 w-9 flex-none place-items-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div className="min-w-0 pt-0.5">
+                <a
+                  href={`#${bucket.id}`}
+                  className="group inline-flex items-center gap-1.5 font-display text-xl font-semibold tracking-tight text-ink transition hover:text-accent"
+                >
+                  {bucket.title}
+                  <ArrowRightIcon className="h-3.5 w-3.5 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
+                </a>
+                <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{bucket.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  );
+}
