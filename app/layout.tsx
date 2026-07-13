@@ -14,7 +14,7 @@ import { site } from "@/lib/site";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Analytics } from "@/components/analytics";
-import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme";
+import { DEFAULT_THEME } from "@/lib/theme";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -76,8 +76,8 @@ const fontVariables = [
   manrope.variable,
 ].join(" ");
 
-/** Runs before paint to restore the last preview theme and avoid a flash. */
-const themeInitScript = `(function(){try{var k=${JSON.stringify(THEME_STORAGE_KEY)};var d=${JSON.stringify(DEFAULT_THEME)};var v=localStorage.getItem(k);var ok=v==="builder"||v==="pnw"||v==="editorial"||v==="showcase";document.documentElement.setAttribute("data-theme",ok?v:d);}catch(e){document.documentElement.setAttribute("data-theme",${JSON.stringify(DEFAULT_THEME)});}})();`;
+/** Brand theme only on the main site. Design-lab applies previews inside ThemePreviewProvider. */
+const themeInitScript = `(function(){try{document.documentElement.setAttribute("data-theme",${JSON.stringify(DEFAULT_THEME)});}catch(e){}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),

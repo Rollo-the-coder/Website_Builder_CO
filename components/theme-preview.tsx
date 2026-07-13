@@ -24,8 +24,9 @@ type ThemePreviewContextValue = {
 
 const ThemePreviewContext = createContext<ThemePreviewContextValue | null>(null);
 
-function applyThemeAttr(id: ThemeId) {
+function applyThemeAttr(id: ThemeId, persist: boolean) {
   document.documentElement.setAttribute("data-theme", id);
+  if (!persist) return;
   try {
     localStorage.setItem(THEME_STORAGE_KEY, id);
   } catch {
@@ -33,31 +34,31 @@ function applyThemeAttr(id: ThemeId) {
   }
 }
 
+/** Scoped to /design-lab. Restores brand theme on unmount so the main site stays on-brand. */
 export function ThemePreviewProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<ThemeId>(DEFAULT_THEME);
 
   useEffect(() => {
-    const current = document.documentElement.getAttribute("data-theme");
-    if (isThemeId(current)) {
-      setThemeState(current);
-      return;
-    }
     try {
       const stored = localStorage.getItem(THEME_STORAGE_KEY);
       if (isThemeId(stored)) {
-        applyThemeAttr(stored);
+        applyThemeAttr(stored, false);
         setThemeState(stored);
         return;
       }
     } catch {
       /* ignore */
     }
-    applyThemeAttr(DEFAULT_THEME);
+    applyThemeAttr(DEFAULT_THEME, false);
+
+    return () => {
+      applyThemeAttr(DEFAULT_THEME, false);
+    };
   }, []);
 
   const setTheme = useCallback((id: ThemeId) => {
     setThemeState(id);
-    applyThemeAttr(id);
+    applyThemeAttr(id, true);
   }, []);
 
   const value = useMemo(

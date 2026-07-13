@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import type { ComponentProps } from "react";
+import type { ComponentProps, MouseEvent } from "react";
 import { cn } from "@/lib/cn";
+import { trackEvent } from "@/components/analytics";
 
 type Variant = "primary" | "secondary" | "ghost";
 
@@ -18,11 +21,34 @@ const variants: Record<Variant, string> = {
 type ButtonLinkProps = {
   href: string;
   variant?: Variant;
+  trackEventName?: string;
+  trackEventProps?: Record<string, unknown>;
 } & ComponentProps<typeof Link>;
 
-export function ButtonLink({ href, variant = "primary", className, children, ...props }: ButtonLinkProps) {
+export function ButtonLink({
+  href,
+  variant = "primary",
+  className,
+  children,
+  trackEventName,
+  trackEventProps,
+  onClick,
+  ...props
+}: ButtonLinkProps) {
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (trackEventName) {
+      trackEvent(trackEventName, { href: String(href), ...trackEventProps });
+    }
+    onClick?.(event);
+  }
+
   return (
-    <Link href={href} className={cn(base, variants[variant], className)} {...props}>
+    <Link
+      href={href}
+      className={cn(base, variants[variant], className)}
+      onClick={handleClick}
+      {...props}
+    >
       {children}
     </Link>
   );

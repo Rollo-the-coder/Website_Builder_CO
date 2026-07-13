@@ -1,59 +1,50 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Hero } from "@/components/hero";
-import { Problem } from "@/components/problem";
 import { Section, SectionHeading } from "@/components/section";
-import { Pillars } from "@/components/pillars";
-import { BuildIncludes } from "@/components/build-includes";
+import { FrameworkSection } from "@/components/framework-section";
+import { StallAndFix } from "@/components/stall-and-fix";
+import { ServiceGroupsSummary } from "@/components/service-groups-summary";
 import { AuditScorecard } from "@/components/audit-scorecard";
 import { CaseStudyPreview } from "@/components/case-study-preview";
 import { AboutFounder } from "@/components/about-founder";
+import { FoundingOffer } from "@/components/founding-offer";
 import { Faq } from "@/components/faq";
-import { PackageCard } from "@/components/package-card";
-import { packages } from "@/lib/site";
+import { ManagementCard, PackageCard } from "@/components/package-card";
+import { managementPackages, packages } from "@/lib/site";
 import { CtaBand } from "@/components/cta-band";
 import { Reveal, RevealItem, RevealStagger } from "@/components/reveal";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ThemePreviewProvider, useThemePreview } from "@/components/theme-preview";
-import { ShowcaseHome } from "@/components/showcase/showcase-home";
+import { trackEvent } from "@/components/analytics";
 
-function HomeBody() {
-  const { isShowcase } = useThemePreview();
+function PricingSection() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const viewed = useRef(false);
 
-  if (isShowcase) {
-    return <ShowcaseHome />;
-  }
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting && !viewed.current) {
+          viewed.current = true;
+          trackEvent("pricing_section_view");
+        }
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <>
-      <Hero />
-
-      <Section className="section-mist">
-        <Problem />
-      </Section>
-
-      <Section>
-        <BuildIncludes />
-      </Section>
-
-      <Section className="section-mist">
-        <CaseStudyPreview />
-      </Section>
-
-      <Section id="what-i-do">
-        <Pillars />
-      </Section>
-
-      <Section className="section-mist">
-        <AuditScorecard />
-      </Section>
-
-      <Section id="packages" className="bg-canvas-deep/50">
+    <Section id="pricing" className="bg-canvas-deep/50">
+      <div ref={ref}>
         <Reveal>
           <SectionHeading
-            eyebrow="Packages"
-            title="Starting points, not rigid boxes"
-            description="Transparent starting ranges — final scope and price are agreed before any build starts. Grow from a clear site into payments, portals, and operations when you're ready."
+            eyebrow="Pricing"
+            title="Clear starting points"
+            description="Transparent starting prices — final scope and price are agreed before any build starts. Grow from a clear site into payments, portals, and operations when you're ready."
             align="center"
           />
         </Reveal>
@@ -64,6 +55,56 @@ function HomeBody() {
             </RevealItem>
           ))}
         </RevealStagger>
+
+        <Reveal className="mt-16">
+          <SectionHeading
+            eyebrow="Monthly management"
+            title="Keep the system healthy after launch"
+            description="Exact management scope depends on the system being maintained. Plans do not include unlimited edits."
+            align="center"
+          />
+        </Reveal>
+        <RevealStagger className="mt-10 grid gap-6 lg:grid-cols-3">
+          {managementPackages.map((pkg) => (
+            <RevealItem key={pkg.name}>
+              <ManagementCard pkg={pkg} />
+            </RevealItem>
+          ))}
+        </RevealStagger>
+      </div>
+    </Section>
+  );
+}
+
+export function HomeContent() {
+  return (
+    <>
+      <Hero />
+
+      <Section className="section-mist">
+        <FrameworkSection />
+      </Section>
+
+      <Section id="work">
+        <CaseStudyPreview />
+      </Section>
+
+      <Section className="section-mist">
+        <StallAndFix />
+      </Section>
+
+      <Section id="services-overview">
+        <ServiceGroupsSummary />
+      </Section>
+
+      <PricingSection />
+
+      <Section className="section-mist">
+        <FoundingOffer />
+      </Section>
+
+      <Section>
+        <AuditScorecard />
       </Section>
 
       <Section className="section-mist">
@@ -89,14 +130,5 @@ function HomeBody() {
         </Reveal>
       </Section>
     </>
-  );
-}
-
-export function HomeContent() {
-  return (
-    <ThemePreviewProvider>
-      <ThemeSwitcher />
-      <HomeBody />
-    </ThemePreviewProvider>
   );
 }

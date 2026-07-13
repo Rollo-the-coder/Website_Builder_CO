@@ -9,22 +9,27 @@ const faqs: FaqItem[] = [
   {
     question: "Is this just web design?",
     answer:
-      "No. The goal is a working system: clear marketing narrative plus the forms, bookings, payments, portals, and automations that turn visitors into customers and reduce manual work.",
+      "No. The goal is a working system: clear messaging plus the forms, bookings, payments, portals, and automations that turn visitors into customers and reduce manual work.",
   },
   {
     question: "What's included beyond the website itself?",
     answer:
-      "Depending on scope: offer and messaging strategy, signup and payment flows, client or admin portals, follow-up automations, launch hardening, and ongoing management after go-live. We pick the smallest useful build first.",
+      "Depending on scope: messaging strategy, signup and payment flows, client or admin portals, follow-up automations, AI chatbots or content systems, launch hardening, and ongoing management. We pick the smallest useful build first.",
   },
   {
     question: "How does pricing work?",
     answer:
-      "Packages start at the ranges shown and final quotes depend on scope. You'll always get a defined scope and price before any build work begins.",
+      "Packages start at the prices shown. Final quotes depend on scope. You'll always get a defined scope and price before any build work begins. Operations systems begin at $4,500 and increase with complexity.",
   },
   {
     question: "Do you work with businesses outside Seattle?",
     answer:
-      "Local Seattle, Bellevue, and Eastside businesses come first, but the work is remote-capable nationally once scope is clear.",
+      "Local Seattle, Bellevue, and Eastside businesses come first, but delivery is remote-capable wherever the work happens.",
+  },
+  {
+    question: "What is the founding client offer?",
+    answer:
+      "Three qualified Seattle and Eastside projects can receive a reduced introductory rate in exchange for structured feedback and permission to document the work as a case study. Exact pricing appears in the proposal.",
   },
 ];
 

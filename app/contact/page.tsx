@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Section } from "@/components/section";
 import { AuditRequestForm } from "@/components/audit-request-form";
 import { CheckIcon } from "@/components/icons";
-import { site } from "@/lib/site";
+import { auditDeliverables, site } from "@/lib/site";
 import { Reveal, RevealImmediate, RevealItem, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = {
-  title: "Request a Systems Audit",
+  title: "Request a Website Audit",
   description:
-    "Request a systems audit for your Seattle or Bellevue small business. Get a clear, practical action plan for messaging, lead flow, payments, portals, and operations.",
+    "Request a focused website audit for your Seattle or Eastside small business. Limited audit spots each week — messaging, conversion path, and operational opportunities.",
   alternates: { canonical: "/contact" },
 };
-
-const reassurances = [
-  "A prioritized list of what to fix first",
-  "Practical, jargon-free recommendations",
-  "No obligation and no hard sell",
-];
 
 export default function ContactPage() {
   return (
@@ -24,22 +19,22 @@ export default function ContactPage() {
       <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
         <div>
           <RevealImmediate>
-            <span className="eyebrow">Free systems audit</span>
+            <span className="eyebrow">Limited weekly audits</span>
           </RevealImmediate>
           <RevealImmediate delay={0.08}>
             <h1 className="mt-5 font-display text-balance text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
-              Request a Systems Audit
+              See what is holding your website back
             </h1>
           </RevealImmediate>
           <RevealImmediate delay={0.16}>
             <p className="mt-6 text-lg leading-relaxed text-ink-soft">
-              Tell me a bit about your business and what&apos;s not working. I&apos;ll review your site,
-              marketing narrative, and workflows — including payments and portals if they&apos;re in
-              play — and send back a clear read on what to improve first.
+              Request a focused review of your website, customer journey, and operational
+              opportunities. I take on a limited number of detailed audits each week so each review
+              can include specific, useful recommendations.
             </p>
           </RevealImmediate>
           <RevealStagger tight className="mt-8 space-y-3">
-            {reassurances.map((item) => (
+            {auditDeliverables.map((item) => (
               <RevealItem key={item}>
                 <div className="flex items-start gap-2 text-sm text-ink-soft">
                   <CheckIcon className="mt-0.5 h-4 w-4 flex-none text-accent" />
@@ -59,10 +54,33 @@ export default function ContactPage() {
                 >
                   {site.publicContactEmail}
                 </a>
-                . The form below is best when you want a structured first review.
+                . The form is best when you want a structured first review.
               </p>
+              {site.fitCallUrl ? (
+                <p className="mt-3">
+                  Already know you need a build?{" "}
+                  <a
+                    href={site.fitCallUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-accent underline-offset-2 hover:underline"
+                  >
+                    {site.fitCallCta}
+                  </a>
+                </p>
+              ) : (
+                <p className="mt-3">
+                  Already know you need a build?{" "}
+                  <a
+                    href={`mailto:${site.publicContactEmail}?subject=Fit%20call%20request`}
+                    className="font-medium text-accent underline-offset-2 hover:underline"
+                  >
+                    {site.fitCallCta}
+                  </a>
+                </p>
+              )}
               <p className="mt-2 text-xs text-ink-muted">
-                Serving {site.location} first, with remote support available.
+                Serving {site.location} first, with remote delivery available.
               </p>
             </div>
           </Reveal>
@@ -70,7 +88,9 @@ export default function ContactPage() {
 
         <RevealImmediate delay={0.14}>
           <div className="card">
-            <AuditRequestForm />
+            <Suspense fallback={<p className="text-sm text-ink-muted">Loading form…</p>}>
+              <AuditRequestForm />
+            </Suspense>
           </div>
         </RevealImmediate>
       </div>

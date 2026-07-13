@@ -131,9 +131,10 @@ Future / later phase:
 - Do not present as a generic freelance portfolio or commodity "website builder."
 - Maintain grounded small-business clarity (not abstract AI-startup positioning).
 - Brand name, legal name, contact details, and many assets are TBD.
-- Pricing should use starting ranges and clarify custom quotes depend on scope.
-- Hosting/framework choice is deferred until scope docs are finalized.
-- Legal/compliance pages required (privacy, terms, and cookies if tracking is used).
+- Pricing should use starting prices (Launch $1,250 / Business+Lead $2,500 / Operations $4,500+) and clarify custom quotes depend on scope.
+- Founding client offer: three qualified Seattle/Eastside slots; track manually via `site.foundingSlotsRemaining`.
+- Fit-call booking via `NEXT_PUBLIC_FIT_CALL_URL` (optional until configured).
+- Style switcher lives on `/design-lab`, not in the primary conversion path.
 
 ## Definition Of Done
 

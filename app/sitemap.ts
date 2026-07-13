@@ -5,7 +5,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = site.url.replace(/\/$/, "");
   const now = new Date();
 
-  const routes = ["", "/services", "/work/boost-baseball", "/contact", "/privacy", "/terms", "/cookies"];
+  const routes = [
+    "",
+    "/services",
+    "/work/boost-baseball",
+    "/contact",
+    "/design-lab",
+    "/privacy",
+    "/terms",
+    "/cookies",
+  ];
 
   return routes.map((route) => ({
     url: `${base}${route}`,

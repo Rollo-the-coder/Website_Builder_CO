@@ -12,8 +12,8 @@ type CtaBandProps = {
 };
 
 export function CtaBand({
-  title = "Find out what your website could be doing.",
-  description = "A free systems audit reviews your site, offer, and workflows — before you spend anything.",
+  title = "See what is holding your website back",
+  description = "I take on a limited number of detailed audits each week so each review can include specific, useful recommendations.",
 }: CtaBandProps) {
   const reduce = useReducedMotion();
 
@@ -62,7 +62,13 @@ export function CtaBand({
         </h2>
         <p className="mt-4 text-lg text-primary-foreground/80">{description}</p>
         <div className="mt-8 flex justify-center">
-          <ButtonLink href="/contact" variant="secondary" className="border-transparent bg-cloud">
+          <ButtonLink
+            href="/contact"
+            variant="secondary"
+            className="border-transparent bg-cloud"
+            trackEventName="audit_cta_click"
+            trackEventProps={{ location: "cta_band" }}
+          >
             {site.primaryCta}
             <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </ButtonLink>

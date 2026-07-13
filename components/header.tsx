@@ -42,7 +42,12 @@ export function Header() {
         </nav>
 
         <div className="hidden md:block">
-          <ButtonLink href="/contact" className="px-4 py-2">
+          <ButtonLink
+            href="/contact"
+            className="px-4 py-2"
+            trackEventName="audit_cta_click"
+            trackEventProps={{ location: "header" }}
+          >
             {site.primaryCta}
           </ButtonLink>
         </div>
@@ -92,7 +97,13 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
-              <ButtonLink href="/contact" className="mt-2" onClick={() => setOpen(false)}>
+              <ButtonLink
+                href="/contact"
+                className="mt-2"
+                onClick={() => setOpen(false)}
+                trackEventName="audit_cta_click"
+                trackEventProps={{ location: "header_mobile" }}
+              >
                 {site.primaryCta}
               </ButtonLink>
             </nav>

@@ -1,4 +1,4 @@
-import type { Pkg } from "@/lib/site";
+import type { ManagementPkg, Pkg } from "@/lib/site";
 import { ButtonLink } from "@/components/button";
 import { CheckIcon } from "@/components/icons";
 import { cn } from "@/lib/cn";
@@ -15,7 +15,7 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
     >
       {pkg.featured ? (
         <span className="absolute -top-3 left-6 rounded-md bg-accent px-3 py-1 text-xs font-semibold text-primary-foreground">
-          Most popular
+          Most Popular
         </span>
       ) : null}
       <h3 className="font-display text-lg font-semibold text-ink">{pkg.name}</h3>
@@ -24,7 +24,6 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
       <div className="mt-5">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-muted">Starting at</p>
         <p className="text-2xl font-semibold text-ink">{pkg.setup}</p>
-        <p className="text-sm text-ink-muted">setup &middot; {pkg.monthly}</p>
       </div>
       <ul className="mt-5 flex-1 space-y-2">
         {pkg.features.map((feature) => (
@@ -34,13 +33,37 @@ export function PackageCard({ pkg }: { pkg: Pkg }) {
           </li>
         ))}
       </ul>
+      {pkg.note ? <p className="mt-4 text-xs leading-relaxed text-ink-muted">{pkg.note}</p> : null}
       <ButtonLink
         href="/contact"
         variant={pkg.featured ? "primary" : "secondary"}
         className="mt-6 w-full"
+        trackEventName="audit_cta_click"
+        trackEventProps={{ location: "pricing_package", package: pkg.name }}
       >
-        Request scope
+        Request an Audit
       </ButtonLink>
+    </article>
+  );
+}
+
+export function ManagementCard({ pkg }: { pkg: ManagementPkg }) {
+  return (
+    <article className="card-hover flex h-full flex-col rounded-xl border border-line bg-cloud p-6 shadow-soft transition duration-300 hover:border-accent/40">
+      <h3 className="font-display text-lg font-semibold text-ink">{pkg.name}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-ink-soft">{pkg.blurb}</p>
+      <div className="mt-5">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-muted">Starting at</p>
+        <p className="text-2xl font-semibold text-ink">{pkg.price}</p>
+      </div>
+      <ul className="mt-5 flex-1 space-y-2">
+        {pkg.features.map((feature) => (
+          <li key={feature} className="flex items-start gap-2 text-sm text-ink-soft">
+            <CheckIcon className="mt-0.5 h-4 w-4 flex-none text-accent" />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
     </article>
   );
 }

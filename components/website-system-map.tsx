@@ -13,26 +13,12 @@ import { TopoLines } from "@/components/topo-lines";
 import { SystemMapConnectors } from "@/components/system-map-connectors";
 import { easeOut, stagger } from "@/lib/motion";
 
-const stages = [
-  {
-    step: "01",
-    title: "Message",
-    tone: "bg-accent-blue",
-    nodes: ["Clear offer", "Why it matters", "Obvious next step"],
-  },
-  {
-    step: "02",
-    title: "Conversion",
-    tone: "bg-accent",
-    nodes: ["Form or booking", "Payment", "Confirmation"],
-  },
-  {
-    step: "03",
-    title: "Operations",
-    tone: "bg-voltage",
-    nodes: ["Lead lands cleanly", "Follow-up runs", "You see what's next"],
-  },
-] as const;
+import { frameworkStages } from "@/lib/site";
+
+const stages = frameworkStages.map((stage, index) => ({
+  ...stage,
+  tone: (["bg-accent-blue", "bg-accent", "bg-voltage"] as const)[index]!,
+}));
 
 function ScrubbedStageColumn({
   step,

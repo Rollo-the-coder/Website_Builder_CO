@@ -1,10 +1,12 @@
 # Contact Form Strategy
 
-Strategy for the Website/System Audit Request form (`/contact`, handled by `POST /api/contact`).
+Strategy for the Website Audit Request form (`/contact`, handled by `POST /api/contact`).
 
 ## Form Goal
 
-Qualify inbound small-business leads and capture enough context to prepare a website/system audit and a scoped follow-up. Primary site conversion event.
+Qualify inbound small-business leads and capture enough context to prepare a website audit and a scoped follow-up. Primary site conversion event.
+
+Limited-capacity positioning: audit requests are reviewed for fit; not every submission is automatically accepted for a detailed audit.
 
 ## Required Fields
 
@@ -12,21 +14,25 @@ Primary (always visible):
 
 - [x] Name (required)
 - [x] Email (required)
-- [x] Business/site URL (optional)
-- [x] What do you need help with? (required)
-- [x] Biggest website/system problem (required)
+- [x] Business name (required)
+- [x] Website URL (optional)
+- [x] City or service area (optional)
+- [x] Project interest (required)
+- [x] What would you most like to improve? (required)
+- [x] Phone (optional)
+- [x] Budget range (optional select)
 
-Optional details (collapsed in UI):
+Project-interest options: website redesign, new business website, booking or lead system, payments or enrollment, portal or dashboard, AI chatbot or automation, AI SEO or content system, security or analytics, ongoing management, founding client project, not sure yet.
 
-- [x] Business name, phone, business type/niche, timeline, budget, preferred contact method
+Budget ranges: Under $1,500 · $1,500–$3,000 · $3,000–$5,000 · $5,000–$10,000 · $10,000+ · Not sure yet.
 
-## Qualifying Questions
+## Post-Submit Success State
 
-Use ideas from `docs/patterns/CONTACT_FORM_CONVERSION_QUESTIONS.md`.
+After a successful submission:
 
-1. What do you need help with? (build, rebuild, messaging, forms/booking/payments, portal/dashboard, AI automation, security audit, ongoing management, not sure)
-2. What is your biggest website or business-system problem right now?
-3. What is your timeline and (optional) budget range?
+1. Confirmation: “Your request is in.” + personal-review copy
+2. Secondary CTA: Book a 20-minute fit call (`NEXT_PUBLIC_FIT_CALL_URL`, falls back to mailto)
+3. Analytics: `form_completion`, then `booking_click` if they book
 
 ## Spam And Rate-Limit Controls
 
@@ -34,7 +40,7 @@ Use ideas from `docs/patterns/CONTACT_FORM_CONVERSION_QUESTIONS.md`.
 - [x] Max field lengths (enforced in schema)
 - [x] Honeypot field (`company`, hidden; silently dropped server-side)
 - [x] Timestamp / minimum fill-time check (`startedAt`, <3s submissions silently dropped)
-- [x] Rate limit per IP (best-effort in-memory, 5/min in `app/api/contact/route.ts`)
+- [x] Rate limit per IP (best-effort in-memory, 5/window in `app/api/contact/route.ts`)
 - [ ] CAPTCHA or Turnstile (add only if needed; recommended for production)
 - [ ] Blocklist or allowlist rules (not needed yet)
 
@@ -48,31 +54,12 @@ Note: in-memory rate limiting resets on redeploy and is per-instance. For produc
 | Confirmation auto-reply | After a successful notification, Postmark emails the submitter a receipt + copy of their answers | Same env; failure is logged and does not fail the form |
 | Demo capture | In `CONTACT_FORM_MODE=demo`, API returns accepted + `delivered:false` and logs server-side | Safe for local/preview demos only |
 | CRM | Not in v1 | Future: route to CRM/Airtable/Sheets |
-| Database/storage | Not in v1 | Submissions not persisted; email is the system of record in live mode |
-| Webhook/automation | Not in v1 | Future option |
 
-## User-Facing Behavior
+## Analytics Events
 
-- Success message: "Request received — you'll get a reply with next steps shortly."
-- Demo-mode message: "Request captured in demo mode..."
-- Error message: "Something went wrong. Please try again."
-- Redirect after submit (if any): None; inline success state replaces the form.
-- Auto-reply to submitter: Yes — confirmation + submission summary; Reply-To = `CONTACT_FROM_EMAIL`.
-
-## Follow-Up Workflow
-
-1. Who receives notifications: `erik@gotta.build` (`CONTACT_TO_EMAIL` in live mode).
-2. Expected response time: TBD (target: 1 business day).
-3. CRM or pipeline stage: TBD.
-4. Escalation path: TBD.
-
-## Launch Checks
-
-- [x] Set `CONTACT_FORM_MODE=live` for production (Vercel)
-- [x] Set `CONTACT_TO_EMAIL=erik@gotta.build` and `CONTACT_FROM_EMAIL=erik@gotta.build` (Vercel)
-- [x] Set `POSTMARK_SERVER_TOKEN` in Vercel Production + Preview (Gotta Build server)
-- [ ] Confirm Postmark Sender Signature for `erik@gotta.build` (or domain) is verified
-- [ ] Test submission in staging/preview
-- [ ] At least one real submission lands in `erik@gotta.build`
-- [x] Spam controls verified in code (honeypot + fill-time + rate limit + origin check)
-- [ ] Failure logging visible (confirm in Vercel logs after first live send)
+- `audit_cta_click`
+- `form_start`
+- `form_completion`
+- `booking_click`
+- `pricing_section_view`
+- `boost_case_study_view` / `boost_case_study_click`

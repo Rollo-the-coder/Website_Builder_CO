@@ -38,7 +38,7 @@ export function ShowcasePackages() {
             </h3>
             <p className="mt-3 text-ink-soft">{featured.blurb}</p>
             <p className="mt-6 font-display text-3xl font-semibold text-ink">{featured.setup}</p>
-            <p className="text-sm text-ink-muted">setup · {featured.monthly}</p>
+            <p className="text-sm text-ink-muted">starting at</p>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {featured.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-2 text-sm text-ink-soft">
@@ -67,7 +67,7 @@ export function ShowcasePackages() {
                 <h3 className="font-display text-xl font-semibold text-ink">{pkg.name}</h3>
                 <p className="mt-2 text-sm text-ink-soft">{pkg.blurb}</p>
                 <p className="mt-4 text-lg font-semibold text-ink">{pkg.setup}</p>
-                <p className="text-xs text-ink-muted">{pkg.monthly}</p>
+                <p className="text-xs text-ink-muted">starting at</p>
                 <ButtonLink href="/contact" variant="ghost" className="mt-4 px-0">
                   Request scope
                 </ButtonLink>

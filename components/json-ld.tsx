@@ -1,4 +1,4 @@
-import { site, services } from "@/lib/site";
+import { site, serviceGroups } from "@/lib/site";
 
 // Structured data for local SEO. Uses ProfessionalService (a LocalBusiness subtype).
 export function LocalBusinessJsonLd() {
@@ -14,9 +14,9 @@ export function LocalBusinessJsonLd() {
       addressRegion: "WA",
       addressCountry: "US",
     },
-    makesOffer: services.map((service) => ({
+    makesOffer: serviceGroups.map((group) => ({
       "@type": "Offer",
-      itemOffered: { "@type": "Service", name: service.title, description: service.summary },
+      itemOffered: { "@type": "Service", name: group.title, description: group.summary },
     })),
     slogan: site.tagline,
   };

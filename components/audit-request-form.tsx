@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Button } from "@/components/button";
-import { HELP_OPTIONS, CONTACT_METHODS, contactSchema } from "@/lib/contact-schema";
+import { useSearchParams } from "next/navigation";
+import { Button, ButtonLink } from "@/components/button";
+import { BUDGET_OPTIONS, HELP_OPTIONS, contactSchema } from "@/lib/contact-schema";
 import { cn } from "@/lib/cn";
 import { easeOut } from "@/lib/motion";
+import { site } from "@/lib/site";
+import { trackEvent } from "@/components/analytics";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type FieldErrors = Record<string, string>;
@@ -15,13 +18,29 @@ const fieldBase =
 
 export function AuditRequestForm() {
   const reduce = useReducedMotion();
+  const searchParams = useSearchParams();
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [serverMessage, setServerMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>(
-    "Thanks — your audit request is in. You'll get a reply with next steps shortly.",
+    "I personally review each audit request and will follow up with the next step.",
   );
   const [startedAt] = useState(() => Date.now());
+  const formStarted = useRef(false);
+
+  const interest = searchParams.get("interest");
+  const defaultHelp =
+    interest === "founding" ? "Founding client project" : "";
+
+  useEffect(() => {
+    // Form start is tracked once on first focus inside the form.
+  }, []);
+
+  function markFormStart() {
+    if (formStarted.current) return;
+    formStarted.current = true;
+    trackEvent("form_start", { form: "audit_request" });
+  }
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -66,17 +85,12 @@ export function AuditRequestForm() {
       setSuccessMessage(
         body.delivered === false && body.message
           ? body.message
-          : "Thanks — your audit request is in. You'll get a reply with next steps shortly.",
+          : "I personally review each audit request and will follow up with the next step.",
       );
-      try {
-        const { trackEvent } = await import("@/components/analytics");
-        trackEvent("audit_request_submitted", {
-          help_with: parsed.data.helpWith,
-          delivered: body.delivered !== false,
-        });
-      } catch {
-        // Analytics is optional — never block form success.
-      }
+      trackEvent("form_completion", {
+        help_with: parsed.data.helpWith,
+        delivered: body.delivered !== false,
+      });
       form.reset();
     } catch {
       setStatus("error");
@@ -113,8 +127,37 @@ export function AuditRequestForm() {
             />
           </svg>
         </motion.div>
-        <h2 className="mt-4 text-xl font-semibold text-ink">Request received</h2>
+        <h2 className="mt-4 text-xl font-semibold text-ink">Your request is in.</h2>
         <p className="mt-2 text-sm text-ink-soft">{successMessage}</p>
+
+        <div className="mt-8 rounded-xl border border-line bg-canvas px-4 py-5 text-left">
+          <p className="text-sm font-semibold text-ink">Want to move faster?</p>
+          <p className="mt-1 text-sm text-ink-soft">
+            If you already know you need a new website or system, book a 20-minute fit call.
+          </p>
+          {site.fitCallUrl ? (
+            <ButtonLink
+              href={site.fitCallUrl}
+              className="mt-4 w-full sm:w-auto"
+              target="_blank"
+              rel="noopener noreferrer"
+              trackEventName="booking_click"
+              trackEventProps={{ location: "form_success" }}
+            >
+              {site.fitCallCta}
+            </ButtonLink>
+          ) : (
+            <ButtonLink
+              href={`mailto:${site.publicContactEmail}?subject=Fit%20call%20request`}
+              className="mt-4 w-full sm:w-auto"
+              trackEventName="booking_click"
+              trackEventProps={{ location: "form_success", fallback: "mailto" }}
+            >
+              {site.fitCallCta}
+            </ButtonLink>
+          )}
+        </div>
+
         <Button className="mt-6" variant="secondary" onClick={() => setStatus("idle")}>
           Submit another request
         </Button>
@@ -123,13 +166,24 @@ export function AuditRequestForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-5" aria-describedby="form-status">
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      className="space-y-5"
+      aria-describedby="form-status"
+      onFocusCapture={markFormStart}
+    >
       {/* Honeypot field: visually hidden, must remain empty. */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor="company">Company (leave blank)</label>
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
       </div>
       <input type="hidden" name="startedAt" value={String(startedAt)} />
+
+      <p className="rounded-lg border border-line bg-canvas/70 px-3 py-2.5 text-xs leading-relaxed text-ink-muted">
+        Submit your website and a short description of what you want to improve. I&apos;ll review
+        the request and let you know whether it is a strong fit for a detailed audit.
+      </p>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Name" name="name" required error={errors.name}>
@@ -157,6 +211,41 @@ export function AuditRequestForm() {
             aria-describedby={errors.email ? "email-error" : undefined}
           />
         </Field>
+        <Field label="Business name" name="businessName" required error={errors.businessName}>
+          <input
+            id="businessName"
+            name="businessName"
+            type="text"
+            autoComplete="organization"
+            className={fieldBase}
+            required
+            aria-invalid={Boolean(errors.businessName)}
+            aria-describedby={errors.businessName ? "businessName-error" : undefined}
+          />
+        </Field>
+        <Field label="Website URL" name="websiteUrl" error={errors.websiteUrl}>
+          <input
+            id="websiteUrl"
+            name="websiteUrl"
+            type="text"
+            inputMode="url"
+            placeholder="https://…"
+            className={fieldBase}
+            aria-invalid={Boolean(errors.websiteUrl)}
+            aria-describedby={errors.websiteUrl ? "websiteUrl-error" : undefined}
+          />
+        </Field>
+        <Field label="City or service area" name="city" error={errors.city}>
+          <input
+            id="city"
+            name="city"
+            type="text"
+            placeholder="e.g. Bellevue"
+            className={fieldBase}
+            aria-invalid={Boolean(errors.city)}
+            aria-describedby={errors.city ? "city-error" : undefined}
+          />
+        </Field>
         <Field label="Phone" name="phone" error={errors.phone}>
           <input
             id="phone"
@@ -169,20 +258,8 @@ export function AuditRequestForm() {
             aria-describedby={errors.phone ? "phone-error" : undefined}
           />
         </Field>
-        <Field label="Current website URL" name="websiteUrl" error={errors.websiteUrl}>
-          <input
-            id="websiteUrl"
-            name="websiteUrl"
-            type="text"
-            inputMode="url"
-            placeholder="https://…"
-            className={fieldBase}
-            aria-invalid={Boolean(errors.websiteUrl)}
-            aria-describedby={errors.websiteUrl ? "websiteUrl-error" : undefined}
-          />
-        </Field>
         <Field
-          label="What do you need help with?"
+          label="Project interest"
           name="helpWith"
           required
           error={errors.helpWith}
@@ -192,7 +269,7 @@ export function AuditRequestForm() {
             id="helpWith"
             name="helpWith"
             className={fieldBase}
-            defaultValue=""
+            defaultValue={defaultHelp}
             required
             aria-invalid={Boolean(errors.helpWith)}
             aria-describedby={errors.helpWith ? "helpWith-error" : undefined}
@@ -207,10 +284,27 @@ export function AuditRequestForm() {
             ))}
           </select>
         </Field>
+        <Field label="Budget range" name="budget" error={errors.budget} className="sm:col-span-2">
+          <select
+            id="budget"
+            name="budget"
+            className={fieldBase}
+            defaultValue=""
+            aria-invalid={Boolean(errors.budget)}
+            aria-describedby={errors.budget ? "budget-error" : undefined}
+          >
+            <option value="">Optional — choose one…</option>
+            {BUDGET_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </Field>
       </div>
 
       <Field
-        label="Biggest website or business-system problem"
+        label="What would you most like to improve?"
         name="biggestProblem"
         required
         error={errors.biggestProblem}
@@ -220,79 +314,12 @@ export function AuditRequestForm() {
           name="biggestProblem"
           rows={4}
           className={cn(fieldBase, "resize-y")}
-          placeholder="What's not working, or what would you love to automate?"
+          placeholder="Messaging, leads, bookings, payments, operations…"
           required
           aria-invalid={Boolean(errors.biggestProblem)}
           aria-describedby={errors.biggestProblem ? "biggestProblem-error" : undefined}
         />
       </Field>
-
-      <details className="rounded-xl border border-line bg-canvas/60 px-4 py-3">
-        <summary className="cursor-pointer text-sm font-medium text-ink">
-          Optional details
-        </summary>
-        <div className="mt-4 grid gap-5 sm:grid-cols-2">
-          <Field label="Business name" name="businessName" error={errors.businessName}>
-            <input
-              id="businessName"
-              name="businessName"
-              type="text"
-              autoComplete="organization"
-              className={fieldBase}
-              aria-invalid={Boolean(errors.businessName)}
-              aria-describedby={errors.businessName ? "businessName-error" : undefined}
-            />
-          </Field>
-          <Field label="Business type / niche" name="businessType" error={errors.businessType}>
-            <input
-              id="businessType"
-              name="businessType"
-              type="text"
-              className={fieldBase}
-              aria-invalid={Boolean(errors.businessType)}
-              aria-describedby={errors.businessType ? "businessType-error" : undefined}
-            />
-          </Field>
-          <Field label="Timeline" name="timeline" error={errors.timeline}>
-            <input
-              id="timeline"
-              name="timeline"
-              type="text"
-              placeholder="e.g. 4–6 weeks"
-              className={fieldBase}
-              aria-invalid={Boolean(errors.timeline)}
-              aria-describedby={errors.timeline ? "timeline-error" : undefined}
-            />
-          </Field>
-          <Field label="Budget range" name="budget" error={errors.budget}>
-            <input
-              id="budget"
-              name="budget"
-              type="text"
-              placeholder="Optional"
-              className={fieldBase}
-              aria-invalid={Boolean(errors.budget)}
-              aria-describedby={errors.budget ? "budget-error" : undefined}
-            />
-          </Field>
-          <Field label="Preferred contact" name="preferredContact" error={errors.preferredContact}>
-            <select
-              id="preferredContact"
-              name="preferredContact"
-              className={fieldBase}
-              defaultValue="Email"
-              aria-invalid={Boolean(errors.preferredContact)}
-              aria-describedby={errors.preferredContact ? "preferredContact-error" : undefined}
-            >
-              {CONTACT_METHODS.map((method) => (
-                <option key={method} value={method}>
-                  {method}
-                </option>
-              ))}
-            </select>
-          </Field>
-        </div>
-      </details>
 
       {status === "error" && serverMessage ? (
         <p id="form-status" role="alert" className="rounded-xl border border-accent-blue/30 bg-lavender px-4 py-3 text-sm text-ink">
@@ -308,7 +335,7 @@ export function AuditRequestForm() {
         {status === "submitting" ? "Sending…" : "Request my audit"}
       </Button>
       <p className="text-xs text-ink-muted">
-        By submitting, you agree to be contacted about your request. We don&apos;t share your details.
+        By submitting, you agree to be contacted about your request. Details stay private.
       </p>
     </form>
   );

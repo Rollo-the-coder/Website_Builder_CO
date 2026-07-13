@@ -203,13 +203,11 @@ export async function POST(req: Request) {
       `Email: ${data.email}`,
       `Phone: ${data.phone || "-"}`,
       `Website: ${data.websiteUrl || "-"}`,
-      `Business type: ${data.businessType || "-"}`,
-      `Help with: ${data.helpWith}`,
-      `Timeline: ${data.timeline || "-"}`,
+      `City / service area: ${data.city || "-"}`,
+      `Project interest: ${data.helpWith}`,
       `Budget: ${data.budget || "-"}`,
-      `Preferred contact: ${data.preferredContact || "-"}`,
       "",
-      "Biggest problem:",
+      "What they want to improve:",
       data.biggestProblem,
     ];
     const summaryText = summaryLines.join("\n");
