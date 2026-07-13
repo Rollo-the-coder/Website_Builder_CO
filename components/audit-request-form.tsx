@@ -157,6 +157,18 @@ export function AuditRequestForm() {
             aria-describedby={errors.email ? "email-error" : undefined}
           />
         </Field>
+        <Field label="Phone" name="phone" error={errors.phone}>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            placeholder="Optional"
+            className={fieldBase}
+            aria-invalid={Boolean(errors.phone)}
+            aria-describedby={errors.phone ? "phone-error" : undefined}
+          />
+        </Field>
         <Field label="Current website URL" name="websiteUrl" error={errors.websiteUrl}>
           <input
             id="websiteUrl"
@@ -169,7 +181,13 @@ export function AuditRequestForm() {
             aria-describedby={errors.websiteUrl ? "websiteUrl-error" : undefined}
           />
         </Field>
-        <Field label="What do you need help with?" name="helpWith" required error={errors.helpWith}>
+        <Field
+          label="What do you need help with?"
+          name="helpWith"
+          required
+          error={errors.helpWith}
+          className="sm:col-span-2"
+        >
           <select
             id="helpWith"
             name="helpWith"
@@ -223,17 +241,6 @@ export function AuditRequestForm() {
               className={fieldBase}
               aria-invalid={Boolean(errors.businessName)}
               aria-describedby={errors.businessName ? "businessName-error" : undefined}
-            />
-          </Field>
-          <Field label="Phone" name="phone" error={errors.phone}>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              autoComplete="tel"
-              className={fieldBase}
-              aria-invalid={Boolean(errors.phone)}
-              aria-describedby={errors.phone ? "phone-error" : undefined}
             />
           </Field>
           <Field label="Business type / niche" name="businessType" error={errors.businessType}>
@@ -313,15 +320,17 @@ function Field({
   required,
   error,
   children,
+  className,
 }: {
   label: string;
   name: string;
   required?: boolean;
   error?: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div>
+    <div className={className}>
       <label htmlFor={name} className="mb-1.5 block text-sm font-medium text-ink">
         {label}
         {required ? <span className="ml-0.5 text-accent">*</span> : null}
