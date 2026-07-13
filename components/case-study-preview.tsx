@@ -35,15 +35,17 @@ export function CaseStudyPreview() {
             signups, and more; admins run rosters, budgets, and follow-up. Everyone interacts in
             one system.
           </p>
-          <RevealStagger tight className="mt-6 grid gap-3">
+          <RevealStagger tight className="mt-6 grid grid-cols-3 gap-2 sm:gap-3">
             {highlights.map((item) => (
               <RevealItem key={item.title}>
-                <article className="rounded-lg border border-line bg-canvas px-4 py-3 transition hover:border-accent/40">
-                  <h3 className="flex items-center gap-2 text-sm font-semibold text-ink">
-                    <CheckIcon className="h-4 w-4 flex-none text-accent" />
+                <article className="h-full rounded-lg border border-line bg-canvas px-2.5 py-2.5 transition hover:border-accent/40 sm:px-4 sm:py-3">
+                  <h3 className="flex items-start gap-1.5 text-xs font-semibold leading-snug text-ink sm:items-center sm:gap-2 sm:text-sm">
+                    <CheckIcon className="mt-0.5 h-3.5 w-3.5 flex-none text-accent sm:mt-0 sm:h-4 sm:w-4" />
                     {item.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">{item.text}</p>
+                  <p className="mt-1 text-[11px] leading-snug text-ink-soft sm:text-sm sm:leading-relaxed">
+                    {item.text}
+                  </p>
                 </article>
               </RevealItem>
             ))}

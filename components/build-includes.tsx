@@ -19,17 +19,19 @@ export function BuildIncludes() {
         </div>
       </Reveal>
 
-      <RevealStagger className="mt-12 grid gap-x-10 gap-y-8 border-t border-line pt-10 sm:grid-cols-2 lg:grid-cols-3">
+      <RevealStagger className="mt-12 grid grid-cols-3 gap-3 border-t border-line pt-8 sm:gap-x-10 sm:gap-y-8 sm:pt-10">
         {buildIncludes.map((item, index) => (
           <RevealItem key={item.title}>
             <div>
-              <p className="text-xs font-semibold tabular-nums tracking-wide text-accent">
+              <p className="text-[10px] font-semibold tabular-nums tracking-wide text-accent sm:text-xs">
                 {String(index + 1).padStart(2, "0")}
               </p>
-              <h3 className="mt-3 font-display text-lg font-semibold tracking-tight text-ink">
+              <h3 className="mt-2 font-display text-sm font-semibold tracking-tight text-ink sm:mt-3 sm:text-lg">
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">{item.description}</p>
+              <p className="mt-1.5 text-xs leading-snug text-ink-soft sm:mt-2 sm:text-sm sm:leading-relaxed">
+                {item.description}
+              </p>
             </div>
           </RevealItem>
         ))}

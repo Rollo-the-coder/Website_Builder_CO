@@ -109,11 +109,11 @@ export default function BoostCaseStudyPage() {
         <Reveal>
           <SectionHeading eyebrow="Capabilities" title="What was built" />
         </Reveal>
-        <RevealStagger className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealStagger className="mt-10 grid grid-cols-3 gap-2 sm:gap-3">
           {features.map((feature) => (
             <RevealItem key={feature}>
-              <div className="flex items-start gap-2 rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink-soft transition hover:border-accent/25">
-                <CheckIcon className="mt-0.5 h-4 w-4 flex-none text-accent" />
+              <div className="flex h-full items-start gap-1.5 rounded-xl border border-line bg-surface px-2.5 py-2 text-xs text-ink-soft transition hover:border-accent/25 sm:gap-2 sm:px-4 sm:py-3 sm:text-sm">
+                <CheckIcon className="mt-0.5 h-3.5 w-3.5 flex-none text-accent sm:h-4 sm:w-4" />
                 {feature}
               </div>
             </RevealItem>
@@ -129,13 +129,15 @@ export default function BoostCaseStudyPage() {
             description="The core parent journey the platform was designed around."
           />
         </Reveal>
-        <RevealStagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <RevealStagger className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
           {demoFlow.map((item) => (
             <RevealItem key={item.step}>
-              <article className="card card-hover flex h-full flex-col">
-                <span className="text-sm font-semibold text-accent">{item.step}</span>
-                <h3 className="mt-2 text-base font-semibold text-ink">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{item.text}</p>
+              <article className="card card-hover flex h-full flex-col !p-3 sm:!p-6">
+                <span className="text-xs font-semibold text-accent sm:text-sm">{item.step}</span>
+                <h3 className="mt-1.5 text-sm font-semibold text-ink sm:mt-2 sm:text-base">{item.title}</h3>
+                <p className="mt-1.5 text-xs leading-snug text-ink-soft sm:mt-2 sm:text-sm sm:leading-relaxed">
+                  {item.text}
+                </p>
               </article>
             </RevealItem>
           ))}

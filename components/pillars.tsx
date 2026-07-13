@@ -47,27 +47,30 @@ export function Pillars() {
         </div>
       </Reveal>
 
-      <RevealStagger className="mt-12 grid gap-0 border border-line bg-cloud md:grid-cols-3">
+      <RevealStagger className="mt-12 grid grid-cols-3 gap-0 border border-line bg-cloud">
         {pillars.map((pillar, index) => (
           <RevealItem key={pillar.title}>
             <div
-              className={`flex h-full flex-col p-6 sm:p-8 ${
-                index > 0 ? "border-t border-line md:border-l md:border-t-0" : ""
+              className={`flex h-full flex-col p-3 sm:p-6 md:p-8 ${
+                index > 0 ? "border-l border-line" : ""
               }`}
             >
-              <p className="text-xs font-semibold tabular-nums tracking-wide text-accent">
+              <p className="text-[10px] font-semibold tabular-nums tracking-wide text-accent sm:text-xs">
                 {String(index + 1).padStart(2, "0")}
               </p>
-              <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight text-ink">
+              <h3 className="mt-2 font-display text-base font-semibold tracking-tight text-ink sm:mt-3 sm:text-2xl">
                 {pillar.title}
               </h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">{pillar.description}</p>
+              <p className="mt-2 flex-1 text-xs leading-snug text-ink-soft sm:mt-3 sm:text-sm sm:leading-relaxed">
+                {pillar.description}
+              </p>
               <Link
                 href={pillar.href}
-                className="group mt-5 inline-flex items-center gap-1 text-sm font-semibold text-accent transition hover:text-primary"
+                className="group mt-3 inline-flex items-center gap-0.5 text-[11px] font-semibold text-accent transition hover:text-primary sm:mt-5 sm:gap-1 sm:text-sm"
               >
-                Explore {pillar.title.toLowerCase()}
-                <ArrowRightIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                <span className="sm:hidden">Explore</span>
+                <span className="hidden sm:inline">Explore {pillar.title.toLowerCase()}</span>
+                <ArrowRightIcon className="h-3 w-3 transition-transform group-hover:translate-x-0.5 sm:h-3.5 sm:w-3.5" />
               </Link>
             </div>
           </RevealItem>

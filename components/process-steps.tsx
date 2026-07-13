@@ -32,7 +32,7 @@ export function ProcessSteps() {
       </div>
 
       <motion.ol
-        className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
+        className="relative grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5"
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
@@ -41,14 +41,16 @@ export function ProcessSteps() {
         {processSteps.map((step) => (
           <motion.li
             key={step.step}
-            className="card card-hover relative flex h-full flex-col"
+            className="card card-hover relative flex h-full flex-col !p-3 sm:!p-6"
             variants={item}
           >
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-xs font-semibold text-primary-foreground sm:h-9 sm:w-9 sm:text-sm">
               {step.step}
             </span>
-            <h3 className="mt-2 text-base font-semibold text-ink">{step.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">{step.description}</p>
+            <h3 className="mt-2 text-sm font-semibold text-ink sm:text-base">{step.title}</h3>
+            <p className="mt-1.5 text-xs leading-snug text-ink-soft sm:mt-2 sm:text-sm sm:leading-relaxed">
+              {step.description}
+            </p>
           </motion.li>
         ))}
       </motion.ol>
