@@ -11,18 +11,18 @@ Qualify inbound small-business leads and capture enough context for either:
 
 Primary site conversion event. Limited-capacity positioning: audit requests are reviewed for fit; not every submission is automatically accepted for a detailed audit.
 
-## Dual Submit Intents
+## Submit Intent
 
-One form, two submit buttons:
+One primary button: **Request my audit**.
 
-| Intent | Button label | Meaning |
+An always-visible checkbox sets the backend intent:
+
+| UI | Backend intent | Meaning |
 |---|---|---|
-| `audit` | Request my audit | Written review path (primary) |
-| `fit_call` | Request a fit call | Ready to talk; Erik follows up to schedule |
+| Checkbox unchecked (default) | `audit` | Email follow-up path |
+| ☐ Prefer a quick call instead of email follow-up | `fit_call` | Erik follows up by phone to schedule |
 
-Helper copy under the buttons:
-
-> Same form either way. I’ll follow up with next steps—usually within one business day.
+Phone stays optional unless the checkbox is checked (then required). Helper copy under the checkbox nudges people to add a number if they want a call.
 
 ## Soft Pricing Handoff
 
@@ -59,10 +59,10 @@ Primary (always visible):
 - [x] City or service area (optional)
 - [x] Project interest (required)
 - [x] What would you most like to improve? (required)
-- [x] Phone (optional for audits; required for fit calls)
+- [x] Phone (optional; required when “prefer a call” is checked)
 - [x] Budget range (optional select)
 - [x] Package interest (optional soft signal from pricing CTA)
-- [x] Intent (`audit` | `fit_call`, set by submit button)
+- [x] Intent (`audit` | `fit_call`, set by prefer-call checkbox)
 
 Project-interest options: website redesign, new business website, booking or lead system, payments or enrollment, portal or dashboard, AI chatbot or automation, AI SEO or content system, security or analytics, ongoing management, founding client project, not sure yet.
 
@@ -76,9 +76,9 @@ Intent-specific confirmation only — no calendar or mailto second CTA.
 - Heading: Your request is in.
 - Body: I’ll review it and follow up with the next step.
 
-**Fit call**
-- Heading: Fit call request received.
-- Body: I’ll follow up to schedule a 20-minute call—usually within one business day.
+**Prefer call (`fit_call`)**
+- Heading: Request received — I'll call you.
+- Body: I'll follow up by phone to schedule a short call—usually within one business day.
 
 ## Spam And Rate-Limit Controls
 

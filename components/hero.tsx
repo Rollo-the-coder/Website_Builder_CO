@@ -37,8 +37,8 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <div className="container-page relative py-16 sm:py-20 lg:py-24">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
+      <div className="container-page relative py-12 sm:py-16 lg:py-24">
+        <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
           <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-2xl lg:text-left">
             <RevealImmediate>
               <div className="flex flex-wrap items-end justify-center gap-x-4 gap-y-2 lg:justify-start">
@@ -51,33 +51,38 @@ export function Hero() {
               </div>
             </RevealImmediate>
             <RevealImmediate delay={0.08}>
-              <h1 className="mt-7 font-display text-balance text-3xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.05]">
+              <h1 className="mt-5 font-display text-balance text-3xl font-semibold leading-[1.08] tracking-tight text-ink sm:mt-7 sm:text-4xl lg:text-[2.75rem] lg:leading-[1.05]">
                 {site.tagline}
               </h1>
             </RevealImmediate>
-            <RevealImmediate delay={0.16}>
-              <p className="mt-5 text-lg leading-relaxed text-ink-soft">{site.description}</p>
+            <RevealImmediate delay={0.14}>
+              <p className="mt-3 text-base leading-snug text-ink-soft lg:hidden">
+                {site.mobileHeroSupport}
+              </p>
+              <p className="mt-5 hidden text-lg leading-relaxed text-ink-soft lg:block">
+                {site.description}
+              </p>
             </RevealImmediate>
-            <RevealImmediate delay={0.2}>
-              <p className="mt-4 text-sm font-medium text-ink-muted">{site.locationTrust}</p>
+            <RevealImmediate delay={0.18}>
+              <p className="mt-4 hidden text-sm font-medium text-ink-muted lg:block">
+                {site.locationTrust}
+              </p>
             </RevealImmediate>
+
+            <RevealImmediate delay={0.2} className="mt-5 lg:hidden">
+              <HeroCircuitTree compact />
+            </RevealImmediate>
+
             <RevealImmediate delay={0.24}>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
+              <div className="mt-6 sm:mt-8 lg:flex lg:justify-start">
                 <ButtonLink
                   href="/contact"
+                  className="w-full lg:w-auto"
                   trackEventName="audit_cta_click"
                   trackEventProps={{ location: "hero_primary" }}
                 >
                   {site.auditCta}
                   <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </ButtonLink>
-                <ButtonLink
-                  href="/work/boost-baseball"
-                  variant="secondary"
-                  trackEventName="boost_case_study_click"
-                  trackEventProps={{ location: "hero_secondary" }}
-                >
-                  {site.secondaryCta}
                 </ButtonLink>
               </div>
             </RevealImmediate>
@@ -89,12 +94,13 @@ export function Hero() {
         </div>
 
         <RevealImmediate delay={0.3}>
-          <ul className="mt-12 grid grid-cols-2 gap-3 border-t border-line pt-8 sm:grid-cols-4 sm:gap-4">
+          <ul className="mt-8 grid grid-cols-2 gap-2 border-t border-line pt-6 sm:mt-10 sm:gap-3 sm:pt-8 lg:mt-12 lg:grid-cols-4 lg:gap-4">
             {heroTrustStrip.map((item, index) => (
               <li key={item.label}>
                 <article
                   className={cn(
-                    "group relative h-full overflow-hidden rounded-xl border border-line/80 bg-cloud px-3.5 py-3.5 shadow-soft transition duration-300",
+                    "group relative h-full overflow-hidden rounded-xl border border-line/80 bg-cloud shadow-soft transition duration-300",
+                    "px-3 py-2.5 sm:px-3.5 sm:py-3.5",
                     "hover:-translate-y-0.5 hover:border-accent/35 hover:shadow-lift",
                   )}
                 >
@@ -105,15 +111,15 @@ export function Hero() {
                     )}
                     aria-hidden="true"
                   />
-                  <div className="flex items-start gap-2.5">
-                    <span className="mt-0.5 grid h-6 w-6 flex-none place-items-center rounded-md bg-accent/10 text-accent transition group-hover:bg-accent group-hover:text-primary-foreground">
-                      <CheckIcon className="h-3.5 w-3.5" />
+                  <div className="flex items-start gap-2 sm:gap-2.5">
+                    <span className="mt-0.5 grid h-5 w-5 flex-none place-items-center rounded-md bg-accent/10 text-accent transition group-hover:bg-accent group-hover:text-primary-foreground sm:h-6 sm:w-6">
+                      <CheckIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                     </span>
                     <div className="min-w-0 text-left">
                       <p className="font-display text-sm font-semibold tracking-tight text-ink sm:text-[0.95rem]">
                         {item.label}
                       </p>
-                      <p className="mt-1 text-[11px] leading-snug text-ink-muted sm:text-xs">
+                      <p className="mt-1 hidden text-[11px] leading-snug text-ink-muted sm:block sm:text-xs">
                         {item.detail}
                       </p>
                     </div>

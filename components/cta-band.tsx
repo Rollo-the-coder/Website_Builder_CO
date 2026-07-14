@@ -6,19 +6,31 @@ import { ArrowRightIcon } from "@/components/icons";
 import { TopoLines } from "@/components/topo-lines";
 import { site } from "@/lib/site";
 
+const DEFAULT_TITLE = "See what is holding your website back";
+const DEFAULT_DESCRIPTION =
+  "I take on a limited number of detailed audits each week so each review can include specific, useful recommendations.";
+const DEFAULT_MOBILE_DESCRIPTION =
+  "Limited audit spots each week — specific, useful recommendations.";
+
 type CtaBandProps = {
   title?: string;
   description?: string;
+  /** Shorter support line on small screens. Falls back to description. */
+  mobileDescription?: string;
 };
 
 export function CtaBand({
-  title = "See what is holding your website back",
-  description = "I take on a limited number of detailed audits each week so each review can include specific, useful recommendations.",
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
+  mobileDescription,
 }: CtaBandProps) {
   const reduce = useReducedMotion();
+  const mobileCopy =
+    mobileDescription ??
+    (description === DEFAULT_DESCRIPTION ? DEFAULT_MOBILE_DESCRIPTION : description);
 
   return (
-    <div className="relative overflow-hidden rounded-xl bg-primary px-6 py-12 text-center shadow-lift sm:px-12 sm:py-16">
+    <div className="relative overflow-hidden rounded-xl bg-primary px-4 py-8 text-center shadow-lift sm:px-10 sm:py-12 lg:px-12 lg:py-16">
       <motion.div
         className="pointer-events-none absolute inset-0 opacity-50"
         style={{
@@ -57,15 +69,18 @@ export function CtaBand({
         }}
       />
       <div className="relative mx-auto max-w-2xl">
-        <h2 className="font-display text-balance text-3xl font-semibold tracking-tight text-primary-foreground sm:text-4xl">
+        <h2 className="font-display text-balance text-2xl font-semibold tracking-tight text-primary-foreground sm:text-3xl lg:text-4xl">
           {title}
         </h2>
-        <p className="mt-4 text-lg text-primary-foreground/80">{description}</p>
-        <div className="mt-8 flex justify-center">
+        <p className="mt-2 text-sm leading-snug text-primary-foreground/80 sm:mt-3 sm:text-base lg:mt-4 lg:text-lg lg:leading-relaxed">
+          <span className="lg:hidden">{mobileCopy}</span>
+          <span className="hidden lg:inline">{description}</span>
+        </p>
+        <div className="mt-5 flex justify-center sm:mt-7 lg:mt-8">
           <ButtonLink
             href="/contact"
             variant="secondary"
-            className="border-transparent bg-cloud"
+            className="w-full border-transparent bg-cloud sm:w-auto"
             trackEventName="audit_cta_click"
             trackEventProps={{ location: "cta_band" }}
           >

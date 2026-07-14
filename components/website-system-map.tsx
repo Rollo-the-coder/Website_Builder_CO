@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -27,6 +27,7 @@ function StageBody({
   solutionOpacity,
   reduce,
   columnIndex,
+  compact = false,
 }: {
   problem: string;
   solution: string;
@@ -35,11 +36,17 @@ function StageBody({
   solutionOpacity?: MotionValue<number>;
   reduce?: boolean | null;
   columnIndex?: number;
+  compact?: boolean;
 }) {
   const delayBase = 0.35 + (columnIndex ?? 0) * 0.16;
 
   return (
-    <div className="mt-4 space-y-3.5 border-t border-line pt-4">
+    <div
+      className={cn(
+        "space-y-3.5 border-t border-line",
+        compact ? "mt-3 space-y-3 pt-3" : "mt-4 pt-4",
+      )}
+    >
       <motion.div
         style={problemOpacity ? { opacity: problemOpacity } : undefined}
         initial={reduce || problemOpacity ? false : { opacity: 0, y: 8 }}
@@ -54,7 +61,14 @@ function StageBody({
           <span className={cn("h-1.5 w-1.5 flex-none rounded-full", tone)} aria-hidden="true" />
           Problem
         </p>
-        <p className="mt-1.5 text-sm leading-snug text-ink-soft">{problem}</p>
+        <p
+          className={cn(
+            "mt-1.5 leading-snug text-ink-soft",
+            compact ? "text-[13px]" : "text-sm",
+          )}
+        >
+          {problem}
+        </p>
       </motion.div>
       <motion.div
         style={solutionOpacity ? { opacity: solutionOpacity } : undefined}
@@ -70,7 +84,14 @@ function StageBody({
           <span className={cn("h-1.5 w-1.5 flex-none rounded-full", tone)} aria-hidden="true" />
           Solution
         </p>
-        <p className="mt-1.5 text-sm leading-snug text-ink-soft">{solution}</p>
+        <p
+          className={cn(
+            "mt-1.5 leading-snug text-ink-soft",
+            compact ? "text-[13px]" : "text-sm",
+          )}
+        >
+          {solution}
+        </p>
       </motion.div>
     </div>
   );
@@ -161,6 +182,95 @@ function StageColumn({
   );
 }
 
+function MobileStageStepper({ reduce }: { reduce: boolean | null }) {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const stage = stages[active]!;
+
+  useEffect(() => {
+    if (paused || reduce) return;
+    const id = window.setInterval(() => {
+      setActive((current) => (current + 1) % stages.length);
+    }, 5000);
+    return () => window.clearInterval(id);
+  }, [paused, reduce]);
+
+  function selectStage(index: number) {
+    setPaused(true);
+    setActive(index);
+  }
+
+  return (
+    <div className="relative z-10 lg:hidden">
+      <div
+        role="tablist"
+        aria-label="Clarify, Build, Manage"
+        className="grid grid-cols-3 gap-1 rounded-lg border border-line/80 bg-cloud/70 p-1"
+      >
+        {stages.map((item, index) => {
+          const selected = index === active;
+          return (
+            <button
+              key={item.title}
+              type="button"
+              role="tab"
+              id={`framework-tab-${item.step}`}
+              aria-selected={selected}
+              aria-controls="framework-stage-panel"
+              tabIndex={selected ? 0 : -1}
+              className={cn(
+                "rounded-md px-1.5 py-2.5 text-center transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50",
+                selected
+                  ? "bg-canvas-deep shadow-soft text-ink"
+                  : "text-ink-muted hover:text-ink",
+              )}
+              onClick={() => selectStage(index)}
+            >
+              <span className="block text-[10px] font-semibold tabular-nums tracking-wide text-accent">
+                {item.step}
+              </span>
+              <span className="mt-0.5 block font-display text-sm font-semibold tracking-tight">
+                {item.title}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div
+        id="framework-stage-panel"
+        role="tabpanel"
+        aria-labelledby={`framework-tab-${stage.step}`}
+        aria-live={paused ? "polite" : "off"}
+        className="mt-3 rounded-lg border border-line/80 bg-cloud/70 p-4"
+      >
+        <motion.div
+          key={stage.title}
+          initial={reduce ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={reduce ? { duration: 0 } : { duration: 0.25, ease: easeOut }}
+        >
+          <div className="flex items-baseline gap-2">
+            <span className="text-xs font-semibold tabular-nums tracking-wide text-accent">
+              {stage.step}
+            </span>
+            <p className="font-display text-base font-semibold tracking-tight text-ink">
+              {stage.title}
+            </p>
+          </div>
+          <StageBody
+            problem={stage.problem}
+            solution={stage.solution}
+            tone={stage.tone}
+            reduce
+            compact
+          />
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 function MapHeader({
   cinematic,
   reduce,
@@ -193,6 +303,9 @@ function MapHeader({
       >
         Clarify → Build → Manage
       </h2>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft sm:mt-3 sm:text-base">
+        Websites, intake, payments, automation, and care — sequenced so the business can run.
+      </p>
     </motion.div>
   );
 }
@@ -220,7 +333,7 @@ export function WebsiteSystemMap({
     <figure
       ref={ref}
       className={cn(
-        "relative overflow-hidden rounded-xl border-2 border-ink/15 bg-canvas-deep p-5 shadow-lift sm:p-6",
+        "relative overflow-hidden rounded-xl border-2 border-ink/15 bg-canvas-deep p-4 shadow-lift sm:p-6",
         cinematic && "rounded-2xl p-6 sm:p-8 ring-1 ring-accent/20",
         className,
       )}
@@ -243,16 +356,25 @@ export function WebsiteSystemMap({
       <div className="relative">
         <MapHeader cinematic={cinematic} reduce={reduce} progress={scrollYProgress} />
 
-        <div className="relative mt-7">
+        <div className="relative mt-5 sm:mt-7">
           <SystemMapConnectors
             cinematic={Boolean(useScrub)}
             drawProgress={useScrub ? drawProgress : undefined}
           />
 
-          <div className="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-5">
+          {/* Mobile: one stage at a time */}
+          {!useScrub ? <MobileStageStepper reduce={reduce} /> : null}
+
+          {/* Desktop / cinematic: full three-column map */}
+          <div
+            className={cn(
+              "gap-5",
+              useScrub ? "flex flex-col gap-4 lg:grid lg:grid-cols-3" : "hidden lg:grid lg:grid-cols-3",
+            )}
+          >
             {stages.map((stage, index) => (
               <Fragment key={stage.title}>
-                {index > 0 ? (
+                {useScrub && index > 0 ? (
                   <div className="flex justify-center lg:hidden" aria-hidden="true">
                     <span className="flex h-6 w-px items-center bg-accent/40">
                       <span className="mx-auto h-1.5 w-1.5 rounded-full bg-voltage" />
@@ -286,7 +408,7 @@ export function WebsiteSystemMap({
         </div>
 
         <motion.figcaption
-          className="mt-6 border-t border-line pt-4 text-sm font-medium text-ink-soft"
+          className="mt-5 border-t border-line pt-3 text-sm font-medium text-ink-soft sm:mt-6 sm:pt-4"
           initial={reduce || cinematic ? false : { opacity: 0, y: 8 }}
           animate={reduce || cinematic ? undefined : { opacity: 1, y: 0 }}
           transition={

@@ -223,6 +223,7 @@ export function SiteScreenshot({
   caption,
   href,
   className,
+  hideCaptionOnMobile = false,
 }: {
   src: string;
   alt: string;
@@ -230,6 +231,7 @@ export function SiteScreenshot({
   caption?: string;
   href?: string;
   className?: string;
+  hideCaptionOnMobile?: boolean;
 }) {
   const frame = (
     <figure
@@ -245,7 +247,12 @@ export function SiteScreenshot({
         <img src={src} alt={alt} className="h-full w-full object-cover object-top" />
       </div>
       {caption ? (
-        <figcaption className="border-t border-line bg-surface px-4 py-3 text-sm text-ink-soft">
+        <figcaption
+          className={cn(
+            "border-t border-line bg-surface px-4 py-3 text-sm text-ink-soft",
+            hideCaptionOnMobile && "hidden lg:block",
+          )}
+        >
           {caption}
         </figcaption>
       ) : null}

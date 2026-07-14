@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { nav, site } from "@/lib/site";
 import { ButtonLink } from "@/components/button";
@@ -10,9 +10,38 @@ import { BrandMark } from "@/components/brand-mark";
 export function Header() {
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    function onPointerDown(event: PointerEvent) {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (headerRef.current?.contains(target)) return;
+      setOpen(false);
+    }
+
+    function onScroll(event: Event) {
+      const target = event.target;
+      if (target instanceof Node && headerRef.current?.contains(target)) return;
+      setOpen(false);
+    }
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("scroll", onScroll, true);
+
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("scroll", onScroll, true);
+    };
+  }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-canvas/90 backdrop-blur-md">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-40 border-b border-line bg-canvas/90 backdrop-blur-md"
+    >
       <div className="container-page relative flex h-16 items-center justify-between gap-4">
         <Link
           href="/"

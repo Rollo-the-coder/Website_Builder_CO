@@ -19,11 +19,21 @@ type SectionHeadingProps = {
   eyebrow?: string;
   title: string;
   description?: string;
+  descriptionClassName?: string;
+  titleClassName?: string;
   align?: "left" | "center";
   className?: string;
 };
 
-export function SectionHeading({ eyebrow, title, description, align = "left", className }: SectionHeadingProps) {
+export function SectionHeading({
+  eyebrow,
+  title,
+  description,
+  descriptionClassName,
+  titleClassName,
+  align = "left",
+  className,
+}: SectionHeadingProps) {
   return (
     <div
       className={cn(
@@ -33,11 +43,18 @@ export function SectionHeading({ eyebrow, title, description, align = "left", cl
       )}
     >
       {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
-      <h2 className="mt-4 font-display text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+      <h2
+        className={cn(
+          "mt-4 font-display text-balance text-3xl font-semibold tracking-tight text-ink sm:text-4xl",
+          titleClassName,
+        )}
+      >
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-lg leading-relaxed text-ink-soft">{description}</p>
+        <p className={cn("mt-4 text-lg leading-relaxed text-ink-soft", descriptionClassName)}>
+          {description}
+        </p>
       ) : null}
     </div>
   );

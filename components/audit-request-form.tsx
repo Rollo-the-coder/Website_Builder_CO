@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/button";
 import {
   BUDGET_OPTIONS,
-  CONTACT_INTENTS,
   HELP_OPTIONS,
   contactSchema,
   getPackageHandoff,
@@ -20,7 +19,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 type FieldErrors = Record<string, string>;
 
 const fieldBase =
-  "w-full rounded-lg border border-line bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-muted/70 transition focus:border-accent focus:bg-cloud focus:outline-none";
+  "w-full rounded-lg border border-line bg-canvas px-3 py-2 text-sm text-ink placeholder:text-ink-muted/70 transition focus:border-accent focus:bg-cloud focus:outline-none sm:px-4 sm:py-2.5";
 
 const successCopy: Record<ContactIntent, { heading: string; body: string }> = {
   audit: {
@@ -28,8 +27,8 @@ const successCopy: Record<ContactIntent, { heading: string; body: string }> = {
     body: "I'll review it and follow up with the next step.",
   },
   fit_call: {
-    heading: "Fit call request received.",
-    body: "I'll follow up to schedule a 20-minute call—usually within one business day.",
+    heading: "Request received — I'll call you.",
+    body: "I'll follow up by phone to schedule a short call—usually within one business day.",
   },
 };
 
@@ -41,10 +40,9 @@ export function AuditRequestForm() {
   const [serverMessage, setServerMessage] = useState<string>("");
   const [submittedIntent, setSubmittedIntent] = useState<ContactIntent>("audit");
   const [successMessage, setSuccessMessage] = useState<string>(successCopy.audit.body);
-  const [pendingIntent, setPendingIntent] = useState<ContactIntent | null>(null);
+  const [preferCall, setPreferCall] = useState(false);
   const [startedAt] = useState(() => Date.now());
   const formStarted = useRef(false);
-  const intentRef = useRef<ContactIntent>("audit");
 
   const interest = searchParams.get("interest");
   const packageHandoff = getPackageHandoff(searchParams.get("package"));
@@ -67,8 +65,9 @@ export function AuditRequestForm() {
 
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
-    const intent = intentRef.current;
-    data.intent = intent;
+    const wantsCall = data.preferCall === "on";
+    delete data.preferCall;
+    data.intent = wantsCall ? "fit_call" : "audit";
 
     const parsed = contactSchema.safeParse(data);
     if (!parsed.success) {
@@ -80,11 +79,9 @@ export function AuditRequestForm() {
       setErrors(fieldErrors);
       setStatus("error");
       setServerMessage("Please fix the highlighted fields and try again.");
-      setPendingIntent(null);
       return;
     }
 
-    setPendingIntent(intent);
     setStatus("submitting");
     try {
       const res = await fetch("/api/contact", {
@@ -100,7 +97,6 @@ export function AuditRequestForm() {
       if (!res.ok) {
         setStatus("error");
         setServerMessage(body.message || "Something went wrong. Please try again or email erik@gotta.build.");
-        setPendingIntent(null);
         return;
       }
 
@@ -117,11 +113,10 @@ export function AuditRequestForm() {
         delivered: body.delivered !== false,
       });
       form.reset();
-      setPendingIntent(null);
+      setPreferCall(false);
     } catch {
       setStatus("error");
       setServerMessage("Network error. Please try again or email erik@gotta.build.");
-      setPendingIntent(null);
     }
   }
 
@@ -129,7 +124,7 @@ export function AuditRequestForm() {
     const heading = successCopy[submittedIntent].heading;
     return (
       <motion.div
-        className="card text-center"
+        className="text-center"
         role="status"
         aria-live="polite"
         initial={reduce ? false : { opacity: 0, y: 12, scale: 0.98 }}
@@ -169,11 +164,10 @@ export function AuditRequestForm() {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="space-y-5"
+      className="space-y-3 sm:space-y-5"
       aria-describedby="form-status"
       onFocusCapture={markFormStart}
     >
-      {/* Honeypot field: visually hidden, must remain empty. */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor="company">Company (leave blank)</label>
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
@@ -185,24 +179,24 @@ export function AuditRequestForm() {
 
       {packageHandoff ? (
         <p
-          className="rounded-lg border border-accent/30 bg-accent/5 px-3 py-2.5 text-sm leading-relaxed text-ink"
+          className="rounded-lg border border-accent/30 bg-accent/5 px-3 py-2 text-[13px] leading-snug text-ink sm:py-2.5 sm:text-sm sm:leading-relaxed"
           role="status"
         >
           Starting point:{" "}
-          <span className="font-semibold text-ink">
-            {packageHandoff.label}
-          </span>{" "}
-          (from {packageHandoff.setup}). The audit will confirm whether this is the right fit — you
-          can change the fields below.
+          <span className="font-semibold text-ink">{packageHandoff.label}</span> (from{" "}
+          {packageHandoff.setup}). Audit confirms fit — you can change fields below.
         </p>
       ) : (
-        <p className="rounded-lg border border-line bg-canvas/70 px-3 py-2.5 text-xs leading-relaxed text-ink-muted">
-          Submit your website and a short description of what you want to improve. I&apos;ll review
-          the request and let you know whether it is a strong fit for a detailed audit.
+        <p className="rounded-lg border border-line bg-canvas/70 px-3 py-2 text-[12px] leading-snug text-ink-muted sm:py-2.5 sm:text-xs sm:leading-relaxed">
+          <span className="lg:hidden">Website + what you want to improve. I’ll confirm fit.</span>
+          <span className="hidden lg:inline">
+            Submit your website and a short description of what you want to improve. I&apos;ll review
+            the request and let you know whether it is a strong fit for a detailed audit.
+          </span>
         </p>
       )}
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-5">
         <Field label="Name" name="name" required error={errors.name}>
           <input
             id="name"
@@ -252,34 +246,27 @@ export function AuditRequestForm() {
             aria-describedby={errors.websiteUrl ? "websiteUrl-error" : undefined}
           />
         </Field>
-        <Field label="City or service area" name="city" error={errors.city}>
-          <input
-            id="city"
-            name="city"
-            type="text"
-            placeholder="e.g. Bellevue"
-            className={fieldBase}
-            aria-invalid={Boolean(errors.city)}
-            aria-describedby={errors.city ? "city-error" : undefined}
-          />
-        </Field>
-        <Field label="Phone" name="phone" error={errors.phone}>
+
+        <Field label="Phone" name="phone" required={preferCall} error={errors.phone}>
           <input
             id="phone"
             name="phone"
             type="tel"
             autoComplete="tel"
-            placeholder="Required for fit calls"
+            placeholder={preferCall ? "Required for a call" : "Optional"}
             className={fieldBase}
             aria-invalid={Boolean(errors.phone)}
             aria-describedby={errors.phone ? "phone-error" : "phone-hint"}
           />
           {!errors.phone ? (
-            <p id="phone-hint" className="mt-1 text-xs text-ink-muted">
-              Optional for audits. Required if you request a fit call.
+            <p id="phone-hint" className="mt-1 hidden text-xs text-ink-muted sm:block">
+              {preferCall
+                ? "Needed so I can reach you to schedule a short call."
+                : "Optional — add it if you'd rather talk by phone."}
             </p>
           ) : null}
         </Field>
+
         <Field
           label="Project interest"
           name="helpWith"
@@ -306,6 +293,7 @@ export function AuditRequestForm() {
             ))}
           </select>
         </Field>
+
         <Field label="Budget range" name="budget" error={errors.budget} className="sm:col-span-2">
           <select
             id="budget"
@@ -334,14 +322,35 @@ export function AuditRequestForm() {
         <textarea
           id="biggestProblem"
           name="biggestProblem"
-          rows={4}
-          className={cn(fieldBase, "resize-y")}
+          rows={3}
+          className={cn(fieldBase, "min-h-[4.5rem] resize-y sm:min-h-[6rem]")}
           placeholder="Messaging, leads, bookings, payments, operations…"
           required
           aria-invalid={Boolean(errors.biggestProblem)}
           aria-describedby={errors.biggestProblem ? "biggestProblem-error" : undefined}
         />
       </Field>
+
+      <div className="rounded-lg border border-line bg-canvas/60 px-3 py-2.5 sm:px-4 sm:py-3">
+        <label className="flex cursor-pointer items-start gap-2.5 sm:gap-3">
+          <input
+            id="preferCall"
+            name="preferCall"
+            type="checkbox"
+            checked={preferCall}
+            onChange={(event) => setPreferCall(event.target.checked)}
+            className="mt-0.5 h-4 w-4 rounded border-line text-accent focus:ring-accent"
+          />
+          <span>
+            <span className="block text-[13px] font-medium text-ink sm:text-sm">
+              Prefer a quick call instead of email
+            </span>
+            <span className="mt-0.5 block text-[11px] text-ink-muted sm:text-xs">
+              Add your phone above if checked.
+            </span>
+          </span>
+        </label>
+      </div>
 
       {status === "error" && serverMessage ? (
         <p
@@ -357,38 +366,19 @@ export function AuditRequestForm() {
         </span>
       )}
 
-      {errors.intent ? (
-        <p className="text-xs text-accent-blue" role="alert">
-          {errors.intent}
-        </p>
-      ) : null}
-
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        {CONTACT_INTENTS.map((intent) => {
-          const isPrimary = intent === "audit";
-          const label = intent === "audit" ? "Request my audit" : "Request a fit call";
-          const submittingThis = status === "submitting" && pendingIntent === intent;
-          return (
-            <Button
-              key={intent}
-              type="submit"
-              variant={isPrimary ? "primary" : "secondary"}
-              disabled={status === "submitting"}
-              className="w-full sm:w-auto"
-              onClick={() => {
-                intentRef.current = intent;
-              }}
-            >
-              {submittingThis ? "Sending…" : label}
-            </Button>
-          );
-        })}
+      <div>
+        <Button type="submit" disabled={status === "submitting"} className="w-full sm:w-auto">
+          {status === "submitting" ? "Sending…" : "Request my audit"}
+        </Button>
       </div>
-      <p className="text-xs text-ink-muted">
-        Same form either way. I&apos;ll follow up with next steps—usually within one business day.
-      </p>
-      <p className="text-xs text-ink-muted">
-        By submitting, you agree to be contacted about your request. Details stay private.
+      <p className="text-[11px] leading-snug text-ink-muted sm:text-xs">
+        <span className="lg:hidden">
+          Reply usually within one business day. Details stay private.
+        </span>
+        <span className="hidden lg:inline">
+          I&apos;ll follow up with next steps—usually within one business day. By submitting, you
+          agree to be contacted about your request. Details stay private.
+        </span>
       </p>
     </form>
   );
@@ -411,7 +401,10 @@ function Field({
 }) {
   return (
     <div className={className}>
-      <label htmlFor={name} className="mb-1.5 block text-sm font-medium text-ink">
+      <label
+        htmlFor={name}
+        className="mb-1 block text-[13px] font-medium text-ink sm:mb-1.5 sm:text-sm"
+      >
         {label}
         {required ? <span className="ml-0.5 text-accent">*</span> : null}
       </label>

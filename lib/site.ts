@@ -6,6 +6,9 @@ export const site = {
   tagline: "Your website should run the business, not just describe it.",
   description:
     "Gotta Build creates modern websites and digital systems that turn clear messaging into leads, bookings, payments, portals, automation, and smoother operations.",
+  /** One-line hero support for mobile first viewport. */
+  mobileHeroSupport:
+    "Websites and systems that turn attention into leads, bookings, and smoother operations.",
   primaryCta: "Request an Audit",
   auditCta: "Request a Website Audit",
   auditSpotCta: "Request an Audit Spot",
@@ -58,25 +61,24 @@ export const frameworkStages = [
   {
     step: "01",
     title: "Clarify",
-    problem:
-      "Visitors cannot quickly understand the offer, who it is for, or why they should care.",
-    solution: "Clarify the message, structure the page, and create a direct path toward action.",
+    problem: "Visitors bounce when the offer, audience, or next step is unclear.",
+    solution:
+      "Shape messaging, page structure, and conversion paths so the right people know what to do.",
   },
   {
     step: "02",
     title: "Build",
-    problem:
-      "The website explains the business but does not help visitors book, register, apply, inquire, or pay.",
+    problem: "A nice site still fails if people cannot book, enroll, inquire, or pay.",
     solution:
-      "Build the forms, booking flows, payments, portals, and integrations that turn attention into action.",
+      "Add the working pieces — bookings, payments, portals, chatbots, and automations — that turn attention into action.",
   },
   {
     step: "03",
     title: "Manage",
     problem:
-      "New inquiries and transactions create disconnected emails, spreadsheets, manual follow-up, and lost visibility.",
+      "After launch, follow-up, tracking, and upkeep fall back into inbox and spreadsheet chaos.",
     solution:
-      "Connect the website to dashboards, communication, automation, analytics, security, and ongoing management.",
+      "Keep the system reliable with analytics, security, content/SEO systems, and ongoing management.",
   },
 ] as const;
 
@@ -954,6 +956,8 @@ export const serviceBuckets: ServiceBucket[] = [
 
 export type Pkg = {
   name: string;
+  /** Shorter label for tight layouts (e.g. mobile pricing columns). */
+  mobileName?: string;
   /** Soft handoff slug for /contact?package=… */
   contactSlug: "launch" | "business" | "operations";
   setup: string;
@@ -961,6 +965,8 @@ export type Pkg = {
   features: string[];
   featured?: boolean;
   note?: string;
+  /** Shorter note for compact mobile pricing columns. */
+  mobileNote?: string;
 };
 
 export const packages: Pkg[] = [
@@ -982,6 +988,7 @@ export const packages: Pkg[] = [
   },
   {
     name: "Business Site + Lead System",
+    mobileName: "Business Site",
     contactSlug: "business",
     setup: "$2,500",
     blurb: "For businesses that need the website to produce, organize, and route inquiries.",
@@ -1017,6 +1024,7 @@ export const packages: Pkg[] = [
       "Testing and launch documentation",
     ],
     note: "Operations systems are scoped around the smallest useful workflow first. Larger platforms are phased and priced based on complexity. Typical projects begin at $4,500 and increase with system complexity.",
+    mobileNote: "Scoped to the smallest useful workflow first — typically from $4,500.",
   },
 ];
 

@@ -13,21 +13,36 @@ export function CaseStudyPreview() {
       <Reveal>
         <SectionHeading
           eyebrow="Flagship proof"
-          title="Selected work"
+          title={boostCaseStudy.name}
           description="One deep case study that shows how a website becomes enrollment, payments, and operations — not just a brochure."
+          descriptionClassName="hidden lg:block"
         />
       </Reveal>
 
-      <Reveal className="mt-10" delay={0.06}>
-        <div className="grid items-center gap-10 rounded-xl border-2 border-ink/10 bg-cloud p-6 shadow-lift lg:grid-cols-2 lg:p-10">
-          <div>
-            <span className="eyebrow">{boostCaseStudy.eyebrow}</span>
-            <h3 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink">
-              {boostCaseStudy.name}
-            </h3>
-            <p className="mt-3 text-sm font-medium text-ink-muted">{boostCaseStudy.status}</p>
-            <p className="mt-4 text-lg leading-relaxed text-ink-soft">{boostCaseStudy.teaser}</p>
-            <div className="mt-6 flex flex-wrap items-center gap-2" aria-label="Workflow">
+      <Reveal className="mt-6 lg:mt-10" delay={0.06}>
+        <div className="grid items-center gap-5 rounded-xl border-2 border-ink/10 bg-cloud p-4 shadow-lift sm:gap-8 sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-10">
+          <SiteScreenshot
+            className="order-1 lg:order-2"
+            src="/work/boost/home.jpg"
+            alt="Boost Baseball homepage — Bellevue baseball development site"
+            label="boost-orcin.vercel.app"
+            caption="Parent-facing program discovery"
+            href={boostLiveUrl}
+            hideCaptionOnMobile
+          />
+
+          <div className="order-2 lg:order-1">
+            <span className="eyebrow hidden lg:inline">{boostCaseStudy.eyebrow}</span>
+            <p className="mt-0 hidden text-sm font-medium text-ink-muted lg:mt-4 lg:block">
+              {boostCaseStudy.status}
+            </p>
+            <p className="mt-0 text-sm leading-relaxed text-ink-soft sm:mt-4 sm:text-lg lg:mt-3">
+              {boostCaseStudy.teaser}
+            </p>
+            <div
+              className="mt-6 hidden flex-wrap items-center gap-2 lg:flex"
+              aria-label="Workflow"
+            >
               {boostCaseStudy.workflow.map((step, index) => (
                 <span
                   key={step}
@@ -42,27 +57,22 @@ export function CaseStudyPreview() {
                 </span>
               ))}
             </div>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="mt-5 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
               <ButtonLink
                 href={boostCaseStudy.href}
+                className="w-full sm:w-auto"
                 trackEventName="boost_case_study_click"
                 trackEventProps={{ location: "homepage_preview" }}
               >
-                Explore the Boost Baseball Case Study
+                <span className="lg:hidden">Explore Boost Case Study</span>
+                <span className="hidden lg:inline">Explore the Boost Baseball Case Study</span>
                 <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </ButtonLink>
-              <ButtonLink href="/work" variant="secondary">
+              <ButtonLink href="/work" variant="secondary" className="hidden lg:inline-flex">
                 Browse work
               </ButtonLink>
             </div>
           </div>
-          <SiteScreenshot
-            src="/work/boost/home.jpg"
-            alt="Boost Baseball homepage — Bellevue baseball development site"
-            label="boost-orcin.vercel.app"
-            caption="Parent-facing program discovery"
-            href={boostLiveUrl}
-          />
         </div>
       </Reveal>
     </div>

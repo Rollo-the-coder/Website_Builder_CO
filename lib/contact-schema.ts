@@ -100,7 +100,7 @@ export const contactSchema = z
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["phone"],
-        message: "Please add a phone number for fit call requests.",
+        message: "Please add a phone number so I can call you.",
       });
     }
   });
