@@ -27,8 +27,8 @@ export function ServicesHero() {
         aria-hidden="true"
       />
 
-      <div className="container-page relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-28">
-        <div>
+      <div className="container-page relative grid items-start gap-10 py-16 sm:gap-12 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-24">
+        <div className="lg:pt-1">
           <RevealImmediate>
             <span className="eyebrow">Services</span>
           </RevealImmediate>
@@ -40,11 +40,17 @@ export function ServicesHero() {
           <RevealImmediate delay={0.16}>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
               Websites, bookings, payments, portals, AI chatbots, content systems, automation,
-              analytics, and security — scoped to the outcomes that matter for the business.
+              analytics, and security — built around what your business needs to happen, not around
+              a list of tools.
+            </p>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-muted">
+              Every service below is grouped by the result it delivers: more leads, easier customer
+              actions, less manual work, clearer visibility, or a more reliable system. Expand any
+              service to see exactly what it means and whether it fits.
             </p>
           </RevealImmediate>
           <RevealImmediate delay={0.24}>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8">
               <ButtonLink
                 href="/contact"
                 trackEventName="audit_cta_click"
@@ -52,9 +58,6 @@ export function ServicesHero() {
               >
                 {site.primaryCta}
                 <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </ButtonLink>
-              <ButtonLink href="#websites-conversion" variant="secondary">
-                See service groups
               </ButtonLink>
             </div>
           </RevealImmediate>
@@ -70,7 +73,11 @@ export function ServicesHero() {
 
 function GroupRail() {
   return (
-    <div className="relative overflow-hidden rounded-xl border-2 border-ink/10 bg-cloud p-6 shadow-lift sm:p-8">
+    <nav
+      id="outcome-jump"
+      aria-label="Jump to a service outcome group"
+      className="relative overflow-hidden rounded-xl border-2 border-ink/10 bg-cloud p-6 shadow-lift sm:p-8"
+    >
       <div
         className="pointer-events-none absolute inset-0 opacity-80"
         style={{
@@ -86,32 +93,36 @@ function GroupRail() {
             Five outcome groups
           </p>
         </div>
-        <ol className="mt-6 space-y-0">
+        <p className="mt-2 text-sm leading-snug text-ink-soft">
+          Click any group to skip straight to that section.
+        </p>
+
+        <ol className="mt-5 space-y-2">
           {serviceGroups.map((group, index) => (
-            <li key={group.id} className="relative flex gap-4 pb-6 last:pb-0">
-              {index < serviceGroups.length - 1 ? (
-                <span
-                  className="absolute left-[17px] top-10 bottom-0 w-px bg-accent/30"
-                  aria-hidden="true"
-                />
-              ) : null}
-              <span className="relative z-10 grid h-9 w-9 flex-none place-items-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div className="min-w-0 pt-0.5">
-                <a
-                  href={`#${group.id}`}
-                  className="group inline-flex items-center gap-1.5 font-display text-lg font-semibold tracking-tight text-ink transition hover:text-accent"
-                >
-                  {group.title}
-                  <ArrowRightIcon className="h-3.5 w-3.5 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
-                </a>
-                <p className="mt-1 text-sm leading-relaxed text-ink-soft">{group.outcome}</p>
-              </div>
+            <li key={group.id}>
+              <a
+                href={`#${group.id}`}
+                className="group flex items-center gap-3 rounded-lg border border-transparent bg-canvas/40 px-2.5 py-2.5 transition hover:border-accent/35 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+              >
+                <span className="relative z-10 grid h-9 w-9 flex-none place-items-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground transition group-hover:bg-accent">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="font-display text-base font-semibold tracking-tight text-ink transition group-hover:text-accent sm:text-lg">
+                    {group.title}
+                  </p>
+                  <p className="mt-0.5 text-sm leading-snug text-ink-soft">{group.outcome}</p>
+                </div>
+                <span className="hidden shrink-0 items-center gap-1 text-xs font-semibold text-accent sm:inline-flex">
+                  Skip to
+                  <ArrowRightIcon className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
+                </span>
+                <ArrowRightIcon className="h-4 w-4 shrink-0 text-accent sm:hidden" aria-hidden="true" />
+              </a>
             </li>
           ))}
         </ol>
       </div>
-    </div>
+    </nav>
   );
 }

@@ -1,13 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
-import { Button, ButtonLink } from "@/components/button";
-import { BUDGET_OPTIONS, HELP_OPTIONS, contactSchema } from "@/lib/contact-schema";
+import { Button } from "@/components/button";
+import {
+  BUDGET_OPTIONS,
+  CONTACT_INTENTS,
+  HELP_OPTIONS,
+  contactSchema,
+  getPackageHandoff,
+  type ContactIntent,
+} from "@/lib/contact-schema";
 import { cn } from "@/lib/cn";
 import { easeOut } from "@/lib/motion";
-import { site } from "@/lib/site";
 import { trackEvent } from "@/components/analytics";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -16,25 +22,37 @@ type FieldErrors = Record<string, string>;
 const fieldBase =
   "w-full rounded-lg border border-line bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-muted/70 transition focus:border-accent focus:bg-cloud focus:outline-none";
 
+const successCopy: Record<ContactIntent, { heading: string; body: string }> = {
+  audit: {
+    heading: "Your request is in.",
+    body: "I'll review it and follow up with the next step.",
+  },
+  fit_call: {
+    heading: "Fit call request received.",
+    body: "I'll follow up to schedule a 20-minute call—usually within one business day.",
+  },
+};
+
 export function AuditRequestForm() {
   const reduce = useReducedMotion();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [serverMessage, setServerMessage] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>(
-    "I personally review each audit request and will follow up with the next step.",
-  );
+  const [submittedIntent, setSubmittedIntent] = useState<ContactIntent>("audit");
+  const [successMessage, setSuccessMessage] = useState<string>(successCopy.audit.body);
+  const [pendingIntent, setPendingIntent] = useState<ContactIntent | null>(null);
   const [startedAt] = useState(() => Date.now());
   const formStarted = useRef(false);
+  const intentRef = useRef<ContactIntent>("audit");
 
   const interest = searchParams.get("interest");
+  const packageHandoff = getPackageHandoff(searchParams.get("package"));
   const defaultHelp =
-    interest === "founding" ? "Founding client project" : "";
-
-  useEffect(() => {
-    // Form start is tracked once on first focus inside the form.
-  }, []);
+    interest === "founding"
+      ? "Founding client project"
+      : packageHandoff?.helpWith ?? "";
+  const defaultBudget = packageHandoff?.budget ?? "";
 
   function markFormStart() {
     if (formStarted.current) return;
@@ -49,6 +67,8 @@ export function AuditRequestForm() {
 
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
+    const intent = intentRef.current;
+    data.intent = intent;
 
     const parsed = contactSchema.safeParse(data);
     if (!parsed.success) {
@@ -60,9 +80,11 @@ export function AuditRequestForm() {
       setErrors(fieldErrors);
       setStatus("error");
       setServerMessage("Please fix the highlighted fields and try again.");
+      setPendingIntent(null);
       return;
     }
 
+    setPendingIntent(intent);
     setStatus("submitting");
     try {
       const res = await fetch("/api/contact", {
@@ -78,27 +100,33 @@ export function AuditRequestForm() {
       if (!res.ok) {
         setStatus("error");
         setServerMessage(body.message || "Something went wrong. Please try again or email erik@gotta.build.");
+        setPendingIntent(null);
         return;
       }
 
+      const copy = successCopy[parsed.data.intent];
+      setSubmittedIntent(parsed.data.intent);
       setStatus("success");
       setSuccessMessage(
-        body.delivered === false && body.message
-          ? body.message
-          : "I personally review each audit request and will follow up with the next step.",
+        body.delivered === false && body.message ? body.message : copy.body,
       );
       trackEvent("form_completion", {
         help_with: parsed.data.helpWith,
+        intent: parsed.data.intent,
+        package_interest: parsed.data.packageInterest || undefined,
         delivered: body.delivered !== false,
       });
       form.reset();
+      setPendingIntent(null);
     } catch {
       setStatus("error");
       setServerMessage("Network error. Please try again or email erik@gotta.build.");
+      setPendingIntent(null);
     }
   }
 
   if (status === "success") {
+    const heading = successCopy[submittedIntent].heading;
     return (
       <motion.div
         className="card text-center"
@@ -127,36 +155,8 @@ export function AuditRequestForm() {
             />
           </svg>
         </motion.div>
-        <h2 className="mt-4 text-xl font-semibold text-ink">Your request is in.</h2>
+        <h2 className="mt-4 text-xl font-semibold text-ink">{heading}</h2>
         <p className="mt-2 text-sm text-ink-soft">{successMessage}</p>
-
-        <div className="mt-8 rounded-xl border border-line bg-canvas px-4 py-5 text-left">
-          <p className="text-sm font-semibold text-ink">Want to move faster?</p>
-          <p className="mt-1 text-sm text-ink-soft">
-            If you already know you need a new website or system, book a 20-minute fit call.
-          </p>
-          {site.fitCallUrl ? (
-            <ButtonLink
-              href={site.fitCallUrl}
-              className="mt-4 w-full sm:w-auto"
-              target="_blank"
-              rel="noopener noreferrer"
-              trackEventName="booking_click"
-              trackEventProps={{ location: "form_success" }}
-            >
-              {site.fitCallCta}
-            </ButtonLink>
-          ) : (
-            <ButtonLink
-              href={`mailto:${site.publicContactEmail}?subject=Fit%20call%20request`}
-              className="mt-4 w-full sm:w-auto"
-              trackEventName="booking_click"
-              trackEventProps={{ location: "form_success", fallback: "mailto" }}
-            >
-              {site.fitCallCta}
-            </ButtonLink>
-          )}
-        </div>
 
         <Button className="mt-6" variant="secondary" onClick={() => setStatus("idle")}>
           Submit another request
@@ -179,11 +179,28 @@ export function AuditRequestForm() {
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
       </div>
       <input type="hidden" name="startedAt" value={String(startedAt)} />
+      {packageHandoff ? (
+        <input type="hidden" name="packageInterest" value={packageHandoff.label} />
+      ) : null}
 
-      <p className="rounded-lg border border-line bg-canvas/70 px-3 py-2.5 text-xs leading-relaxed text-ink-muted">
-        Submit your website and a short description of what you want to improve. I&apos;ll review
-        the request and let you know whether it is a strong fit for a detailed audit.
-      </p>
+      {packageHandoff ? (
+        <p
+          className="rounded-lg border border-accent/30 bg-accent/5 px-3 py-2.5 text-sm leading-relaxed text-ink"
+          role="status"
+        >
+          Starting point:{" "}
+          <span className="font-semibold text-ink">
+            {packageHandoff.label}
+          </span>{" "}
+          (from {packageHandoff.setup}). The audit will confirm whether this is the right fit — you
+          can change the fields below.
+        </p>
+      ) : (
+        <p className="rounded-lg border border-line bg-canvas/70 px-3 py-2.5 text-xs leading-relaxed text-ink-muted">
+          Submit your website and a short description of what you want to improve. I&apos;ll review
+          the request and let you know whether it is a strong fit for a detailed audit.
+        </p>
+      )}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Name" name="name" required error={errors.name}>
@@ -252,11 +269,16 @@ export function AuditRequestForm() {
             name="phone"
             type="tel"
             autoComplete="tel"
-            placeholder="Optional"
+            placeholder="Required for fit calls"
             className={fieldBase}
             aria-invalid={Boolean(errors.phone)}
-            aria-describedby={errors.phone ? "phone-error" : undefined}
+            aria-describedby={errors.phone ? "phone-error" : "phone-hint"}
           />
+          {!errors.phone ? (
+            <p id="phone-hint" className="mt-1 text-xs text-ink-muted">
+              Optional for audits. Required if you request a fit call.
+            </p>
+          ) : null}
         </Field>
         <Field
           label="Project interest"
@@ -289,7 +311,7 @@ export function AuditRequestForm() {
             id="budget"
             name="budget"
             className={fieldBase}
-            defaultValue=""
+            defaultValue={defaultBudget}
             aria-invalid={Boolean(errors.budget)}
             aria-describedby={errors.budget ? "budget-error" : undefined}
           >
@@ -322,7 +344,11 @@ export function AuditRequestForm() {
       </Field>
 
       {status === "error" && serverMessage ? (
-        <p id="form-status" role="alert" className="rounded-xl border border-accent-blue/30 bg-lavender px-4 py-3 text-sm text-ink">
+        <p
+          id="form-status"
+          role="alert"
+          className="rounded-xl border border-accent-blue/30 bg-lavender px-4 py-3 text-sm text-ink"
+        >
           {serverMessage}
         </p>
       ) : (
@@ -331,9 +357,36 @@ export function AuditRequestForm() {
         </span>
       )}
 
-      <Button type="submit" disabled={status === "submitting"} className="w-full sm:w-auto">
-        {status === "submitting" ? "Sending…" : "Request my audit"}
-      </Button>
+      {errors.intent ? (
+        <p className="text-xs text-accent-blue" role="alert">
+          {errors.intent}
+        </p>
+      ) : null}
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        {CONTACT_INTENTS.map((intent) => {
+          const isPrimary = intent === "audit";
+          const label = intent === "audit" ? "Request my audit" : "Request a fit call";
+          const submittingThis = status === "submitting" && pendingIntent === intent;
+          return (
+            <Button
+              key={intent}
+              type="submit"
+              variant={isPrimary ? "primary" : "secondary"}
+              disabled={status === "submitting"}
+              className="w-full sm:w-auto"
+              onClick={() => {
+                intentRef.current = intent;
+              }}
+            >
+              {submittingThis ? "Sending…" : label}
+            </Button>
+          );
+        })}
+      </div>
+      <p className="text-xs text-ink-muted">
+        Same form either way. I&apos;ll follow up with next steps—usually within one business day.
+      </p>
       <p className="text-xs text-ink-muted">
         By submitting, you agree to be contacted about your request. Details stay private.
       </p>

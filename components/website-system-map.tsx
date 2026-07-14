@@ -12,7 +12,6 @@ import { cn } from "@/lib/cn";
 import { TopoLines } from "@/components/topo-lines";
 import { SystemMapConnectors } from "@/components/system-map-connectors";
 import { easeOut, stagger } from "@/lib/motion";
-
 import { frameworkStages } from "@/lib/site";
 
 const stages = frameworkStages.map((stage, index) => ({
@@ -20,18 +19,77 @@ const stages = frameworkStages.map((stage, index) => ({
   tone: (["bg-accent-blue", "bg-accent", "bg-voltage"] as const)[index]!,
 }));
 
+function StageBody({
+  problem,
+  solution,
+  tone,
+  problemOpacity,
+  solutionOpacity,
+  reduce,
+  columnIndex,
+}: {
+  problem: string;
+  solution: string;
+  tone: string;
+  problemOpacity?: MotionValue<number>;
+  solutionOpacity?: MotionValue<number>;
+  reduce?: boolean | null;
+  columnIndex?: number;
+}) {
+  const delayBase = 0.35 + (columnIndex ?? 0) * 0.16;
+
+  return (
+    <div className="mt-4 space-y-3.5 border-t border-line pt-4">
+      <motion.div
+        style={problemOpacity ? { opacity: problemOpacity } : undefined}
+        initial={reduce || problemOpacity ? false : { opacity: 0, y: 8 }}
+        animate={reduce || problemOpacity ? undefined : { opacity: 1, y: 0 }}
+        transition={
+          reduce || problemOpacity
+            ? { duration: 0 }
+            : { duration: 0.4, ease: easeOut, delay: delayBase }
+        }
+      >
+        <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+          <span className={cn("h-1.5 w-1.5 flex-none rounded-full", tone)} aria-hidden="true" />
+          Problem
+        </p>
+        <p className="mt-1.5 text-sm leading-snug text-ink-soft">{problem}</p>
+      </motion.div>
+      <motion.div
+        style={solutionOpacity ? { opacity: solutionOpacity } : undefined}
+        initial={reduce || solutionOpacity ? false : { opacity: 0, y: 8 }}
+        animate={reduce || solutionOpacity ? undefined : { opacity: 1, y: 0 }}
+        transition={
+          reduce || solutionOpacity
+            ? { duration: 0 }
+            : { duration: 0.4, ease: easeOut, delay: delayBase + stagger.tight }
+        }
+      >
+        <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+          <span className={cn("h-1.5 w-1.5 flex-none rounded-full", tone)} aria-hidden="true" />
+          Solution
+        </p>
+        <p className="mt-1.5 text-sm leading-snug text-ink-soft">{solution}</p>
+      </motion.div>
+    </div>
+  );
+}
+
 function ScrubbedStageColumn({
   step,
   title,
   tone,
-  nodes,
+  problem,
+  solution,
   columnIndex,
   progress,
 }: {
   step: string;
   title: string;
   tone: string;
-  nodes: readonly string[];
+  problem: string;
+  solution: string;
   columnIndex: number;
   progress: MotionValue<number>;
 }) {
@@ -40,10 +98,8 @@ function ScrubbedStageColumn({
   const opacity = useTransform(progress, [start, mid, mid + 0.35, 1], [0.35, 1, 1, 0.55]);
   const scale = useTransform(progress, [start, mid], [0.96, 1]);
   const y = useTransform(progress, [start, mid], [18, 0]);
-  const node0 = useTransform(progress, [start + 0.05, mid], [0.2, 1]);
-  const node1 = useTransform(progress, [start + 0.09, mid + 0.04], [0.2, 1]);
-  const node2 = useTransform(progress, [start + 0.13, mid + 0.08], [0.2, 1]);
-  const nodeOpacities = [node0, node1, node2];
+  const problemOpacity = useTransform(progress, [start + 0.05, mid], [0.2, 1]);
+  const solutionOpacity = useTransform(progress, [start + 0.1, mid + 0.05], [0.2, 1]);
 
   return (
     <motion.div className="relative z-10 flex flex-col" style={{ opacity, scale, y }}>
@@ -51,18 +107,13 @@ function ScrubbedStageColumn({
         <span className="text-xs font-semibold tabular-nums tracking-wide text-accent">{step}</span>
         <p className="font-display text-lg font-semibold tracking-tight text-ink">{title}</p>
       </div>
-      <ul className="mt-4 space-y-2.5 border-t border-line pt-4">
-        {nodes.map((node, nodeIndex) => (
-          <motion.li
-            key={node}
-            className="flex items-start gap-2.5 text-sm leading-snug text-ink-soft"
-            style={{ opacity: nodeOpacities[nodeIndex] }}
-          >
-            <span className={cn("mt-1.5 h-1.5 w-1.5 flex-none rounded-full", tone)} aria-hidden="true" />
-            <span className="min-w-0 flex-1">{node}</span>
-          </motion.li>
-        ))}
-      </ul>
+      <StageBody
+        problem={problem}
+        solution={solution}
+        tone={tone}
+        problemOpacity={problemOpacity}
+        solutionOpacity={solutionOpacity}
+      />
     </motion.div>
   );
 }
@@ -71,14 +122,16 @@ function StageColumn({
   step,
   title,
   tone,
-  nodes,
+  problem,
+  solution,
   columnIndex,
   reduce,
 }: {
   step: string;
   title: string;
   tone: string;
-  nodes: readonly string[];
+  problem: string;
+  solution: string;
   columnIndex: number;
   reduce: boolean | null;
 }) {
@@ -97,28 +150,13 @@ function StageColumn({
         <span className="text-xs font-semibold tabular-nums tracking-wide text-accent">{step}</span>
         <p className="font-display text-lg font-semibold tracking-tight text-ink">{title}</p>
       </div>
-      <ul className="mt-4 space-y-2.5 border-t border-line pt-4">
-        {nodes.map((node, nodeIndex) => (
-          <motion.li
-            key={node}
-            className="flex items-start gap-2.5 text-sm leading-snug text-ink-soft"
-            initial={reduce ? false : { opacity: 0, y: 8 }}
-            animate={reduce ? undefined : { opacity: 1, y: 0 }}
-            transition={
-              reduce
-                ? { duration: 0 }
-                : {
-                    duration: 0.4,
-                    ease: easeOut,
-                    delay: 0.35 + columnIndex * 0.16 + nodeIndex * stagger.tight,
-                  }
-            }
-          >
-            <span className={cn("mt-1.5 h-1.5 w-1.5 flex-none rounded-full", tone)} aria-hidden="true" />
-            <span className="min-w-0 flex-1">{node}</span>
-          </motion.li>
-        ))}
-      </ul>
+      <StageBody
+        problem={problem}
+        solution={solution}
+        tone={tone}
+        reduce={reduce}
+        columnIndex={columnIndex}
+      />
     </motion.div>
   );
 }
@@ -153,7 +191,7 @@ function MapHeader({
           cinematic ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl",
         )}
       >
-        Message → conversion → operations
+        Clarify → Build → Manage
       </h2>
     </motion.div>
   );
@@ -226,7 +264,8 @@ export function WebsiteSystemMap({
                     step={stage.step}
                     title={stage.title}
                     tone={stage.tone}
-                    nodes={stage.nodes}
+                    problem={stage.problem}
+                    solution={stage.solution}
                     columnIndex={index}
                     progress={scrollYProgress}
                   />
@@ -235,7 +274,8 @@ export function WebsiteSystemMap({
                     step={stage.step}
                     title={stage.title}
                     tone={stage.tone}
-                    nodes={stage.nodes}
+                    problem={stage.problem}
+                    solution={stage.solution}
                     columnIndex={index}
                     reduce={reduce}
                   />
@@ -254,8 +294,7 @@ export function WebsiteSystemMap({
           }
           style={useScrub ? { opacity: captionOpacity, y: captionY } : undefined}
         >
-          Most sites stop at stage one — a page that describes the business. I
-          build all three.
+          Most sites stall at clarify. I build through manage.
         </motion.figcaption>
       </div>
     </figure>

@@ -42,7 +42,7 @@ export function ShowcaseTheater() {
 
         <motion.div className="mt-12 origin-center" style={{ y, scale }}>
           <SiteScreenshot
-            src="/work/boost/home.png"
+            src="/work/boost/home.jpg"
             alt="Boost Baseball homepage — Bellevue baseball development site"
             label="boost-orcin.vercel.app"
             href={boostLiveUrl}

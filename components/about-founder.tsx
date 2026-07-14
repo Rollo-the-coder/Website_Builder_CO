@@ -3,8 +3,6 @@
 import { CheckIcon } from "@/components/icons";
 import { Reveal, RevealItem, RevealStagger } from "@/components/reveal";
 import { cn } from "@/lib/cn";
-import { site } from "@/lib/site";
-import Link from "next/link";
 
 /**
  * Portrait at `public/founder.png`. Set to null to show the placeholder frame.
@@ -12,9 +10,9 @@ import Link from "next/link";
 export const FOUNDER_PHOTO_SRC: string | null = "/founder.png";
 
 const points = [
-  "Experience across web development, IT operations, digital marketing, product development, and distributed team leadership",
-  "Previously led a global team responsible for the IT and marketing of a web business, and developed a funded digital product initiative",
-  "Clients work directly with Erik throughout planning, building, launch, and ongoing management",
+  "Specialty in shaping the business story so visitors know what you do, why it matters, and what to do next",
+  "Custom UI/UX plus the systems behind it — payments, portals, and workflows owned end to end",
+  "Raised grant funding and led global web teams on real shipped projects",
 ] as const;
 
 type AboutFounderProps = {
@@ -32,35 +30,17 @@ export function AboutFounder({ className }: AboutFounderProps) {
     >
       <Reveal>
         <FounderPhoto />
-        <div className="mt-4">
-          <p className="font-display text-xl font-semibold text-ink">{site.founderName}</p>
-          <p className="text-sm font-medium text-ink-muted">{site.founderTitle}</p>
-        </div>
       </Reveal>
 
       <Reveal delay={0.1}>
         <div>
           <span className="eyebrow">About</span>
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Founder-led systems for real business workflows
+            Narrative that converts. Systems that run.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-            Gotta Build is led by {site.founderName}, a web and digital-systems builder based in the
-            Seattle area.
-          </p>
-          <p className="mt-3 text-base leading-relaxed text-ink-soft">
-            Erik brings experience across web development, IT operations, digital marketing, product
-            development, and distributed team leadership. Before launching Gotta Build, he led a
-            global team responsible for the IT and marketing of a web business and developed a
-            funded digital product initiative.
-          </p>
-          <p className="mt-3 text-base leading-relaxed text-ink-soft">
-            Gotta Build is where that experience is now focused: building practical systems that
-            launch, support real business workflows, and continue improving after release.
-          </p>
-          <p className="mt-3 text-base leading-relaxed text-ink-soft">
-            Gotta Build is founder-led, so clients work directly with the person planning, building,
-            and managing their system.
+            Seven years in web development, focused on startups and businesses that need a clear
+            story and the operational pieces behind the site — not just a pretty page.
           </p>
 
           <RevealStagger tight className="mt-6 grid gap-3">
@@ -73,18 +53,6 @@ export function AboutFounder({ className }: AboutFounderProps) {
               </RevealItem>
             ))}
           </RevealStagger>
-
-          <p className="mt-6 text-sm leading-relaxed text-ink-muted">
-            AI-assisted development helps shorten the path from idea to working system, while each
-            project remains personally scoped, reviewed, tested, and managed.
-          </p>
-
-          <p className="mt-6 text-sm text-ink-muted">
-            Curious about visual directions?{" "}
-            <Link href="/design-lab" className="font-semibold text-accent underline-offset-2 hover:underline">
-              Explore visual directions
-            </Link>
-          </p>
         </div>
       </Reveal>
     </div>
@@ -98,7 +66,7 @@ function FounderPhoto() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={FOUNDER_PHOTO_SRC}
-          alt={`${site.founderName}, founder of Gotta Build`}
+          alt="Portrait of the Gotta Build founder"
           className="h-full w-full object-cover object-center"
         />
       </div>
@@ -110,6 +78,14 @@ function FounderPhoto() {
       className="relative flex aspect-[4/5] flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-line bg-mist sm:aspect-[5/6]"
       aria-label="Founder photo placeholder"
     >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          backgroundImage:
+            "radial-gradient(18rem 14rem at 30% 20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%), radial-gradient(16rem 12rem at 80% 90%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 65%)",
+        }}
+        aria-hidden="true"
+      />
       <div className="relative text-center px-6">
         <p className="font-display text-lg font-semibold text-ink">Photo coming soon</p>
         <p className="mt-2 text-sm text-ink-muted">Portrait will sit here</p>

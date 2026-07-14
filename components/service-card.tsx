@@ -8,9 +8,9 @@ export function ServiceCard({ service }: { service: Service }) {
       <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{service.summary}</p>
       <ul className="mt-4 space-y-2">
         {service.points.map((point) => (
-          <li key={point} className="flex items-start gap-2 text-sm text-ink-soft">
+          <li key={point.label} className="flex items-start gap-2 text-sm text-ink-soft">
             <CheckIcon className="mt-0.5 h-4 w-4 flex-none text-accent" />
-            <span>{point}</span>
+            <span>{point.label}</span>
           </li>
         ))}
       </ul>

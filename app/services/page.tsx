@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { processSteps, serviceGroups, services } from "@/lib/site";
 import { Section, SectionHeading } from "@/components/section";
-import { ServiceCard } from "@/components/service-card";
+import { ServiceExpandableList } from "@/components/service-expandable";
 import { ProcessSteps } from "@/components/process-steps";
 import { CtaBand } from "@/components/cta-band";
 import { ServicesHero } from "@/components/services-hero";
-import { Reveal, RevealItem, RevealStagger } from "@/components/reveal";
+import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -21,16 +21,6 @@ export default function ServicesPage() {
     <>
       <ServicesHero />
 
-      <Section className="pt-4 sm:pt-6">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Service groups"
-            title="Outcomes first, tools second"
-            description="Every service connects to qualified leads, easier customer actions, less manual work, better visibility, or more reliable systems."
-          />
-        </Reveal>
-      </Section>
-
       {serviceGroups.map((group, groupIndex) => {
         const groupedServices = group.serviceTitles
           .map((title) => byTitle.get(title))
@@ -39,30 +29,28 @@ export default function ServicesPage() {
         const mist = groupIndex % 2 === 0;
 
         return (
-          <Section key={group.id} id={group.id} className={mist ? "section-mist" : undefined}>
+          <Section
+            key={group.id}
+            id={group.id}
+            className={mist ? "section-mist scroll-mt-24" : "scroll-mt-24"}
+          >
             <Reveal>
-              <div className="flex flex-col gap-3 border-b border-line pb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
-                <div className="max-w-2xl">
-                  <p className="text-xs font-semibold tabular-nums tracking-[0.16em] text-accent">
-                    {String(groupIndex + 1).padStart(2, "0")} · {group.outcome}
-                  </p>
-                  <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-                    {group.title}
-                  </h2>
-                  <p className="mt-3 text-base leading-relaxed text-ink-soft sm:text-lg">
-                    {group.summary}
-                  </p>
-                </div>
+              <div className="max-w-3xl border-b border-line pb-8">
+                <p className="text-xs font-semibold tabular-nums tracking-[0.16em] text-accent">
+                  {String(groupIndex + 1).padStart(2, "0")} · {group.outcome}
+                </p>
+                <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+                  {group.title}
+                </h2>
+                <p className="mt-3 text-base leading-relaxed text-ink-soft sm:text-lg">
+                  {group.summary}
+                </p>
               </div>
             </Reveal>
 
-            <RevealStagger className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {groupedServices.map((service) => (
-                <RevealItem key={service.title}>
-                  <ServiceCard service={service} />
-                </RevealItem>
-              ))}
-            </RevealStagger>
+            <Reveal className="mt-2 max-w-3xl" delay={0.06}>
+              <ServiceExpandableList services={groupedServices} />
+            </Reveal>
           </Section>
         );
       })}

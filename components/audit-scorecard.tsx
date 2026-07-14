@@ -29,7 +29,7 @@ export function AuditScorecard() {
             ))}
           </ul>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-8">
             <ButtonLink
               href="/contact"
               trackEventName="audit_cta_click"
@@ -38,18 +38,6 @@ export function AuditScorecard() {
               {site.auditSpotCta}
               <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </ButtonLink>
-            {site.fitCallUrl ? (
-              <ButtonLink
-                href={site.fitCallUrl}
-                variant="secondary"
-                target="_blank"
-                rel="noopener noreferrer"
-                trackEventName="booking_click"
-                trackEventProps={{ location: "audit_section" }}
-              >
-                {site.fitCallCta}
-              </ButtonLink>
-            ) : null}
           </div>
         </div>
       </div>

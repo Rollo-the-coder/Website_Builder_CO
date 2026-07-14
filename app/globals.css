@@ -283,6 +283,19 @@
   }
 }
 
+@keyframes hero-tree-dash {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+.hero-tree-trace {
+  stroke-dasharray: 6;
+  animation-name: hero-tree-dash;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -299,5 +312,10 @@
   .system-map-connector {
     stroke-dashoffset: 0;
     animation: none;
+  }
+
+  .hero-tree-trace {
+    animation: none;
+    stroke-dasharray: none;
   }
 }

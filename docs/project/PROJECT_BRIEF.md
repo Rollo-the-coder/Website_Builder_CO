@@ -133,7 +133,7 @@ Future / later phase:
 - Brand name, legal name, contact details, and many assets are TBD.
 - Pricing should use starting prices (Launch $1,250 / Business+Lead $2,500 / Operations $4,500+) and clarify custom quotes depend on scope.
 - Founding client offer: three qualified Seattle/Eastside slots; track manually via `site.foundingSlotsRemaining`.
-- Fit-call booking via `NEXT_PUBLIC_FIT_CALL_URL` (optional until configured).
+- Fit-call requests use the contact form intent `fit_call` (no public calendar yet). Optional `NEXT_PUBLIC_FIT_CALL_URL` reserved for a later success-state booking link.
 - Style switcher lives on `/design-lab`, not in the primary conversion path.
 
 ## Definition Of Done

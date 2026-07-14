@@ -54,31 +54,8 @@ export default function ContactPage() {
                 >
                   {site.publicContactEmail}
                 </a>
-                . The form is best when you want a structured first review.
+                . The form is best when you want a structured first review or a fit call follow-up.
               </p>
-              {site.fitCallUrl ? (
-                <p className="mt-3">
-                  Already know you need a build?{" "}
-                  <a
-                    href={site.fitCallUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-accent underline-offset-2 hover:underline"
-                  >
-                    {site.fitCallCta}
-                  </a>
-                </p>
-              ) : (
-                <p className="mt-3">
-                  Already know you need a build?{" "}
-                  <a
-                    href={`mailto:${site.publicContactEmail}?subject=Fit%20call%20request`}
-                    className="font-medium text-accent underline-offset-2 hover:underline"
-                  >
-                    {site.fitCallCta}
-                  </a>
-                </p>
-              )}
               <p className="mt-2 text-xs text-ink-muted">
                 Serving {site.location} first, with remote delivery available.
               </p>
